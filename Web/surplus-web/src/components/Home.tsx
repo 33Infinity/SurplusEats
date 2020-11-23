@@ -1,5 +1,5 @@
 import React from "react";
-import SideBarMain from "./SideBarMain";
+import Filters from "./Filters";
 
 export default class Home extends React.Component {
   render() {
@@ -7,7 +7,7 @@ export default class Home extends React.Component {
       <div className="container-fluid">
         <div className="row">
           <div className="col-2">
-            <SideBarMain />
+            <Filters />
           </div>
           <div className="col-8">Column2</div>
           <div className="col-2">Column3</div>

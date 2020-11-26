@@ -14,6 +14,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
+import MainMenu from "./MainMenu";
 
 const useStyles = makeStyles((theme: any) => ({
   grow: {
@@ -169,14 +170,7 @@ export default function NavBarMain({
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton>
+          <MainMenu />
           <Typography className={classes.title} variant="h6" noWrap>
             Surplus Eats
           </Typography>

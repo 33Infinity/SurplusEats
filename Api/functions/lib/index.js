@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.helloWorld = void 0;
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 exports.auth = require("./auth");

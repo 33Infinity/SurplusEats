@@ -5,14 +5,14 @@ const auth_functions = require("firebase-functions");
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
 //
-exports.login = auth_functions.https.onRequest((request, response) => {
-    /* admin.firestore().collection('users').add({username: "test1"}).then(writeResult => {
-        functions.logger.info(writeResult, {structuredData: true});
-    }).catch(() => {console.log("Error writing")}); */
-    //functions.logger.info("Hello logs!", {structuredData: true});
-    response.send("login");
-});
-exports.logout = auth_functions.https.onRequest((request, response) => {
+exports.login = auth_functions.https.onRequest((request: any, response: any) => {
+        /* admin.firestore().collection('users').add({username: "test1"}).then(writeResult => {
+            functions.logger.info(writeResult, {structuredData: true});
+        }).catch(() => {console.log("Error writing")}); */
+        //functions.logger.info("Hello logs!", {structuredData: true});
+        response.send("login");
+    });
+exports.logout = auth_functions.https.onRequest((request: any, response: any) => {
     /* admin.firestore().collection('users').add({username: "test1"}).then(writeResult => {
         functions.logger.info(writeResult, {structuredData: true});
     }).catch(() => {console.log("Error writing")}); */

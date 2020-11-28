@@ -8,13 +8,14 @@ import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import MainMenu from "./MainMenu";
+import { ShoppingCart } from "@material-ui/icons";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme: any) => ({
   grow: {
@@ -58,7 +59,6 @@ const useStyles = makeStyles((theme: any) => ({
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -152,16 +152,20 @@ export default function NavBarMain({
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
+      <MenuItem>
+        <nav>
+          <Link to="/profile">
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="primary-search-account-menu"
+              aria-haspopup="true"
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+            <p>Profile</p>
+          </Link>
+        </nav>
       </MenuItem>
     </Menu>
   );
@@ -172,7 +176,11 @@ export default function NavBarMain({
         <Toolbar>
           <MainMenu />
           <Typography className={classes.title} variant="h6" noWrap>
-            Surplus Eats
+            <nav>
+              <Link to="/" className="white-link">
+                Surplus Eats
+              </Link>
+            </nav>
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -200,15 +208,26 @@ export default function NavBarMain({
               </Badge>
             </IconButton>
             <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
+              aria-label="checkout"
+              aria-haspopup="false"
               color="inherit"
             >
-              <AccountCircle />
+              <Badge badgeContent={2} color="secondary">
+                <ShoppingCart />
+              </Badge>
             </IconButton>
+            <nav>
+              <Link to="/profile" className="white-link">
+                <IconButton
+                  aria-label="account of current user"
+                  aria-controls="primary-search-account-menu"
+                  aria-haspopup="true"
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+              </Link>
+            </nav>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

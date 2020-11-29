@@ -30,15 +30,33 @@ export default class Register extends React.Component {
         backgroundColor: theme.palette.secondary.main,
       },
       form: {
-        width: "100%", // Fix IE 11 issue.
+        width: "100%",
         marginTop: theme.spacing(3),
       },
       submit: {
         margin: theme.spacing(3, 0, 2),
       },
     }));
+    this.state = {
+      email: "",
+      firstName: "",
+      lastName: "",
+      password: "",
+      confirmPassword: "",
+    };
+    this.onEmailChange = this.onEmailChange.bind(this);
   }
+
+  onEmailChange(event) {
+    this.setState({ email: event.target.value });
+  }
+
   render() {
+    const registerClick = () => {
+      if (this.validate()) {
+        this.register();
+      }
+    };
     return (
       <div>
         <Header />
@@ -86,6 +104,7 @@ export default class Register extends React.Component {
                       label="Email Address"
                       name="email"
                       autoComplete="email"
+                      onChange={this.onEmailChange}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -110,11 +129,11 @@ export default class Register extends React.Component {
                   </Grid>
                 </Grid>
                 <Button
-                  type="submit"
                   fullWidth
                   variant="contained"
                   color="primary"
                   className={this.classes.submit}
+                  onClick={registerClick}
                 >
                   Sign Up
                 </Button>
@@ -142,4 +161,9 @@ export default class Register extends React.Component {
       </div>
     );
   }
+
+  validate() {
+    return true;
+  }
+  async register() {}
 }

@@ -1,9 +1,9 @@
 export class ErrorModel{
     private constructor(aMessage){
-        this.Message=aMessage
+        this.ErrorMessage=aMessage
     }
 
-    Message:string;
+    ErrorMessage:string;
 
     public static NewError(aMessage:string):ErrorModel{
         return new ErrorModel(aMessage);

@@ -7,8 +7,8 @@ const auth_functions = require("firebase-functions");
 //
 exports.login = auth_functions.https.onRequest((request, response) => {
     /* admin.firestore().collection('users').add({username: "test1"}).then(writeResult => {
-        functions.logger.info(writeResult, {structuredData: true});
-    }).catch(() => {console.log("Error writing")}); */
+            functions.logger.info(writeResult, {structuredData: true});
+        }).catch(() => {console.log("Error writing")}); */
     //functions.logger.info("Hello logs!", {structuredData: true});
     response.send("login");
 });
@@ -18,5 +18,12 @@ exports.logout = auth_functions.https.onRequest((request, response) => {
     }).catch(() => {console.log("Error writing")}); */
     //functions.logger.info("Hello logs!", {structuredData: true});
     response.send("logout");
+});
+exports.register = auth_functions.https.onRequest((request, response) => {
+    /* admin.firestore().collection('users').add({username: "test1"}).then(writeResult => {
+        functions.logger.info(writeResult, {structuredData: true});
+    }).catch(() => {console.log("Error writing")}); */
+    //functions.logger.info("Hello logs!", {structuredData: true});
+    response.send("register");
 });
 //# sourceMappingURL=auth.js.map

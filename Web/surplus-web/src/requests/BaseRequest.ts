@@ -1,10 +1,13 @@
 import {ErrorModel} from "../../../../Models/ErrorModel";
+//import BaseModel from "../../../../Models/BaseModel";
 import axios from 'axios';
 
 export default class BaseRequest {
-    async getJson(url) {
+    async getJson(aUrl, aModel) {
+      //let body = JSON.stringify(aModel);
       try {
-          axios.get(url).then(response=>{
+          axios.get(aUrl, aModel,
+          ).then(response=>{
             if (response.data.ErrorMessage != null) {
                 return ErrorModel.NewError(response.statusText);
               }

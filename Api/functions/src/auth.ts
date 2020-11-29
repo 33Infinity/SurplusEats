@@ -5,18 +5,30 @@ const auth_functions = require("firebase-functions");
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
 //
-exports.login = auth_functions.https.onRequest((request: any, response: any) => {
-        /* admin.firestore().collection('users').add({username: "test1"}).then(writeResult => {
+exports.login = auth_functions.https.onRequest(
+  (request: any, response: any) => {
+    /* admin.firestore().collection('users').add({username: "test1"}).then(writeResult => {
             functions.logger.info(writeResult, {structuredData: true});
         }).catch(() => {console.log("Error writing")}); */
-        //functions.logger.info("Hello logs!", {structuredData: true});
-        response.send("login");
-    });
-exports.logout = auth_functions.https.onRequest((request: any, response: any) => {
+    //functions.logger.info("Hello logs!", {structuredData: true});
+    response.send("login");
+  }
+);
+exports.logout = auth_functions.https.onRequest(
+  (request: any, response: any) => {
     /* admin.firestore().collection('users').add({username: "test1"}).then(writeResult => {
         functions.logger.info(writeResult, {structuredData: true});
     }).catch(() => {console.log("Error writing")}); */
     //functions.logger.info("Hello logs!", {structuredData: true});
     response.send("logout");
-});
-//# sourceMappingURL=auth.js.map
+  }
+);
+exports.register = auth_functions.https.onRequest(
+  (request: any, response: any) => {
+    /* admin.firestore().collection('users').add({username: "test1"}).then(writeResult => {
+        functions.logger.info(writeResult, {structuredData: true});
+    }).catch(() => {console.log("Error writing")}); */
+    //functions.logger.info("Hello logs!", {structuredData: true});
+    response.send("register");
+  }
+);

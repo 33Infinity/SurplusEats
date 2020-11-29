@@ -14,7 +14,15 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-export default class Register extends React.Component {
+type RegisterState = {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  confirmPassword: string;
+};
+
+export default class Register extends React.Component<{}, RegisterState> {
   classes: any;
   constructor(props: any) {
     super(props);
@@ -37,6 +45,7 @@ export default class Register extends React.Component {
         margin: theme.spacing(3, 0, 2),
       },
     }));
+
     this.state = {
       email: "",
       firstName: "",
@@ -104,6 +113,7 @@ export default class Register extends React.Component {
                       label="Email Address"
                       name="email"
                       autoComplete="email"
+                      value={this.state.email}
                       onChange={this.onEmailChange}
                     />
                   </Grid>

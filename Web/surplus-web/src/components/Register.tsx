@@ -6,6 +6,7 @@ import {
   Link, TextField, CssBaseline, Button, Avatar
 } from '@material-ui/core';
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 
 type RegisterState = {
   email: string;
@@ -68,7 +69,7 @@ const register = async () => {}
               <Typography component="h1" variant="h5">
                 Sign up
               </Typography>
-              <form className={classes.form} noValidate>
+              <ValidatorForm className={classes.form}>
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                     <TextField
@@ -96,7 +97,7 @@ const register = async () => {}
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <TextField
+                    <TextValidator
                       variant="outlined"
                       required
                       fullWidth
@@ -106,6 +107,8 @@ const register = async () => {}
                       autoComplete="email"
                       value={profile.email}
                       onChange={onProfileUpdate}
+                      validators={['required', 'isEmail']}
+                      errorMessages={['this field is required', 'Email is not valid']}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -146,7 +149,7 @@ const register = async () => {}
                     </Link>
                   </Grid>
                 </Grid>
-              </form>
+              </ValidatorForm>
             </div>
             <Box mt={5}>
               <Typography variant="body2" color="textSecondary" align="center">

@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+//Object.defineProperty(exports, "__esModule", { value: true });
 const auth_functions = require("firebase-functions");
 //import * as admin from 'firebase-admin';
 // // Start writing Firebase Functions

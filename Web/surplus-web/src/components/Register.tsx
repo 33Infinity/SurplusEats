@@ -1,18 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "./Header";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
+import {
+  makeStyles, createStyles, Container, Typography,
+  Box, Grid, Checkbox, FormControlLabel,
+  Link, TextField, CssBaseline, Button, Avatar
+} from '@material-ui/core';
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
 
 type RegisterState = {
   email: string;
@@ -22,64 +15,60 @@ type RegisterState = {
   confirmPassword: string;
 };
 
-export default class Register extends React.Component<{}, RegisterState> {
-  classes: any;
-  constructor(props: any) {
-    super(props);
-    this.classes = makeStyles((theme) => ({
-      paper: {
-        marginTop: theme.spacing(8),
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      },
-      avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
-      },
-      form: {
-        width: "100%",
-        marginTop: theme.spacing(3),
-      },
-      submit: {
-        margin: theme.spacing(3, 0, 2),
-      },
-    }));
+const useStyles = makeStyles((theme) => createStyles({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: "100%",
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
 
-    this.state = {
-      email: "",
-      firstName: "",
-      lastName: "",
-      password: "",
-      confirmPassword: "",
-    };
-    this.onEmailChange = this.onEmailChange.bind(this);
+const Register: React.FC = () => { 
+    const [profile, setProfile] = useState<Partial<RegisterState>>({});  
+
+ const validate = () => {
+  return true;
+}
+
+const register = async () => {}
+
+  const onProfileUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {      
+      setProfile({...profile, [event.target.name]: event.target.value});
   }
 
-  onEmailChange(event) {
-    this.setState({ email: event.target.value });
-  }
-
-  render() {
-    const registerClick = () => {
-      if (this.validate()) {
-        this.register();
-      }
-    };
+  const registerClick = () => {
+    if (validate()) {
+      register();
+    }
+  };  
+    
+    const classes = useStyles();
     return (
       <div>
         <Header />
         <div className="center">
           <Container component="main" maxWidth="xs">
             <CssBaseline />
-            <div className={this.classes.paper}>
-              <Avatar className={this.classes.avatar}>
+            <div className={classes.paper}>
+              <Avatar className={classes.avatar}>
                 <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
                 Sign up
               </Typography>
-              <form className={this.classes.form} noValidate>
+              <form className={classes.form} noValidate>
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                     <TextField
@@ -113,8 +102,8 @@ export default class Register extends React.Component<{}, RegisterState> {
                       label="Email Address"
                       name="email"
                       autoComplete="email"
-                      value={this.state.email}
-                      onChange={this.onEmailChange}
+                      value={profile.email}
+                      onChange={onProfileUpdate}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -142,7 +131,7 @@ export default class Register extends React.Component<{}, RegisterState> {
                   fullWidth
                   variant="contained"
                   color="primary"
-                  className={this.classes.submit}
+                  className={classes.submit}
                   onClick={registerClick}
                 >
                   Sign Up
@@ -169,11 +158,7 @@ export default class Register extends React.Component<{}, RegisterState> {
           </Container>
         </div>
       </div>
-    );
-  }
-
-  validate() {
-    return true;
-  }
-  async register() {}
+    );    
 }
+
+export default Register;

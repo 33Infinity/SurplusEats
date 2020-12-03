@@ -80,6 +80,7 @@ const register = async () => {}
                       id="firstName"
                       label="First Name"
                       autoFocus
+                      onChange={onProfileUpdate}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -91,6 +92,7 @@ const register = async () => {}
                       label="Last Name"
                       name="lastName"
                       autoComplete="lname"
+                      onChange={onProfileUpdate}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -116,6 +118,7 @@ const register = async () => {}
                       type="password"
                       id="password"
                       autoComplete="current-password"
+                      onChange={onProfileUpdate}
                     />
                   </Grid>
                   <Grid item xs={12}>

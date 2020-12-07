@@ -77,8 +77,7 @@ const register = async () => {}
                       name="firstName"
                       variant="outlined"
                       required
-                      fullWidth
-                      id="firstName"
+                      fullWidth                      
                       label="First Name"
                       autoFocus
                       onChange={onProfileUpdate}
@@ -88,8 +87,7 @@ const register = async () => {}
                     <TextField
                       variant="outlined"
                       required
-                      fullWidth
-                      id="lastName"
+                      fullWidth                      
                       label="Last Name"
                       name="lastName"
                       autoComplete="lname"
@@ -100,8 +98,7 @@ const register = async () => {}
                     <TextValidator
                       variant="outlined"
                       required
-                      fullWidth
-                      id="email"
+                      fullWidth                      
                       label="Email Address"
                       name="email"
                       autoComplete="email"
@@ -118,8 +115,7 @@ const register = async () => {}
                       fullWidth
                       name="password"
                       label="Password"
-                      type="password"
-                      id="password"
+                      type="password"                      
                       autoComplete="current-password"
                       onChange={onProfileUpdate}
                     />

@@ -15,7 +15,7 @@ const Inventory: React.FC = () => {
 
   const getInventory = async () => {};
 
-  const inventoryItems = await getInventory();
+  //const inventoryItems = await getInventory();
 
   return (
     <div>

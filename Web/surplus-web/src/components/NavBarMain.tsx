@@ -16,6 +16,7 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import MainMenu from "./MainMenu";
 import { ShoppingCart } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme: any) => ({
   grow: {
@@ -80,11 +81,12 @@ const useStyles = makeStyles((theme: any) => ({
   },
 }));
 
-export default function NavBarMain({
-  NotificationCount,
-}: {
-  NotificationCount: string;
-}) {
+type User = {
+  currentUser: string
+}
+
+const  NavBarMain: React.FC<User> = ({currentUser}) => {
+ 
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -203,7 +205,7 @@ export default function NavBarMain({
               </Badge>
             </IconButton>
             <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={NotificationCount} color="secondary">
+              <Badge color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
@@ -242,8 +244,14 @@ export default function NavBarMain({
           </div>
         </Toolbar>
       </AppBar>
+      {currentUser === null ? null : currentUser}
       {renderMobileMenu}
       {renderMenu}
-    </div>
-  );
-}
+    </div>  
+  )};
+
+  const mapStateToProps = state => ({
+    currentUser: state.user.currentUser
+  });
+
+export default connect(mapStateToProps)(NavBarMain);

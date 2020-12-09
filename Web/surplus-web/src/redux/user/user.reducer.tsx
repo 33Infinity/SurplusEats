@@ -1,9 +1,10 @@
+import ProfileModel from '../../Models/ProfileModel';
 
-const INITIAL_STATE = {
-    currentUser: null
+const INITIAL_PROFILE = {
+    currentUser: new ProfileModel("", "", "", "", "", "", false)
 }; 
 
-const userReducer = (state = INITIAL_STATE, action) => {
+const userReducer = (state = INITIAL_PROFILE, action) => {
     switch (action.type) {
         case 'SET_CURRENT_USER':
             return {

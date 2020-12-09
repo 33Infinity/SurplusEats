@@ -15,8 +15,8 @@ const Inventory: React.FC = () => {
   useEffect(() => {
     const inventoryService = new InventoryService();
     const results = inventoryService.getByLocation().then((response) => {
-      const inventoryModel = response as InventoryModel;
-      setInventory({ ...inventory, description: inventoryModel.Description });
+      //const inventoryModel = response as InventoryModel;
+      //setInventory({ ...inventory, description: inventoryModel.Description });
     });
   }, []);
   return (

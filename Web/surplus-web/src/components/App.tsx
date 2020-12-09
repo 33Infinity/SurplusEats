@@ -12,17 +12,18 @@ import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
 import { setCurrentUser } from '../redux/user/user.actions';
 import { useEffect } from 'react';
+import ProfileModel from '../Models/ProfileModel';
 
 type currentUser = {
-  setCurrentUser: (user: string) => void
+  setCurrentUser: (user: ProfileModel) => void
 }
 
 const App: React.FC<currentUser> = ({setCurrentUser}) => {
 
   useEffect(() => {
     setTimeout(() => {
-      setCurrentUser("Jermey")
-    }, 8000)
+      setCurrentUser(new ProfileModel("","","","Aaron","Flores","",true))
+    }, 7000)
   })
 
   return (

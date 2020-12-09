@@ -17,6 +17,7 @@ import MainMenu from "./MainMenu";
 import { ShoppingCart } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
+import ProfileModel from '../Models/ProfileModel';
 
 const useStyles = makeStyles((theme: any) => ({
   grow: {
@@ -82,7 +83,7 @@ const useStyles = makeStyles((theme: any) => ({
 }));
 
 type User = {
-  currentUser: string
+  currentUser: ProfileModel
 }
 
 const  NavBarMain: React.FC<User> = ({currentUser}) => {
@@ -244,7 +245,7 @@ const  NavBarMain: React.FC<User> = ({currentUser}) => {
           </div>
         </Toolbar>
       </AppBar>
-      {currentUser === null ? null : currentUser}
+      {currentUser.FirstName}
       {renderMobileMenu}
       {renderMenu}
     </div>  

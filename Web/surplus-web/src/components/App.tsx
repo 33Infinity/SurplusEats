@@ -9,8 +9,22 @@ import Profile from "./Profile";
 import Register from "./Register";
 import Footer from "./Footer";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import { connect } from 'react-redux';
+import { setCurrentUser } from '../redux/user/user.actions';
+import { useEffect } from 'react';
 
-function App() {
+type currentUser = {
+  setCurrentUser: (user: string) => void
+}
+
+const App: React.FC<currentUser> = ({setCurrentUser}) => {
+
+  useEffect(() => {
+    setTimeout(() => {
+      setCurrentUser("Jermey")
+    }, 8000)
+  })
+
   return (
     <SessionContext.Provider value={CurrentSession}>
       <Router>
@@ -27,4 +41,8 @@ function App() {
   );
 }
 
-export default App;
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user))
+});
+
+export default connect(null, mapDispatchToProps)(App);

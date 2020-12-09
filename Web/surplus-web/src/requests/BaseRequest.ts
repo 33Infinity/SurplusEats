@@ -1,20 +1,19 @@
-import {ErrorModel} from "../../../../Models/ErrorModel";
-//import BaseModel from "../../../../Models/BaseModel";
-import axios from 'axios';
+import { ErrorModel } from "../Models/ErrorModel";
+import Axios from "./API";
 
 export default class BaseRequest {
-    async getJson(aUrl, aModel) {
-      //let body = JSON.stringify(aModel);
-      try {
-          axios.get(aUrl, aModel,
-          ).then(response=>{
-            if (response.data.ErrorMessage != null) {
-                return ErrorModel.NewError(response.statusText);
-              }
-              return response.data;
-          })
-      } catch (exception) {
-        return ErrorModel.NewError(exception);
-      }
+  async getJson(aUrl) {
+    try {
+      //const test = "https://www.google.com/";
+      await Axios.Get(aUrl).then((response) => {
+        console.log(response);
+        if (response != null) {
+          return ErrorModel.NewError(response);
+        }
+        return response;
+      });
+    } catch (exception) {
+      return ErrorModel.NewError(exception);
     }
+  }
 }

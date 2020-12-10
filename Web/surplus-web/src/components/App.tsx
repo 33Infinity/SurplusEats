@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { setCurrentUser } from '../redux/user/user.actions';
 import { useEffect } from 'react';
 import ProfileModel from '../Models/ProfileModel';
+import API from '../requests/API';
 
 type currentUser = {
   setCurrentUser: (user: ProfileModel) => void
@@ -24,7 +25,19 @@ const App: React.FC<currentUser> = ({setCurrentUser}) => {
     setTimeout(() => {
       setCurrentUser(new ProfileModel("","","","Aaron","Flores","",true))
     }, 7000)
-  })
+  });
+
+  useEffect(() => {
+    
+    API.Get('users')
+      .then(resp => {
+        console.log(resp)
+    }, error => {
+        console.log(error);
+    });
+      
+  }, []);
+
 
   return (
     <SessionContext.Provider value={CurrentSession}>

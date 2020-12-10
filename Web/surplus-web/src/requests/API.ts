@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const Axios = axios.create({
-  baseURL: "https://www.google.com/",
+  baseURL: "https://jsonplaceholder.typicode.com/",
   timeout: 1000,
   headers: {},
 });

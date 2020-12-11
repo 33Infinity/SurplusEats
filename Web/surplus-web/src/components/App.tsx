@@ -11,33 +11,24 @@ import Footer from "./Footer";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
 import { setCurrentUser } from '../redux/user/user.actions';
+import { addItem } from '../redux/cart/cart.actions';
 import { useEffect } from 'react';
 import ProfileModel from '../Models/ProfileModel';
-import API from '../requests/API';
 
-type currentUser = {
-  setCurrentUser: (user: ProfileModel) => void
+type cartAndUser = {
+  setCurrentUser: (user: ProfileModel) => void,
+  addItem: (item: {}) => void,
+  cartItems: []
 }
 
-const App: React.FC<currentUser> = ({setCurrentUser}) => {
+const App: React.FC<cartAndUser> = ({setCurrentUser, addItem, cartItems}) => {
 
   useEffect(() => {
     setTimeout(() => {
-      setCurrentUser(new ProfileModel("","","","Aaron","Flores","",true))
+      //setCurrentUser(new ProfileModel("","","","Aaron","Flores","",true))
+      addItem({id: 1});
     }, 7000)
   });
-
-  useEffect(() => {
-    
-    API.Get('users')
-      .then(resp => {
-        console.log(resp)
-    }, error => {
-        console.log(error);
-    });
-      
-  }, []);
-
 
   return (
     <SessionContext.Provider value={CurrentSession}>
@@ -55,8 +46,13 @@ const App: React.FC<currentUser> = ({setCurrentUser}) => {
   );
 }
 
-const mapDispatchToProps = dispatch => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user))
+const mapStateToProps = ({cart: {cartItems}}) => ({
+  cartItems
 });
 
-export default connect(null, mapDispatchToProps)(App);
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user)),
+  addItem: item => dispatch(addItem(item))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

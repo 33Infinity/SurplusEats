@@ -82,11 +82,12 @@ const useStyles = makeStyles((theme: any) => ({
   },
 }));
 
-type User = {
-  currentUser: ProfileModel
+type NavInfo = {
+  currentUser: ProfileModel,
+  cartItemCount: number
 }
 
-const  NavBarMain: React.FC<User> = ({currentUser}) => {
+const  NavBarMain: React.FC<NavInfo> = ({currentUser, cartItemCount}) => {
  
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -215,7 +216,7 @@ const  NavBarMain: React.FC<User> = ({currentUser}) => {
               aria-haspopup="false"
               color="inherit"
             >
-              <Badge badgeContent={2} color="secondary">
+              <Badge badgeContent={cartItemCount} color="secondary">
                 <ShoppingCart />
               </Badge>
             </IconButton>
@@ -244,15 +245,15 @@ const  NavBarMain: React.FC<User> = ({currentUser}) => {
             </IconButton>
           </div>
         </Toolbar>
-      </AppBar>
-      {currentUser.FirstName}
+      </AppBar>        
       {renderMobileMenu}
       {renderMenu}
     </div>  
   )};
 
-  const mapStateToProps = ({user: {currentUser}}) => ({
-    currentUser
+  const mapStateToProps = ({user: {currentUser}, cart: {cartItems}}) => ({
+    currentUser,
+    cartItemCount: cartItems.length
   });
 
 export default connect(mapStateToProps)(NavBarMain);

@@ -246,16 +246,15 @@ const  NavBarMain: React.FC<NavInfo> = ({currentUser, cartItemCount}) => {
             </IconButton>
           </div>
         </Toolbar>
-      </AppBar>  
-      {currentUser.FirstName}      
+      </AppBar>        
       {renderMobileMenu}
       {renderMenu}
     </div>  
   )};
 
-  const mapStateToProps = (state) => ({
-    currentUser: state.user.currentUser,
-    cartItemCount: selectCartItemsCount(state)
+  const mapStateToProps = ({user: {currentUser}, cart: {cartItems}}) => ({
+    currentUser,
+    cartItemCount: cartItems.length
   });
 
 export default connect(mapStateToProps)(NavBarMain);

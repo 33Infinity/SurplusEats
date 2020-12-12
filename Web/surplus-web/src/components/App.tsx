@@ -10,25 +10,26 @@ import Register from "./Register";
 import Footer from "./Footer";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
-import { setCurrentUser } from '../redux/user/user.actions';
+import { authenticateCurrentUserAsync } from '../redux/user/user.actions';
 import { addItem } from '../redux/cart/cart.actions';
 import { useEffect } from 'react';
 import ProfileModel from '../Models/ProfileModel';
 
 type cartAndUser = {
-  setCurrentUser: (user: ProfileModel) => void,
+  authenticateCurrentUserAsync: () => void,
   addItem: (item: {}) => void,
-  cartItems: []
+ // cartItems: []
 }
 
-const App: React.FC<cartAndUser> = ({setCurrentUser, addItem, cartItems}) => {
+const App: React.FC<cartAndUser> = ({authenticateCurrentUserAsync, addItem}) => {
 
   useEffect(() => {
+    authenticateCurrentUserAsync();
+    addItem({id: 1});
     setTimeout(() => {
-      //setCurrentUser(new ProfileModel("","","","Aaron","Flores","",true))
-      addItem({id: 1});
-    }, 7000)
-  });
+      addItem({id: 2});
+    }, 5000);    
+  }, []);
 
   return (
     <SessionContext.Provider value={CurrentSession}>
@@ -46,13 +47,13 @@ const App: React.FC<cartAndUser> = ({setCurrentUser, addItem, cartItems}) => {
   );
 }
 
-const mapStateToProps = ({cart: {cartItems}}) => ({
-  cartItems
-});
+// const mapStateToProps = ({cart: {cartItems}}) => ({
+//   cartItems
+// });
 
 const mapDispatchToProps = dispatch => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user)),
+  authenticateCurrentUserAsync: () => dispatch(authenticateCurrentUserAsync()),
   addItem: item => dispatch(addItem(item))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(null, mapDispatchToProps)(App);

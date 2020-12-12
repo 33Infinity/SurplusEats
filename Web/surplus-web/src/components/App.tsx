@@ -9,26 +9,28 @@ import Profile from "./Profile";
 import Register from "./Register";
 import Footer from "./Footer";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
-import { connect } from 'react-redux';
-import { authenticateCurrentUserAsync } from '../redux/user/user.actions';
-import { addItem } from '../redux/cart/cart.actions';
-import { useEffect } from 'react';
-import ProfileModel from '../Models/ProfileModel';
+import { connect } from "react-redux";
+import { authenticateCurrentUserAsync } from "../redux/user/user.actions";
+import { addItem } from "../redux/cart/cart.actions";
+import { useEffect } from "react";
+import ProfileModel from "../models/ProfileModel";
 
 type cartAndUser = {
-  authenticateCurrentUserAsync: () => void,
-  addItem: (item: {}) => void,
- // cartItems: []
-}
+  authenticateCurrentUserAsync: () => void;
+  addItem: (item: {}) => void;
+  // cartItems: []
+};
 
-const App: React.FC<cartAndUser> = ({authenticateCurrentUserAsync, addItem}) => {
-
+const App: React.FC<cartAndUser> = ({
+  authenticateCurrentUserAsync,
+  addItem,
+}) => {
   useEffect(() => {
     authenticateCurrentUserAsync();
-    addItem({id: 1});
+    addItem({ id: 1 });
     setTimeout(() => {
-      addItem({id: 2});
-    }, 5000);    
+      addItem({ id: 2 });
+    }, 5000);
   }, []);
 
   return (
@@ -45,15 +47,15 @@ const App: React.FC<cartAndUser> = ({authenticateCurrentUserAsync, addItem}) => 
       </Router>
     </SessionContext.Provider>
   );
-}
+};
 
 // const mapStateToProps = ({cart: {cartItems}}) => ({
 //   cartItems
 // });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   authenticateCurrentUserAsync: () => dispatch(authenticateCurrentUserAsync()),
-  addItem: item => dispatch(addItem(item))
+  addItem: (item) => dispatch(addItem(item)),
 });
 
 export default connect(null, mapDispatchToProps)(App);

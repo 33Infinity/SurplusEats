@@ -3,7 +3,7 @@ import { Grid, TextField } from "@material-ui/core";
 import InventoryService from "../services/Inventory";
 import InventoryModel from "../models/Inventory";
 
-const Inventory: React.FC = () => {
+const UserInventory: React.FC = () => {
   const [inventory, setInventory] = useState<Partial<InventoryModel[] | null>>(
     []
   );
@@ -54,4 +54,4 @@ const Inventory: React.FC = () => {
   );
 };
 
-export default Inventory;
+export default UserInventory;

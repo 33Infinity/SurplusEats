@@ -16,9 +16,9 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import MainMenu from "./MainMenu";
 import { ShoppingCart } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { connect } from 'react-redux';
-import ProfileModel from '../Models/ProfileModel';
-import { selectCartItemsCount } from '../redux/cart/cart.selectors';
+import { connect } from "react-redux";
+import ProfileModel from "../models/ProfileModel";
+import { selectCartItemsCount } from "../redux/cart/cart.selectors";
 
 const useStyles = makeStyles((theme: any) => ({
   grow: {
@@ -84,12 +84,11 @@ const useStyles = makeStyles((theme: any) => ({
 }));
 
 type NavInfo = {
-  currentUser: ProfileModel,
-  cartItemCount: number
-}
+  currentUser: ProfileModel;
+  cartItemCount: number;
+};
 
-const  NavBarMain: React.FC<NavInfo> = ({currentUser, cartItemCount}) => {
- 
+const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -246,15 +245,16 @@ const  NavBarMain: React.FC<NavInfo> = ({currentUser, cartItemCount}) => {
             </IconButton>
           </div>
         </Toolbar>
-      </AppBar>        
+      </AppBar>
       {renderMobileMenu}
       {renderMenu}
-    </div>  
-  )};
+    </div>
+  );
+};
 
-  const mapStateToProps = ({user: {currentUser}, cart: {cartItems}}) => ({
-    currentUser,
-    cartItemCount: cartItems.length
-  });
+const mapStateToProps = ({ user: { currentUser }, cart: { cartItems } }) => ({
+  currentUser,
+  cartItemCount: cartItems.length,
+});
 
 export default connect(mapStateToProps)(NavBarMain);

@@ -1,26 +1,16 @@
 import React from "react";
 import Header from "./Header";
-import Filters from "./Filters";
-import Inventory from "./Inventory";
+import VendorHome from "./VendorHome";
+import UserHome from "./UserHome";
 
-export default class Home extends React.Component {
-  render() {
-    return (
-      <div>
-        <Header />
-        <div className="container-fluid">
-          <h1>Test</h1>
-          <div className="row">
-            <div className="col-2">
-              <Filters />
-            </div>
-            <div className="col-8">
-              <Inventory />
-            </div>
-            <div className="col-2">Column3</div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
+const Home: React.FC = () => {
+  const isVendor = false; //TODO: need to determine if user is logged in vendor via redux
+  return (
+    <div>
+      <Header />
+      {isVendor ? <VendorHome /> : <UserHome />}
+    </div>
+  );
+};
+
+export default Home;

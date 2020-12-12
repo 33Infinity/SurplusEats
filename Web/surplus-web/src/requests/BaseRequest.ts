@@ -1,4 +1,4 @@
-import { ErrorModel } from "../Models/ErrorModel";
+import { ErrorModel } from "../models/ErrorModel";
 //import Axios from "./API";
 
 export default class BaseRequest {

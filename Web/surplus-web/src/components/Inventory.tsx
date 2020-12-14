@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Grid, TextField } from "@material-ui/core";
 import InventoryService from "../services/Inventory";
-import InventoryModel from "../models/Inventory";
+import InventoryModel from "../Models/Inventory";
 
 const Inventory: React.FC = () => {
   const [inventory, setInventory] = useState<Partial<InventoryModel[] | null>>(

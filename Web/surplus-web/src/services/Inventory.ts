@@ -1,5 +1,5 @@
 import InventoryRequest from "../requests/Inventory";
-import InventoryModel from "../models/Inventory";
+import InventoryModel from "../Models/Inventory";
 export default class Inventory {
   async getByLocation(): Promise<InventoryModel[] | null> {
     let request = new InventoryRequest();

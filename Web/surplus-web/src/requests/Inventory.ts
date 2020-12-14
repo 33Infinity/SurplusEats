@@ -1,4 +1,4 @@
-import InventoryModel from "../models/Inventory";
+import InventoryModel from "../Models/Inventory";
 import BaseRequest from "./BaseRequest";
 
 export default class Inventory extends BaseRequest {

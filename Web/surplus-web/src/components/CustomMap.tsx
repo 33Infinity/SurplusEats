@@ -1,6 +1,6 @@
 import React from "react";
 import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet";
-import LocationModel from "../models/LocationModel";
+import LocationModel from "../Models/LocationModel";
 import { LatLngTuple } from "leaflet";
 
 interface IMappingProperties {

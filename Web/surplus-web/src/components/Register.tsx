@@ -57,7 +57,10 @@ const Register: React.FC = () => {
               <Typography component="h1" variant="h5">
                 Sign up
               </Typography>
-              <ValidatorForm className={classes.form}>
+              <ValidatorForm 
+                className={classes.form}  
+                debounceTime={1000}             
+              >
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                   <FormTextField 
@@ -112,12 +115,7 @@ const Register: React.FC = () => {
                 >
                   Sign Up
                 </Button>
-                <Grid container justify="flex-end">
-                  <Grid item>
-                    <Link href="#" variant="body2">
-                      Already have an account? Sign in
-                    </Link>
-                  </Grid>
+                <Grid container justify="flex-end">                 
                 </Grid>
               </ValidatorForm>
             </div>            

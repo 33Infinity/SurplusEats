@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import Header from "./Header";
 import {
   makeStyles, createStyles, Container, Typography,
   Grid, Checkbox, FormControlLabel,
-  Link, Button, Avatar
+  Button, Avatar
 } from '@material-ui/core';
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { ValidatorForm} from 'react-material-ui-form-validator';
@@ -46,8 +45,7 @@ const Register: React.FC = () => {
     
     const classes = useStyles();
     return (
-      <div>
-        <Header />
+      <div>       
         <div className="center">
           <Container component="main" maxWidth="xs">            
             <div className={classes.paper}>

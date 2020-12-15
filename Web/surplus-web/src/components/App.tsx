@@ -6,7 +6,7 @@ import "../css/App.css";
 import "../css/ShoppingCart.css";
 import Home from "./Home";
 import Profile from "./Profile";
-import Register from "./Register";
+import SignInRegister from "./SignInRegister";
 import Footer from "./Footer";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
@@ -39,7 +39,7 @@ const App: React.FC<cartAndUser> = ({
         <div>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/register" component={Register} />
+            <Route exact path="/signin" component={SignInRegister} />
             <Route exact path="/profile" component={Profile} />
           </Switch>
           <Footer />

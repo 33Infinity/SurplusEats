@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import Header from "./Header";
 import {
   makeStyles, createStyles, Container, Typography,
-  Box, Grid, Checkbox, FormControlLabel,
-  Link, TextField, CssBaseline, Button, Avatar
+  Grid, Checkbox, FormControlLabel,
+  Link, Button, Avatar
 } from '@material-ui/core';
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import { ValidatorForm} from 'react-material-ui-form-validator';
+import FormTextField from './controls/FormTextField';
 
 type RegisterState = {
   email: string;
@@ -37,31 +38,18 @@ const useStyles = makeStyles((theme) => createStyles({
 }));
 
 const Register: React.FC = () => { 
-    const [profile, setProfile] = useState<Partial<RegisterState>>({});  
-
- const validate = () => {
-  return true;
-}
-
-const register = async () => {}
+  const [profile, setProfile] = useState<Partial<RegisterState>>({email: '', firstName: '', lastName: '', password: '', confirmPassword: ''});  
 
   const onProfileUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {      
       setProfile({...profile, [event.target.name]: event.target.value});
-  }
-
-  const registerClick = () => {
-    if (validate()) {
-      register();
-    }
-  };  
+  }  
     
     const classes = useStyles();
     return (
       <div>
         <Header />
         <div className="center">
-          <Container component="main" maxWidth="xs">
-            <CssBaseline />
+          <Container component="main" maxWidth="xs">            
             <div className={classes.paper}>
               <Avatar className={classes.avatar}>
                 <LockOutlinedIcon />
@@ -72,53 +60,40 @@ const register = async () => {}
               <ValidatorForm className={classes.form}>
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
-                    <TextField
-                      autoComplete="fname"
-                      name="firstName"
-                      variant="outlined"
-                      required
-                      fullWidth                      
+                  <FormTextField 
                       label="First Name"
-                      autoFocus
+                      name="firstName"
+                      value={profile.firstName}
                       onChange={onProfileUpdate}
-                    />
+                      autoFocus                     
+                    /> 
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <TextField
-                      variant="outlined"
-                      required
-                      fullWidth                      
+                  <FormTextField 
                       label="Last Name"
                       name="lastName"
-                      autoComplete="lname"
-                      onChange={onProfileUpdate}
-                    />
+                      value={profile.lastName}
+                      onChange={onProfileUpdate}                                          
+                    />                     
                   </Grid>
                   <Grid item xs={12}>
-                    <TextValidator
-                      variant="outlined"
-                      required
-                      fullWidth                      
+                    <FormTextField 
                       label="Email Address"
                       name="email"
-                      autoComplete="email"
                       value={profile.email}
                       onChange={onProfileUpdate}
                       validators={['required', 'isEmail']}
                       errorMessages={['this field is required', 'Email is not valid']}
-                    />
+                    />                   
                   </Grid>
                   <Grid item xs={12}>
-                    <TextField
-                      variant="outlined"
-                      required
-                      fullWidth
-                      name="password"
+                  <FormTextField 
                       label="Password"
-                      type="password"                      
-                      autoComplete="current-password"
-                      onChange={onProfileUpdate}
-                    />
+                      name="password"
+                      type="password" 
+                      value={profile.password}                      
+                      onChange={onProfileUpdate}                                          
+                  />
                   </Grid>
                   <Grid item xs={12}>
                     <FormControlLabel
@@ -133,8 +108,7 @@ const register = async () => {}
                   fullWidth
                   variant="contained"
                   color="primary"
-                  className={classes.submit}
-                  onClick={registerClick}
+                  className={classes.submit}                  
                 >
                   Sign Up
                 </Button>
@@ -146,17 +120,7 @@ const register = async () => {}
                   </Grid>
                 </Grid>
               </ValidatorForm>
-            </div>
-            <Box mt={5}>
-              <Typography variant="body2" color="textSecondary" align="center">
-                {"Copyright © "}
-                <Link color="inherit" href="https://surpluseats.com/">
-                  Surplus Eats
-                </Link>{" "}
-                {new Date().getFullYear()}
-                {"."}
-              </Typography>
-            </Box>
+            </div>            
           </Container>
         </div>
       </div>

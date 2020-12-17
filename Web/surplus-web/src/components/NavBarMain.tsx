@@ -17,7 +17,7 @@ import MainMenu from "./MainMenu";
 import { ShoppingCart } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import ProfileModel from "../Models/ProfileModel";
+import ProfileModel from "../models/ProfileModel";
 import { selectCartItemsCount } from "../redux/cart/cart.selectors";
 
 const useStyles = makeStyles((theme: any) => ({

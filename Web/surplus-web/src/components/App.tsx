@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import { authenticateCurrentUserAsync } from "../redux/user/user.actions";
 import { addItem } from "../redux/cart/cart.actions";
 import { useEffect } from "react";
-import ProfileModel from "../Models/ProfileModel";
+import ProfileModel from "../models/ProfileModel";
 
 type cartAndUser = {
   authenticateCurrentUserAsync: () => void;

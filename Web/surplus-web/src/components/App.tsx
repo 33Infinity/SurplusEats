@@ -10,27 +10,27 @@ import SignInRegister from "./SignInRegister";
 import Footer from "./Footer";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
-import { authenticateCurrentUserAsync } from "../redux/user/user.actions";
-import { addItem } from "../redux/cart/cart.actions";
+import { setCurrentUser } from "../redux/user/user.actions";
 import { useEffect } from "react";
-import ProfileModel from "../models/ProfileModel";
+import ProfileModel from '../models/ProfileModel';
+import { auth } from '../firebase/firebase.utils';
 
-type cartAndUser = {
-  authenticateCurrentUserAsync: () => void;
-  addItem: (item: {}) => void;
-  // cartItems: []
+type User = {
+  setCurrentUser: (user: ProfileModel) => void;  
 };
 
-const App: React.FC<cartAndUser> = ({
-  authenticateCurrentUserAsync,
-  addItem,
-}) => {
-  useEffect(() => {
-    authenticateCurrentUserAsync();
-    addItem({ id: 1 });
-    setTimeout(() => {
-      addItem({ id: 2 });
-    }, 5000);
+const App: React.FC<User> = ({
+  setCurrentUser
+}) => {  
+  
+  useEffect(() => {    
+    const unsubscribeFromAuth = auth.onAuthStateChanged(user => {
+      setCurrentUser(new ProfileModel("", user?.email, "", user?.displayName, "", "", true));
+    }) 
+    
+    return () => {
+      unsubscribeFromAuth();
+    }
   }, []);
 
   return (
@@ -49,13 +49,8 @@ const App: React.FC<cartAndUser> = ({
   );
 };
 
-// const mapStateToProps = ({cart: {cartItems}}) => ({
-//   cartItems
-// });
-
 const mapDispatchToProps = (dispatch) => ({
-  authenticateCurrentUserAsync: () => dispatch(authenticateCurrentUserAsync()),
-  addItem: (item) => dispatch(addItem(item)),
+  setCurrentUser: (user) => dispatch(setCurrentUser(user))  
 });
 
 export default connect(null, mapDispatchToProps)(App);

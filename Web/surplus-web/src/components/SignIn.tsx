@@ -14,6 +14,8 @@ import {
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import FormTextField from "../controls/FormTextField";
+import { signInWithGoogle } from '../firebase/firebase.utils';
+import { auth } from '../firebase/firebase.utils';
 
 type RegisterState = {
   email: string;
@@ -99,6 +101,24 @@ const SignIn: React.FC = () => {
                 className={classes.submit}
               >
                 Sign In
+              </Button>
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={signInWithGoogle}
+              >
+                Sign In with Google
+              </Button>
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={() => auth.signOut()}
+              >
+                Sign Out
               </Button>
               <Grid container justify="flex-end"></Grid>
             </ValidatorForm>

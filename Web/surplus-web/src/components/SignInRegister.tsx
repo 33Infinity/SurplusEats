@@ -8,10 +8,10 @@ import {
 
 const useStyles = makeStyles((theme) => createStyles({
   container: {    
-    display: "flex"    
+   display: "flex"    
   },
   child: {
-    flex: 1   
+   flex: 1   
   }  
 }));
 

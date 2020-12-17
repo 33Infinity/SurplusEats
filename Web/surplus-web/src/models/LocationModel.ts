@@ -1,13 +1,23 @@
 import BaseModel from "./BaseModel";
+import VendorModel from "./VendorModel";
 
 export default class LocationModel extends BaseModel {
+  VendorModel: VendorModel;
   Name: string;
   Latitude: number;
   Longitude: number;
   Address: string;
   PostalCode: string;
-  constructor(aName, aLatitude, aLongitude, anAddress, aPostalCode) {
+  constructor(
+    aVendorModel,
+    aName,
+    aLatitude,
+    aLongitude,
+    anAddress,
+    aPostalCode
+  ) {
     super();
+    this.VendorModel = aVendorModel;
     this.Name = aName;
     this.Latitude = aLatitude;
     this.Longitude = aLongitude;
@@ -15,6 +25,7 @@ export default class LocationModel extends BaseModel {
     this.PostalCode = aPostalCode;
   }
   public static NewLocation(
+    aVendorModel,
     aName,
     aLatitude,
     aLongitude,
@@ -22,6 +33,7 @@ export default class LocationModel extends BaseModel {
     aPostalCode
   ): LocationModel {
     return new LocationModel(
+      aVendorModel,
       aName,
       aLatitude,
       aLongitude,

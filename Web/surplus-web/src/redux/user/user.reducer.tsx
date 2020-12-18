@@ -2,7 +2,7 @@ import ProfileModel from "../../models/ProfileModel";
 import UserActionTypes from "./user.types";
 
 const INITIAL_PROFILE = {
-  currentUser: new ProfileModel("", "", "", "", "", "", false),
+  currentUser: {} as ProfileModel,
 };
 
 const userReducer = (state = INITIAL_PROFILE, action) => {

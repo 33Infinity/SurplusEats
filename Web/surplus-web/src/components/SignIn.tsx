@@ -57,6 +57,16 @@ const SignIn: React.FC = () => {
     setProfile({ ...profile, [event.target.name]: event.target.value });
   };
 
+  const onSignIn = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    try {
+        await auth.signInWithEmailAndPassword(profile.email!, profile.password!);
+        setProfile({ ...profile, email: "", password: ""});
+    } catch(error) {
+        console.log(error);
+    }
+  }
+
   const classes = useStyles();
   return (
     <div>
@@ -99,6 +109,7 @@ const SignIn: React.FC = () => {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
+                onClick={(event) => onSignIn(event)}
               >
                 Sign In
               </Button>

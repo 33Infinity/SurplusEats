@@ -13,6 +13,7 @@ import {
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import FormTextField from "../controls/FormTextField";
+import { auth } from '../firebase/firebase.utils';
 
 type RegisterState = {
   email: string;
@@ -56,6 +57,16 @@ const Register: React.FC = () => {
   const onProfileUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
     setProfile({ ...profile, [event.target.name]: event.target.value });
   };
+
+  const onSignUp = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    try {
+      const { user } = await auth.createUserWithEmailAndPassword(profile.email!, profile.password!);
+      setProfile({ ...profile, email: "", firstName: "", lastName: "", password: "", confirmPassword: "" });
+    } catch(error) {
+      console.log(error);
+    }
+  }
 
   const classes = useStyles();
   return (
@@ -124,6 +135,7 @@ const Register: React.FC = () => {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
+                onClick={(event) => onSignUp(event)}
               >
                 Sign Up
               </Button>

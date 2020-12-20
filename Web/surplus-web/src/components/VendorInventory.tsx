@@ -3,13 +3,14 @@ import { Grid, TextField } from "@material-ui/core";
 import InventoryService from "../services/Inventory";
 import InventoryModel from "../models/InventoryModel";
 
-const UserInventory: React.FC = () => {
+const VendorInventory: React.FC = () => {
   const [inventory, setInventory] = useState<Partial<InventoryModel[] | null>>(
     []
   );
   useEffect(() => {
     const inventoryService = new InventoryService();
-    inventoryService.getByLocation().then((response) => {
+    const vendorId = "1";
+    inventoryService.getByVendor(vendorId).then((response) => {
       setInventory(response);
     });
   }, []);
@@ -54,4 +55,4 @@ const UserInventory: React.FC = () => {
   );
 };
 
-export default UserInventory;
+export default VendorInventory;

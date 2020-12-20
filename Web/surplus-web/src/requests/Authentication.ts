@@ -11,7 +11,7 @@ export default class Authentication extends BaseRequest {
       aFirstName,
       aLastName
     );
-    const json = await this.getJson(url);
+    const json = await this.getJson(url, {});
     const result = ProfileModel.fillFromJSON(json as Object);
   }
 }

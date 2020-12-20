@@ -8,6 +8,7 @@
     "strict": true,
     "target": "es2017",
     "noImplicitAny": false,
+    "lib": ["es2015", "es2016", "dom", "es2018.promise"],
   },
   "compileOnSave": true,
   "include": [

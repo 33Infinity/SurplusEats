@@ -4,6 +4,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
+import { Button } from "@material-ui/core";
+import ImageUpload from "./ImageUpload";
+import { findAllByTestId } from "@testing-library/react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -54,8 +57,15 @@ const Filters: React.FC = () => {
     );
   }
 
+  function test() {
+    const blah = "";
+  }
+
   return (
     <div>
+      <FormControl>
+        <ImageUpload />
+      </FormControl>
       <FormControl className={classes.formControl}>
         <InputLabel>View By</InputLabel>
         <Select value={viewBy} onChange={handleViewByChange}>

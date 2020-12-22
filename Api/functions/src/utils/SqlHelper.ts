@@ -1,7 +1,7 @@
 import Clause from "../datastore/Clause";
 
 export default class SqlHelper {
-  static async get(anAdmin, aTableName) {
+  static get(anAdmin, aTableName) {
     const query = anAdmin.firestore().collection(aTableName);
     return query;
   }

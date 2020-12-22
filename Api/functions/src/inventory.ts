@@ -6,20 +6,22 @@ const inventory_cors = require("cors")({
   origin: true,
 });
 import SqlHelper from "./utils/SqlHelper";
+import HttpHelper from "./utils/HttpHelper";
 import VendorTable from "./datastore/Vendor";
 import InventoryTable from "./datastore/Inventory";
 import LocationTable from "./datastore/Location";
 import Clause from "./datastore/Clause";
 import Operators from "./datastore/Operators";
 
+/*How to search for a given document id
+db.collection('inventory').doc('fK3ddutEpD2qQqRMXNW5').get()*/
+
 exports.getByLocation = inventory_functions.https.onRequest(
   async (request: any, response: any) => {
     return inventory_cors(request, response, async () => {
-      const inventory = await inventory_admin
-        .firestore()
-        .collection("inventory")
-        .get();
-      response.send(JSON.stringify(inventory.docs.map((doc) => doc.data())));
+      const query = SqlHelper.get(inventory_admin, InventoryTable.TableName);
+      const inventory = await query.get();
+      response.send(HttpHelper.buildResponse(inventory));
     });
   }
 );

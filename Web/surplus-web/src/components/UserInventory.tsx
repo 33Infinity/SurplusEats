@@ -8,10 +8,18 @@ const UserInventory: React.FC = () => {
     []
   );
   useEffect(() => {
-    const inventoryService = new InventoryService();
-    inventoryService.getByLocation().then((response) => {
-      setInventory(response);
-    });
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const inventoryService = new InventoryService();
+        inventoryService
+          .getByLocation(position.coords.latitude, position.coords.longitude)
+          .then((response) => {
+            setInventory(response);
+          });
+      });
+    } else {
+      alert("GeoLocation not enabled");
+    }
   }, []);
   return (
     <div>

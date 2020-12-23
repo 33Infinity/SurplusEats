@@ -3,9 +3,9 @@ import InventoryModel from "../models/InventoryModel";
 import LocationModel from "../models/LocationModel";
 import VendorModel from "../models/VendorModel";
 export default class Inventory {
-  async getByLocation(): Promise<InventoryModel[] | null> {
+  async getByLocation(aLat, aLon): Promise<InventoryModel[] | null> {
     const request = new InventoryRequest();
-    const json = await request.getByLocation();
+    const json = await request.getByLocation(aLat, aLon);
     return this.buildInventoryModels(json);
   }
 

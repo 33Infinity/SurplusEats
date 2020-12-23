@@ -14,6 +14,17 @@ export default class SqlHelper {
     return query;
   }
 
+  static buildInFromArray(anArray) {
+    let ret = "";
+    for (let i = 0; i < anArray.length; i++) {
+      ret +=
+        i === anArray.length - 1
+          ? "'" + anArray[i] + "'"
+          : "'" + anArray[i] + "',";
+    }
+    return ret;
+  }
+
   private static getClause(aClause: Clause) {
     return `${aClause.ColumnName},${aClause.Operator},${aClause.Value}`;
   }

@@ -3,9 +3,13 @@ import Endpoints from "./Endpoints";
 import HttpMethods from "./HttpMethods";
 
 export default class Inventory extends BaseRequest {
-  async getByLocation() {
+  async getByLocation(aLat, aLon) {
     const url = Endpoints.getByLocation;
-    const requestObject = this.buildRequestObject(HttpMethods.get, "");
+    var data = {
+      Latitude: aLat,
+      Longitude: aLon,
+    };
+    const requestObject = this.buildRequestObject(HttpMethods.get, data);
     const json = await this.getJson(url, requestObject);
     return json;
   }

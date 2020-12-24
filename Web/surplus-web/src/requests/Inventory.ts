@@ -9,7 +9,7 @@ export default class Inventory extends BaseRequest {
       Latitude: aLat,
       Longitude: aLon,
     };
-    const requestObject = this.buildRequestObject(HttpMethods.get, data);
+    const requestObject = this.buildRequestObject(HttpMethods.post, data);
     const json = await this.getJson(url, requestObject);
     return json;
   }

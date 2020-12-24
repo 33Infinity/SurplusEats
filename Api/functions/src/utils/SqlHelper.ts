@@ -9,7 +9,7 @@ export default class SqlHelper {
   static getWithClauses(anAdmin, aTableName, someClauses: Clause[]) {
     let query = anAdmin.firestore().collection(aTableName);
     someClauses.forEach((clause: Clause) => {
-      query = query.where(SqlHelper.getClause(clause));
+      query = query.where(clause.ColumnName, clause.Operator, clause.Value);
     });
     return query;
   }
@@ -17,15 +17,8 @@ export default class SqlHelper {
   static buildInFromArray(anArray) {
     let ret = "";
     for (let i = 0; i < anArray.length; i++) {
-      ret +=
-        i === anArray.length - 1
-          ? "'" + anArray[i] + "'"
-          : "'" + anArray[i] + "',";
+      ret += i === anArray.length - 1 ? anArray[i] : anArray[i] + ",";
     }
     return ret;
-  }
-
-  private static getClause(aClause: Clause) {
-    return `${aClause.ColumnName},${aClause.Operator},${aClause.Value}`;
   }
 }

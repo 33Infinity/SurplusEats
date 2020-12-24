@@ -20,8 +20,9 @@ db.collection('inventory').doc('fK3ddutEpD2qQqRMXNW5').get()*/
 exports.getByLocation = inventory_functions.https.onRequest(
   async (request: any, response: any) => {
     return inventory_cors(request, response, async () => {
-      const latitude = request.data.Latitude;
-      const longitude = request.data.Longitude;
+      const data = JSON.parse(request.body);
+      const latitude = data.Latitude;
+      const longitude = data.Longitude;
       let query = SqlHelper.get(inventory_admin, LocationTable.TableName);
       const locations = await query.get();
       const closestLocations = GeoLocationHelper.GetClosestNLocations(
@@ -30,25 +31,22 @@ exports.getByLocation = inventory_functions.https.onRequest(
         locations,
         10
       );
-      const locationArray: string[] = [];
+      let inventory = getInventoryByLocations(closestLocations);
+      /* const locationArray: string[] = [];
       closestLocations.forEach((location) => {
-        locationArray.push(location.Id);
+        locationArray.push(location.id);
       });
-      const locationInValue = SqlHelper.buildInFromArray(locationArray);
       const clauses: Clause[] = [];
       clauses.push(
-        Clause.NewClause(
-          InventoryTable.LocationId,
-          Operators.in,
-          locationInValue
-        )
+        Clause.NewClause(InventoryTable.LocationId, Operators.in, locationArray)
       );
       query = SqlHelper.getWithClauses(
         inventory_admin,
         InventoryTable.TableName,
         clauses
       );
-      const inventory = await query.get();
+      const inventory = await query.get(); */
+      inventory.Locations = closestLocations;
       response.send(HttpHelper.buildResponse(inventory));
     });
   }
@@ -69,11 +67,6 @@ exports.getByVendor = inventory_functions.https.onRequest(
         eachInventory.LocationModel = location;
       });
       response.send(JSON.stringify(inventory));
-      /* const inventory = await inventory_admin
-        .firestore()
-        .collection("inventory")
-        .get();
-      response.send(JSON.stringify(inventory.docs.map((doc) => doc.data()))); */
     });
   }
 );

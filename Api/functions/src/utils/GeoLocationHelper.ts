@@ -36,7 +36,7 @@ export default class GeoLocationHelper {
   }
 
   public static GetClosestNLocations(aLat, aLon, someLocations, anNAmount) {
-    const locationArray = [];
+    //const locationArray = [];
     return someLocations;
   }
 }

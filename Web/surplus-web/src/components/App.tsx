@@ -12,25 +12,34 @@ import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import { setCurrentUser } from "../redux/user/user.actions";
 import { useEffect } from "react";
-import ProfileModel from '../models/ProfileModel';
-import { auth } from '../firebase/firebase.utils';
+import ProfileModel from "../models/ProfileModel";
+import { auth } from "../firebase/firebase.utils";
 
 type User = {
-  setCurrentUser: (user: ProfileModel) => void;  
+  setCurrentUser: (user: ProfileModel) => void;
 };
 
-const App: React.FC<User> = ({
-  setCurrentUser
-}) => {  
-  
-  useEffect(() => {    
-    const unsubscribeFromAuth = auth.onAuthStateChanged(user => {
-      setCurrentUser(new ProfileModel("", user?.email, "", user?.displayName, "", "", true));
-    }) 
-    
+const App: React.FC<User> = ({ setCurrentUser }) => {
+  useEffect(() => {
+    const unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
+      setCurrentUser(
+        new ProfileModel(
+          "",
+          user?.email,
+          "",
+          user?.displayName,
+          "",
+          "",
+          true,
+          null,
+          null
+        )
+      );
+    });
+
     return () => {
       unsubscribeFromAuth();
-    }
+    };
   }, []);
 
   return (
@@ -50,7 +59,7 @@ const App: React.FC<User> = ({
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrentUser(user))  
+  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
 });
 
 export default connect(null, mapDispatchToProps)(App);

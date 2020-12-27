@@ -11,7 +11,7 @@ export const authenticateCurrentUserAsync = () => {
     setTimeout(() => {
       dispatch(
         setCurrentUser(
-          new ProfileModel("", "", "", "Aaron", "Flores", "", true)
+          new ProfileModel("", "", "", "Aaron", "Flores", "", true, null, null)
         )
       );
     }, 7000);

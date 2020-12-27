@@ -14,9 +14,11 @@ export default class LocationModel extends BaseModel {
     aLatitude,
     aLongitude,
     anAddress,
-    aPostalCode
+    aPostalCode,
+    anId,
+    aCreatedDate
   ) {
-    super();
+    super(anId, aCreatedDate);
     this.VendorModel = aVendorModel;
     this.Name = aName;
     this.Latitude = aLatitude;
@@ -30,7 +32,9 @@ export default class LocationModel extends BaseModel {
     aLatitude,
     aLongitude,
     anAddress,
-    aPostalCode
+    aPostalCode,
+    anId,
+    aCreatedDate
   ): LocationModel {
     return new LocationModel(
       aVendorModel,
@@ -38,7 +42,9 @@ export default class LocationModel extends BaseModel {
       aLatitude,
       aLongitude,
       anAddress,
-      aPostalCode
+      aPostalCode,
+      anId,
+      aCreatedDate
     );
   }
 }

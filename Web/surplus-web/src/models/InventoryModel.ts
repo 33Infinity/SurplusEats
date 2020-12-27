@@ -7,8 +7,16 @@ export default class InventoryModel extends BaseModel {
   Quantity: number;
   ImageUrl: string;
   LocationModel: LocationModel;
-  constructor(aDescription, aPrice, aQuantity, anImageUrl, aLocationModel) {
-    super();
+  constructor(
+    aDescription,
+    aPrice,
+    aQuantity,
+    anImageUrl,
+    aLocationModel,
+    anId,
+    aCreatedDate
+  ) {
+    super(anId, aCreatedDate);
     this.Description = aDescription;
     this.Price = aPrice;
     this.Quantity = aQuantity;
@@ -20,14 +28,18 @@ export default class InventoryModel extends BaseModel {
     aPrice,
     aQuantity,
     anImageUrl,
-    aLocationModel
+    aLocationModel,
+    anId,
+    aCreatedDate
   ): InventoryModel {
     return new InventoryModel(
       aDescription,
       aPrice,
       aQuantity,
       anImageUrl,
-      aLocationModel
+      aLocationModel,
+      anId,
+      aCreatedDate
     );
   }
 }

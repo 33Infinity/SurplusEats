@@ -2,9 +2,9 @@ export default class BaseModel {
   Id: string;
   CreatedDate: Date;
 
-  constructor() {
-    this.Id = BaseModel.newGuid();
-    this.CreatedDate = new Date();
+  constructor(anId, aCreatedDate) {
+    this.Id = anId != null ? anId : BaseModel.newGuid();
+    this.CreatedDate = aCreatedDate != null ? aCreatedDate : new Date();
   }
 
   public static fillFromJSON(json: object) {

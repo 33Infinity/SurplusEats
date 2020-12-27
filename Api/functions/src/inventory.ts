@@ -17,7 +17,7 @@ import LocationDAO from "./datastore/DAO/Location";
 exports.getByLocation = inventory_functions.https.onRequest(
   async (request: any, response: any) => {
     return inventory_cors(request, response, async () => {
-      const retObj: IResponse = {};
+      let retObj: IResponse = {};
       const data = JSON.parse(request.body);
       const latitude = data.Latitude;
       const longitude = data.Longitude;
@@ -41,6 +41,7 @@ exports.getByLocation = inventory_functions.https.onRequest(
         inventory_admin,
         closestLocations
       );
+      retObj = InventoryDAO.Normalize(retObj);
       response.send(HttpHelper.buildResponse(retObj));
     });
   }

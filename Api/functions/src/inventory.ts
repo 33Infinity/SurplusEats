@@ -8,46 +8,40 @@ const inventory_cors = require("cors")({
 import SqlHelper from "./utils/SqlHelper";
 import GeoLocationHelper from "./utils/GeoLocationHelper";
 import HttpHelper from "./utils/HttpHelper";
-import VendorTable from "./datastore/Vendor";
-import InventoryTable from "./datastore/Inventory";
-import LocationTable from "./datastore/Location";
-import Clause from "./datastore/Clause";
-import Operators from "./datastore/Operators";
-
-/*How to search for a given document id
-db.collection('inventory').doc('fK3ddutEpD2qQqRMXNW5').get()*/
+import LocationTable from "./datastore/TO/Location";
+import IResponse from "./IResponse";
+import InventoryDAO from "./datastore/DAO/Inventory";
+import VendorDAO from "./datastore/DAO/Vendor";
+import LocationDAO from "./datastore/DAO/Location";
 
 exports.getByLocation = inventory_functions.https.onRequest(
   async (request: any, response: any) => {
     return inventory_cors(request, response, async () => {
+      const retObj: IResponse = {};
       const data = JSON.parse(request.body);
       const latitude = data.Latitude;
       const longitude = data.Longitude;
-      let query = SqlHelper.get(inventory_admin, LocationTable.TableName);
-      const locations = await query.get();
+      let locations = await SqlHelper.get(
+        inventory_admin,
+        LocationTable.TableName
+      );
       const closestLocations = GeoLocationHelper.GetClosestNLocations(
         latitude,
         longitude,
         locations,
         10
       );
-      let inventory = getInventoryByLocations(closestLocations);
-      /* const locationArray: string[] = [];
-      closestLocations.forEach((location) => {
-        locationArray.push(location.id);
-      });
-      const clauses: Clause[] = [];
-      clauses.push(
-        Clause.NewClause(InventoryTable.LocationId, Operators.in, locationArray)
-      );
-      query = SqlHelper.getWithClauses(
+      let inventory = await InventoryDAO.getInventoryByLocations(
         inventory_admin,
-        InventoryTable.TableName,
-        clauses
+        closestLocations
       );
-      const inventory = await query.get(); */
-      inventory.Locations = closestLocations;
-      response.send(HttpHelper.buildResponse(inventory));
+      retObj.Inventory = inventory;
+      retObj.Locations = closestLocations;
+      retObj.Vendors = await VendorDAO.getVendorByLocations(
+        inventory_admin,
+        closestLocations
+      );
+      response.send(HttpHelper.buildResponse(retObj));
     });
   }
 );
@@ -56,9 +50,15 @@ exports.getByVendor = inventory_functions.https.onRequest(
   async (request: any, response: any) => {
     return inventory_cors(request, response, async () => {
       const vendorId = request.data.Id;
-      const vendor = await getVendorById(vendorId);
-      const locations = await getLocationsByVendor(vendorId);
-      const inventory = await getInventoryByLocations(locations);
+      const vendor = await VendorDAO.getVendorById(inventory_admin, vendorId);
+      const locations = await LocationDAO.getLocationsByVendor(
+        inventory_admin,
+        vendorId
+      );
+      const inventory = await InventoryDAO.getInventoryByLocations(
+        inventory_admin,
+        locations
+      );
       inventory.forEach((eachInventory) => {
         eachInventory.VendorModel = vendor;
         const location = locations.find(
@@ -70,48 +70,3 @@ exports.getByVendor = inventory_functions.https.onRequest(
     });
   }
 );
-
-async function getVendorById(aVendorId) {
-  const clauses: Clause[] = [];
-  clauses.push(Clause.NewClause(VendorTable.Id, Operators.equals, aVendorId));
-  const query = SqlHelper.getWithClauses(
-    inventory_admin,
-    VendorTable.TableName,
-    clauses
-  );
-  const response = await query.get();
-  return response.docs.map((doc) => doc.data());
-}
-
-async function getLocationsByVendor(aVendorId) {
-  const clauses: Clause[] = [];
-  clauses.push(
-    Clause.NewClause(LocationTable.VendorId, Operators.equals, aVendorId)
-  );
-  const query = SqlHelper.getWithClauses(
-    inventory_admin,
-    LocationTable.TableName,
-    clauses
-  );
-  const response = await query.get();
-  return response.docs.map((doc) => doc.data());
-}
-
-async function getInventoryByLocations(someLocations) {
-  const locationArray: string[] = [];
-  someLocations.forEach((location) => {
-    locationArray.push(location.Id);
-  });
-  const clauses: Clause[] = [];
-  const locationInValue = SqlHelper.buildInFromArray(locationArray);
-  clauses.push(
-    Clause.NewClause(InventoryTable.LocationId, Operators.in, locationInValue)
-  );
-  const query = SqlHelper.getWithClauses(
-    inventory_admin,
-    LocationTable.TableName,
-    clauses
-  );
-  const response = await query.get();
-  return response.docs.map((doc) => doc.data());
-}

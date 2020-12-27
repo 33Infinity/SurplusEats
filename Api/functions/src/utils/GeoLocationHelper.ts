@@ -35,7 +35,12 @@ export default class GeoLocationHelper {
     }
   }
 
-  public static GetClosestNLocations(aLat, aLon, someLocations, anNAmount) {
+  public static GetClosestNLocations(
+    aLat,
+    aLon,
+    someLocations,
+    anNAmount
+  ): Promise<any> {
     //const locationArray = [];
     return someLocations;
   }

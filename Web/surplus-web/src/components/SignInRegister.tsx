@@ -2,6 +2,7 @@ import React from "react";
 import Header from "./Header";
 import Register from './Register';
 import SignIn from './SignIn';
+import { Route, Switch } from "react-router-dom";
 import {
   makeStyles, createStyles
 } from '@material-ui/core';
@@ -21,12 +22,17 @@ const SignInRegister: React.FC = () => {
         <>
           <Header />
           <div className={classes.container}>
+
+
             <div className={classes.child}>
-              <SignIn />  
-            </div>   
-            <div className={classes.child}>
-              <Register />
+            <Switch>
+              <Route exact path="/signin" component={SignIn} />
+              <Route exact path="/register" component={Register} />
+            </Switch>
             </div>    
+
+
+
           </div>
         </>
     )

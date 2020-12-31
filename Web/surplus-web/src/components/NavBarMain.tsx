@@ -245,8 +245,7 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
             </IconButton>
           </div>
         </Toolbar>
-      </AppBar>
-      {currentUser.Email}
+      </AppBar>      
       {renderMobileMenu}
       {renderMenu}
     </div>

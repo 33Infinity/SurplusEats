@@ -14,6 +14,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import FormTextField from "../controls/FormTextField";
 import { auth } from '../firebase/firebase.utils';
+import Header from "./Header";
 
 type RegisterState = {
   email: string;
@@ -71,6 +72,7 @@ const Register: React.FC = () => {
   const classes = useStyles();
   return (
     <div>
+      <Header />
       <div className="center">
         <Container component="main" maxWidth="xs">
           <div className={classes.paper}>
@@ -118,6 +120,15 @@ const Register: React.FC = () => {
                     name="password"
                     type="password"
                     value={profile.password}
+                    onChange={onProfileUpdate}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <FormTextField
+                    label="Confirm Password"
+                    name="confirmPassword"
+                    type="password"
+                    value={profile.confirmPassword}
                     onChange={onProfileUpdate}
                   />
                 </Grid>

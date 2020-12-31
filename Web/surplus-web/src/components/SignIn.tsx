@@ -4,18 +4,18 @@ import {
   createStyles,
   Container,
   Typography,
-  Grid,
-  Checkbox,
-  FormControlLabel,
-  Link,
+  Grid,   
   Button,
   Avatar,
+  Link,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import FormTextField from "../controls/FormTextField";
 import { signInWithGoogle } from '../firebase/firebase.utils';
 import { auth } from '../firebase/firebase.utils';
+import Header from "./Header";
+import Snackbar from '@material-ui/core/Snackbar';
 
 type RegisterState = {
   email: string;
@@ -42,8 +42,11 @@ const useStyles = makeStyles((theme) =>
       marginTop: theme.spacing(3),
     },
     submit: {
-      margin: theme.spacing(3, 0, 2),
+      margin: theme.spacing(1, 0, 0),
     },
+    submitGrid: {
+      marginTop: "20px"
+    }
   })
 );
 
@@ -53,12 +56,19 @@ const SignIn: React.FC = () => {
     password: "",
   });
 
+  let validationForm: ValidatorForm = React.createRef();
+
   const onProfileUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
     setProfile({ ...profile, [event.target.name]: event.target.value });
   };
 
   const onSignIn = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+    event.preventDefault();   
+
+    validationForm.current.isFormValid(false).then((isValid) => {     
+      return false;
+    });
+
     try {
         await auth.signInWithEmailAndPassword(profile.email!, profile.password!);
         setProfile({ ...profile, email: "", password: ""});
@@ -70,6 +80,7 @@ const SignIn: React.FC = () => {
   const classes = useStyles();
   return (
     <div>
+      <Header />
       <div className="center">
         <Container component="main" maxWidth="xs">
           <div className={classes.paper}>
@@ -79,7 +90,7 @@ const SignIn: React.FC = () => {
             <Typography component="h1" variant="h5">
               Sign In
             </Typography>
-            <ValidatorForm className={classes.form} debounceTime={1000}>
+            <ValidatorForm ref={validationForm} className={classes.form} debounceTime={1000}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <FormTextField
@@ -99,11 +110,16 @@ const SignIn: React.FC = () => {
                     label="Password"
                     name="password"
                     type="password"
+                    validators={["required"]}
                     value={profile.password}
                     onChange={onProfileUpdate}
+                    errorMessages={[
+                      "this field is required"                      
+                    ]}
                   />
                 </Grid>
               </Grid>
+              <Grid className={classes.submitGrid}>
               <Button
                 fullWidth
                 variant="contained"
@@ -131,8 +147,10 @@ const SignIn: React.FC = () => {
               >
                 Sign Out
               </Button>
+              </Grid>
               <Grid container justify="flex-end"></Grid>
             </ValidatorForm>
+            <Link href="#/register">Register new account</Link>
           </div>
         </Container>
       </div>

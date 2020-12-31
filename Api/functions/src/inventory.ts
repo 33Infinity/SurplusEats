@@ -8,7 +8,8 @@ const inventory_cors = require("cors")({
 import SqlHelper from "./utils/SqlHelper";
 import GeoLocationHelper from "./utils/GeoLocationHelper";
 import HttpHelper from "./utils/HttpHelper";
-import LocationTable from "./datastore/TO/Location";
+import LocationTO from "./datastore/TO/Location";
+import VendorTO from "./datastore/TO/Vendor";
 import IResponse from "./IResponse";
 import InventoryDAO from "./datastore/DAO/Inventory";
 import VendorDAO from "./datastore/DAO/Vendor";
@@ -23,7 +24,7 @@ exports.getByLocation = inventory_functions.https.onRequest(
       const longitude = data.Longitude;
       let locations = await SqlHelper.get(
         inventory_admin,
-        LocationTable.TableName
+        LocationTO.TableName
       );
       const closestLocations = GeoLocationHelper.GetClosestNLocations(
         latitude,
@@ -50,8 +51,13 @@ exports.getByLocation = inventory_functions.https.onRequest(
 exports.getByVendor = inventory_functions.https.onRequest(
   async (request: any, response: any) => {
     return inventory_cors(request, response, async () => {
-      const vendorId = request.data.Id;
-      const vendor = await VendorDAO.getVendorById(inventory_admin, vendorId);
+      let retObj: IResponse = {};
+      const vendorId = JSON.parse(request.body);
+      const vendors = await SqlHelper.getById(
+        inventory_admin,
+        VendorTO.TableName,
+        vendorId
+      );
       const locations = await LocationDAO.getLocationsByVendor(
         inventory_admin,
         vendorId
@@ -60,14 +66,11 @@ exports.getByVendor = inventory_functions.https.onRequest(
         inventory_admin,
         locations
       );
-      inventory.forEach((eachInventory) => {
-        eachInventory.VendorModel = vendor;
-        const location = locations.find(
-          (eachLocation) => eachLocation.Id === eachInventory.LocationId
-        );
-        eachInventory.LocationModel = location;
-      });
-      response.send(JSON.stringify(inventory));
+      retObj.Inventory = inventory;
+      retObj.Locations = locations;
+      retObj.Vendors = vendors;
+      retObj = InventoryDAO.Normalize(retObj);
+      response.send(HttpHelper.buildResponse(retObj));
     });
   }
 );

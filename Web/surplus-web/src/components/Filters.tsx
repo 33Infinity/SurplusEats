@@ -46,6 +46,10 @@ const Filters: React.FC = () => {
     );
   }
 
+  function test(aFile) {
+    console.log(aFile);
+  }
+
   function GetVendorSortBySelect() {
     const DISTANCE = "Distance";
     const NAME = "Name";
@@ -57,14 +61,10 @@ const Filters: React.FC = () => {
     );
   }
 
-  function test() {
-    const blah = "";
-  }
-
   return (
     <div>
       <FormControl>
-        <ImageUpload />
+        <ImageUpload onSelectedFile={test} />
       </FormControl>
       <FormControl className={classes.formControl}>
         <InputLabel>View By</InputLabel>

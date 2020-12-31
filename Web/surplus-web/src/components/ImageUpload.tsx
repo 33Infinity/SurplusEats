@@ -22,17 +22,25 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export const ImageUpload: React.FunctionComponent = ({}) => {
+interface MyClassProps {
+  onSelectedFile(name: any): any;
+}
+
+export const ImageUpload: React.FunctionComponent<MyClassProps> = ({
+  onSelectedFile,
+}) => {
   const classes = useStyles();
   const [selectedFile, setSelectedFile] = React.useState("");
 
   const handleCapture = ({ target }: any) => {
+    const c = target.files[0];
     setSelectedFile(URL.createObjectURL(target.files[0]));
   };
 
   const handleSubmit = () => {
     // saveFace(selectedFile);
-    const file = selectedFile;
+    onSelectedFile(selectedFile);
+    //const file = selectedFile;
   };
 
   return (

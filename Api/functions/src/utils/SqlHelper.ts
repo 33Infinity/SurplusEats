@@ -8,8 +8,11 @@ export default class SqlHelper {
   }
 
   static async getById(anAdmin, aTableName, anId) {
-    const query = anAdmin.firestore().collection(aTableName).doc(anId);
-    const response = await query.get();
+    const response = await anAdmin
+      .firestore()
+      .collection(aTableName)
+      .where("__name__", "=", anId)
+      .get();
     return this.buildResponse(response);
   }
 

@@ -9,9 +9,9 @@ export default class Inventory {
     return this.buildInventoryModels(json);
   }
 
-  async getByVendor(aVendorModel): Promise<InventoryModel[] | null> {
+  async getByVendor(aVendorId): Promise<InventoryModel[] | null> {
     const request = new InventoryRequest();
-    const json = await request.getByVendor(aVendorModel);
+    const json = await request.getByVendor(aVendorId);
     return this.buildInventoryModels(json);
   }
 

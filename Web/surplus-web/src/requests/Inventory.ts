@@ -14,12 +14,9 @@ export default class Inventory extends BaseRequest {
     return json;
   }
 
-  async getByVendor(aVendorModel) {
-    let url = Endpoints.getByLocation;
-    const requestObject = this.buildRequestObject(
-      HttpMethods.get,
-      aVendorModel
-    );
+  async getByVendor(aVendorId) {
+    let url = Endpoints.getByVendor;
+    const requestObject = this.buildRequestObject(HttpMethods.post, aVendorId);
     const json = await this.getJson(url, requestObject);
     return json;
   }

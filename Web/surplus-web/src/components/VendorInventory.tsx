@@ -9,7 +9,7 @@ const VendorInventory: React.FC = () => {
   );
   useEffect(() => {
     const inventoryService = new InventoryService();
-    const vendorId = "1";
+    const vendorId = "DF7RY2YtfFonTNIotj32";
     inventoryService.getByVendor(vendorId).then((response) => {
       setInventory(response);
     });

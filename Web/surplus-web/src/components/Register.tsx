@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   makeStyles,
   createStyles,
@@ -54,6 +54,15 @@ const Register: React.FC = () => {
     password: "",
     confirmPassword: "",
   });
+   
+  ValidatorForm.addValidationRule('isPasswordMatch', (value) => {          
+    if (value !== profile.password) {
+          return false;
+    }
+    return true;
+  });  
+
+  let validationForm: ValidatorForm = React.createRef();
 
   const onProfileUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
     setProfile({ ...profile, [event.target.name]: event.target.value });
@@ -61,6 +70,11 @@ const Register: React.FC = () => {
 
   const onSignUp = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+
+    validationForm.current.isFormValid(false).then((isValid) => {     
+      return false;
+    });
+
     try {
       const { user } = await auth.createUserWithEmailAndPassword(profile.email!, profile.password!);
       setProfile({ ...profile, email: "", firstName: "", lastName: "", password: "", confirmPassword: "" });
@@ -82,7 +96,7 @@ const Register: React.FC = () => {
             <Typography component="h1" variant="h5">
               Sign up
             </Typography>
-            <ValidatorForm className={classes.form} debounceTime={1000}>
+            <ValidatorForm ref={validationForm} className={classes.form} debounceTime={1000}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <FormTextField
@@ -90,6 +104,10 @@ const Register: React.FC = () => {
                     name="firstName"
                     value={profile.firstName}
                     onChange={onProfileUpdate}
+                    validators={["required"]}
+                    errorMessages={[
+                      "this field is required"                      
+                    ]}
                     autoFocus
                   />
                 </Grid>
@@ -99,6 +117,10 @@ const Register: React.FC = () => {
                     name="lastName"
                     value={profile.lastName}
                     onChange={onProfileUpdate}
+                    errorMessages={[
+                      "this field is required"                      
+                    ]}
+                    validators={["required"]}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -121,6 +143,10 @@ const Register: React.FC = () => {
                     type="password"
                     value={profile.password}
                     onChange={onProfileUpdate}
+                    validators={["required"]}
+                    errorMessages={[
+                      "this field is required"                      
+                    ]}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -130,6 +156,8 @@ const Register: React.FC = () => {
                     type="password"
                     value={profile.confirmPassword}
                     onChange={onProfileUpdate}
+                    validators={['isPasswordMatch', 'required']}
+                    errorMessages={['password mismatch', 'this field is required']}
                   />
                 </Grid>
                 <Grid item xs={12}>

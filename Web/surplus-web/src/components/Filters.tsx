@@ -5,8 +5,6 @@ import InputLabel from "@material-ui/core/InputLabel";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
 import { Button } from "@material-ui/core";
-import ImageUpload from "./ImageUpload";
-import { findAllByTestId } from "@testing-library/react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -46,10 +44,6 @@ const Filters: React.FC = () => {
     );
   }
 
-  function test(aFile) {
-    console.log(aFile);
-  }
-
   function GetVendorSortBySelect() {
     const DISTANCE = "Distance";
     const NAME = "Name";
@@ -63,9 +57,6 @@ const Filters: React.FC = () => {
 
   return (
     <div>
-      <FormControl>
-        <ImageUpload onSelectedFile={test} />
-      </FormControl>
       <FormControl className={classes.formControl}>
         <InputLabel>View By</InputLabel>
         <Select value={viewBy} onChange={handleViewByChange}>

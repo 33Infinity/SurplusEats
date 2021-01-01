@@ -9,10 +9,19 @@ export default class Inventory {
     return this.buildInventoryModels(json);
   }
 
-  async getByVendor(aVendorId): Promise<InventoryModel[] | null> {
+  async getByVendorLocation(
+    aVendorId,
+    aLocationId
+  ): Promise<InventoryModel[] | null> {
     const request = new InventoryRequest();
-    const json = await request.getByVendor(aVendorId);
+    const json = await request.getByVendorLocation(aVendorId, aLocationId);
     return this.buildInventoryModels(json);
+  }
+
+  async addInventory(anInventoryModel) {
+    const request = new InventoryRequest();
+    const json = await request.addInventory(anInventoryModel);
+    return !json.HasError;
   }
 
   buildInventoryModels(someJson) {

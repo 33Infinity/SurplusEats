@@ -22,11 +22,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-interface MyClassProps {
+interface Props {
   onSelectedFile(name: any): any;
 }
 
-export const ImageUpload: React.FunctionComponent<MyClassProps> = ({
+export const ImageUpload: React.FunctionComponent<Props> = ({
   onSelectedFile,
 }) => {
   const classes = useStyles();
@@ -34,13 +34,11 @@ export const ImageUpload: React.FunctionComponent<MyClassProps> = ({
 
   const handleCapture = ({ target }: any) => {
     const c = target.files[0];
-    setSelectedFile(URL.createObjectURL(target.files[0]));
+    setSelectedFile(target.files[0]);
   };
 
   const handleSubmit = () => {
-    // saveFace(selectedFile);
     onSelectedFile(selectedFile);
-    //const file = selectedFile;
   };
 
   return (
@@ -65,7 +63,6 @@ export const ImageUpload: React.FunctionComponent<MyClassProps> = ({
           </IconButton>
         </label>
       </Tooltip>
-      <label>{selectedFile ? "test" : "Select Image"}</label>. . .
       <Button onClick={() => handleSubmit()} color="primary">
         Save
       </Button>

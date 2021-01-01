@@ -21,6 +21,22 @@ export default class Inventory {
     return response;
   }
 
+  static async addInventory(admin, inventory) {
+    const inventoryToInsert = {
+      Description: inventory.Description,
+      ImageUrl: inventory.ImageUrl,
+      LocationId: inventory.LocationModel.Id,
+      Price: inventory.Price,
+      Quantity: inventory.Quantity,
+    };
+    const response = await SqlHelper.insert(
+      admin,
+      InventoryTable.TableName,
+      inventoryToInsert
+    );
+    return response;
+  }
+
   static Normalize(someJson) {
     const inventory = someJson.Inventory;
     const locations = someJson.Locations;

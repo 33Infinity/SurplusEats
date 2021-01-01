@@ -18,6 +18,11 @@ code {
   padding: 10px;
 }
 
+.thumbnail {
+  height: 50px;
+  width: 50px;
+}
+
 .white-link {
   color: #fff;
 }

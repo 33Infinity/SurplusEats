@@ -34,6 +34,15 @@ export default class SqlHelper {
     return this.buildResponse(response);
   }
 
+  static async insert(anAdmin, aTableName, someKeyValuePairs) {
+    const response = await anAdmin
+      .firestore()
+      .collection(aTableName)
+      .doc()
+      .set(someKeyValuePairs);
+    return !response.HasError;
+  }
+
   static buildResponse(response) {
     return response.docs.map((doc) => {
       let ret = doc.data();

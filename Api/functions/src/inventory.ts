@@ -13,7 +13,6 @@ import VendorTO from "./datastore/TO/Vendor";
 import IResponse from "./IResponse";
 import InventoryDAO from "./datastore/DAO/Inventory";
 import VendorDAO from "./datastore/DAO/Vendor";
-import LocationDAO from "./datastore/DAO/Location";
 
 exports.getByLocation = inventory_functions.https.onRequest(
   async (request: any, response: any) => {
@@ -48,19 +47,22 @@ exports.getByLocation = inventory_functions.https.onRequest(
   }
 );
 
-exports.getByVendor = inventory_functions.https.onRequest(
+exports.getByVendorLocation = inventory_functions.https.onRequest(
   async (request: any, response: any) => {
     return inventory_cors(request, response, async () => {
       let retObj: IResponse = {};
-      const vendorId = JSON.parse(request.body);
+      const data = JSON.parse(request.body);
+      const vendorId = data.VendorId;
+      const locationId = data.LocationId;
       const vendors = await SqlHelper.getById(
         inventory_admin,
         VendorTO.TableName,
         vendorId
       );
-      const locations = await LocationDAO.getLocationsByVendor(
+      const locations = await SqlHelper.getById(
         inventory_admin,
-        vendorId
+        LocationTO.TableName,
+        locationId
       );
       const inventory = await InventoryDAO.getInventoryByLocations(
         inventory_admin,
@@ -71,6 +73,16 @@ exports.getByVendor = inventory_functions.https.onRequest(
       retObj.Vendors = vendors;
       retObj = InventoryDAO.Normalize(retObj);
       response.send(HttpHelper.buildResponse(retObj));
+    });
+  }
+);
+
+exports.addInventory = inventory_functions.https.onRequest(
+  async (request: any, response: any) => {
+    return inventory_cors(request, response, async () => {
+      const data = JSON.parse(request.body);
+      const resp = InventoryDAO.addInventory(inventory_admin, data);
+      response.send(resp);
     });
   }
 );

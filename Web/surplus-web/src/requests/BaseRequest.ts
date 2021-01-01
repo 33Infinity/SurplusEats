@@ -18,4 +18,13 @@ export default class BaseRequest {
       body: JSON.stringify(someData),
     };
   }
+
+  buildFileRequestObject(anHttpMethod, aFile) {
+    const formData = new FormData();
+    formData.append("myFile", aFile);
+    return {
+      method: anHttpMethod,
+      body: formData,
+    };
+  }
 }

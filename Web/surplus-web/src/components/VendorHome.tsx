@@ -9,7 +9,10 @@ const VendorHome: React.FC = () => {
         <div className="row">
           <div className="col-2"></div>
           <div className="col-8">
-            <VendorInventory />
+            <VendorInventory
+              VendorId="DF7RY2YtfFonTNIotj32"
+              LocationId="rFj5ZFeMvn32mlP48fXG"
+            />
           </div>
           <div className="col-2">Column3</div>
         </div>

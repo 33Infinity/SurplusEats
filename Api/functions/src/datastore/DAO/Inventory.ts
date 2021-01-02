@@ -1,7 +1,7 @@
 import Clause from "../Clause";
 import Operators from "../Operators";
 import SqlHelper from "../../utils/SqlHelper";
-import InventoryTable from "../TO/Inventory";
+import InventoryTO from "../TO/Inventory";
 
 export default class Inventory {
   static async getInventoryByLocations(admin, someLocations): Promise<any> {
@@ -11,28 +11,34 @@ export default class Inventory {
     });
     const clauses: Clause[] = [];
     clauses.push(
-      Clause.NewClause(InventoryTable.LocationId, Operators.in, locationArray)
+      Clause.NewClause(
+        InventoryTO.ColumnNames.LocationId,
+        Operators.in,
+        locationArray
+      )
     );
     const response = await SqlHelper.getWithClauses(
       admin,
-      InventoryTable.TableName,
+      InventoryTO.TableName,
       clauses
     );
     return response;
   }
 
   static async addInventory(admin, inventory) {
-    const inventoryToInsert = {
-      Description: inventory.Description,
-      ImageUrl: inventory.ImageUrl,
-      LocationId: inventory.LocationModel.Id,
-      Price: inventory.Price,
-      Quantity: inventory.Quantity,
-    };
+    const inventoryTO = InventoryTO.NewInventory(
+      inventory.Description,
+      inventory.Price,
+      inventory.Quantity,
+      inventory.ImageUrl,
+      inventory.LocationModel.Id,
+      null,
+      new Date()
+    );
     const response = await SqlHelper.insert(
       admin,
-      InventoryTable.TableName,
-      inventoryToInsert
+      InventoryTO.TableName,
+      inventoryTO.getTuple()
     );
     return response;
   }

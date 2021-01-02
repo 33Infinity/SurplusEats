@@ -24,16 +24,14 @@ const App: React.FC<User> = ({ setCurrentUser }) => {
   useEffect(() => {
     const unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
       setCurrentUser(
-        new ProfileModel(
+        ProfileModel.NewNonVendor(
           "",
           user?.email,
           "",
           user?.displayName,
           "",
           "",
-          true,
-          null,
-          null
+          true
         )
       );
     });
@@ -49,8 +47,8 @@ const App: React.FC<User> = ({ setCurrentUser }) => {
         <div>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/signin" component={SignIn} />     
-            <Route exact path="/Register" component={Register} />        
+            <Route exact path="/signin" component={SignIn} />
+            <Route exact path="/Register" component={Register} />
             <Route exact path="/profile" component={Profile} />
           </Switch>
           <Footer />

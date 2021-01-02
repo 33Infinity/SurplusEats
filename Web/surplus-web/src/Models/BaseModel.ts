@@ -2,7 +2,7 @@ export default class BaseModel {
   Id: string;
   CreatedDate: Date;
 
-  constructor(anId, aCreatedDate) {
+  protected constructor(anId, aCreatedDate) {
     this.Id = anId != null ? anId : BaseModel.newGuid();
     this.CreatedDate = aCreatedDate != null ? aCreatedDate : new Date();
   }

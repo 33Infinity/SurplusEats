@@ -7,7 +7,7 @@ export default class InventoryModel extends BaseModel {
   Quantity: number;
   ImageUrl: string;
   LocationModel: LocationModel;
-  constructor(
+  private constructor(
     aDescription,
     aPrice,
     aQuantity,

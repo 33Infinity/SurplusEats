@@ -8,7 +8,7 @@ export default class LocationModel extends BaseModel {
   Longitude: number;
   Address: string;
   PostalCode: string;
-  constructor(
+  private constructor(
     aVendorModel,
     aName,
     aLatitude,

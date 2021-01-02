@@ -7,7 +7,11 @@ export default class Location {
   static async getLocationsByVendor(admin, aVendorId) {
     const clauses: Clause[] = [];
     clauses.push(
-      Clause.NewClause(LocationTO.VendorId, Operators.equals, aVendorId)
+      Clause.NewClause(
+        LocationTO.ColumnNames.VendorId,
+        Operators.equals,
+        aVendorId
+      )
     );
     const response = await SqlHelper.getWithClauses(
       admin,

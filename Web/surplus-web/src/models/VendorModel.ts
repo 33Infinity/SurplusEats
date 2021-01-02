@@ -4,7 +4,7 @@ export default class VendorModel extends BaseModel {
   Name: string;
   ImageUrl: string;
   Description: string;
-  constructor(aName, anImageUrl, aDescription, anId, aCreatedDate) {
+  private constructor(aName, anImageUrl, aDescription, anId, aCreatedDate) {
     super(anId, aCreatedDate);
     this.Name = aName;
     this.ImageUrl = anImageUrl;

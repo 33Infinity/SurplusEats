@@ -8,7 +8,7 @@ export default class ProfileModel extends BaseModel {
   LastName: string;
   Vendor: Boolean;
   Authenticated: Boolean;
-  constructor(
+  private constructor(
     aUserName,
     anEmail,
     aPassword,

@@ -77,7 +77,7 @@ exports.getByVendorLocation = inventory_functions.https.onRequest(
   }
 );
 
-exports.addInventory = inventory_functions.https.onRequest(
+exports.add = inventory_functions.https.onRequest(
   async (request: any, response: any) => {
     return inventory_cors(request, response, async () => {
       const data = JSON.parse(request.body);

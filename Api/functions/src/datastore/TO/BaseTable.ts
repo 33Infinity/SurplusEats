@@ -9,6 +9,5 @@ export default abstract class BaseTable {
     this.Id = anId;
     this.CreatedDate = aCreatedDate != null ? aCreatedDate : new Date();
   }
-
   abstract getTuple();
 }

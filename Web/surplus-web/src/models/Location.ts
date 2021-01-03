@@ -1,7 +1,7 @@
-import BaseModel from "./BaseModel";
-import VendorModel from "./VendorModel";
+import BaseModel from "./Base";
+import VendorModel from "./Vendor";
 
-export default class LocationModel extends BaseModel {
+export default class Location extends BaseModel {
   VendorModel: VendorModel;
   Name: string;
   Latitude: number;
@@ -35,8 +35,8 @@ export default class LocationModel extends BaseModel {
     aPostalCode,
     anId,
     aCreatedDate
-  ): LocationModel {
-    return new LocationModel(
+  ): Location {
+    return new Location(
       aVendorModel,
       aName,
       aLatitude,

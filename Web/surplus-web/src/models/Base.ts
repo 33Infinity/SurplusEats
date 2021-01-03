@@ -1,9 +1,9 @@
-export default class BaseModel {
+export default class Base {
   Id: string;
   CreatedDate: Date;
 
   protected constructor(anId, aCreatedDate) {
-    this.Id = anId != null ? anId : BaseModel.newGuid();
+    this.Id = anId != null ? anId : Base.newGuid();
     this.CreatedDate = aCreatedDate != null ? aCreatedDate : new Date();
   }
 

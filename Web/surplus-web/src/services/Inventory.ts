@@ -1,7 +1,7 @@
 import InventoryRequest from "../requests/Inventory";
-import InventoryModel from "../models/InventoryModel";
-import LocationModel from "../models/LocationModel";
-import VendorModel from "../models/VendorModel";
+import InventoryModel from "../models/Inventory";
+import LocationModel from "../models/Location";
+import VendorModel from "../models/Vendor";
 export default class Inventory {
   async getByLocation(aLat, aLon): Promise<InventoryModel[] | null> {
     const request = new InventoryRequest();
@@ -25,16 +25,16 @@ export default class Inventory {
   }
 
   buildInventoryModels(someJson) {
-    let inventoryModels: InventoryModel[] = [];
+    const inventoryModels: InventoryModel[] = [];
     for (let i = 0; i < someJson.length; i++) {
-      let vendorModel = VendorModel.NewVendor(
+      const vendorModel = VendorModel.NewVendor(
         someJson[i].Location.Vendor.Name,
         someJson[i].Location.Vendor.Description,
         someJson[i].Location.Vendor.ImageUrl,
         someJson[i].Location.Vendor.Id,
         someJson[i].Location.Vendor.CreatedDate
       );
-      let locationModel = LocationModel.NewLocation(
+      const locationModel = LocationModel.NewLocation(
         vendorModel,
         someJson[i].Location.Name,
         someJson[i].Location.Latitude,
@@ -44,7 +44,7 @@ export default class Inventory {
         someJson[i].Location.Id,
         someJson[i].Location.CreatedDate
       );
-      let inventoryModel = InventoryModel.NewInventory(
+      const inventoryModel = InventoryModel.NewInventory(
         someJson[i].Description,
         someJson[i].Price,
         someJson[i].Quantity,

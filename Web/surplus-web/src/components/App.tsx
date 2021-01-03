@@ -8,12 +8,13 @@ import Home from "./Home";
 import Profile from "./Profile";
 import SignIn from "./SignIn";
 import Register from "./Register";
+import VendorInventory from "./VendorInventory";
 import Footer from "./Footer";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import { setCurrentUser } from "../redux/user/user.actions";
 import { useEffect } from "react";
-import ProfileModel from "../models/ProfileModel";
+import ProfileModel from "../models/Profile";
 import { auth } from "../firebase/firebase.utils";
 
 type User = {
@@ -47,9 +48,10 @@ const App: React.FC<User> = ({ setCurrentUser }) => {
         <div>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/signin" component={SignIn} />
+            <Route exact path="/Profile" component={Profile} />
+            <Route exact path="/Signin" component={SignIn} />
             <Route exact path="/Register" component={Register} />
-            <Route exact path="/profile" component={Profile} />
+            <Route exact path="/VendorInventory" component={VendorInventory} />
           </Switch>
           <Footer />
         </div>

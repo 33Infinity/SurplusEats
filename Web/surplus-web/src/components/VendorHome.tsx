@@ -1,22 +1,35 @@
-import React from "react";
-import VendorInventory from "./VendorInventory";
+import React, { useEffect, useState } from "react";
+import LocationService from "../services/Location";
+import LocationModel from "../models/Location";
+import VendorLocation from "./VendorLocation";
 
-const VendorHome: React.FC = () => {
+interface Props {
+  VendorId: string;
+}
+
+const VendorHome: React.FC<Props> = (props) => {
+  let locationService = new LocationService();
+  useEffect(() => {
+    locationService = new LocationService();
+    locationService.getByVendor(props.VendorId).then((response) => {
+      setLocations(response);
+    });
+  }, []);
+  const [locations, setLocations] = useState<Partial<LocationModel[] | null>>(
+    []
+  );
+
   return (
     <div>
-      <div className="container-fluid">
-        <h1>Test</h1>
-        <div className="row">
-          <div className="col-2"></div>
-          <div className="col-8">
-            <VendorInventory
-              VendorId="DF7RY2YtfFonTNIotj32"
-              LocationId="rFj5ZFeMvn32mlP48fXG"
-            />
-          </div>
-          <div className="col-2">Column3</div>
-        </div>
-      </div>
+      {locations &&
+        locations.length > 0 &&
+        locations.map(function (locationModel) {
+          return (
+            <div>
+              <VendorLocation LocationModel={locationModel} />
+            </div>
+          );
+        })}
     </div>
   );
 };

@@ -1,6 +1,6 @@
-import BaseModel from "./BaseModel";
+import BaseModel from "./Base";
 
-export default class ProfileModel extends BaseModel {
+export default class Profile extends BaseModel {
   UserName: string;
   Email: string;
   Password: string;
@@ -36,8 +36,8 @@ export default class ProfileModel extends BaseModel {
     aLastName,
     anId,
     aCreatedDate
-  ): ProfileModel {
-    return new ProfileModel(
+  ): Profile {
+    return new Profile(
       aUserName,
       anEmail,
       aPassword,

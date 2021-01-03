@@ -1,5 +1,5 @@
 import UserActionTypes from "./user.types";
-import ProfileModel from "../../models/ProfileModel";
+import ProfileModel from "../../models/Profile";
 
 export const setCurrentUser = (user) => ({
   type: UserActionTypes.SET_CURRENT_USER,

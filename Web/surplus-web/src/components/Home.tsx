@@ -8,7 +8,7 @@ const Home: React.FC = () => {
   return (
     <div>
       <Header />
-      {isVendor ? <VendorHome /> : <UserHome />}
+      {isVendor ? <VendorHome VendorId="DF7RY2YtfFonTNIotj32" /> : <UserHome />}
     </div>
   );
 };

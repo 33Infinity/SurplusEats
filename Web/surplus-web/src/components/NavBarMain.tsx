@@ -17,7 +17,7 @@ import MainMenu from "./MainMenu";
 import { ShoppingCart } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import ProfileModel from "../models/ProfileModel";
+import ProfileModel from "../models/Profile";
 import { selectCartItemsCount } from "../redux/cart/cart.selectors";
 
 const useStyles = makeStyles((theme: any) => ({
@@ -245,7 +245,7 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
             </IconButton>
           </div>
         </Toolbar>
-      </AppBar>      
+      </AppBar>
       {renderMobileMenu}
       {renderMenu}
     </div>

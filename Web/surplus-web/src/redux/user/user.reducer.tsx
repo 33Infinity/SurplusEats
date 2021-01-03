@@ -1,4 +1,4 @@
-import ProfileModel from "../../models/ProfileModel";
+import ProfileModel from "../../models/Profile";
 import UserActionTypes from "./user.types";
 
 const INITIAL_PROFILE = {

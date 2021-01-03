@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Grid, TextField, IconButton } from "@material-ui/core";
 import InventoryService from "../services/Inventory";
-import InventoryModel from "../models/InventoryModel";
-import LocationModel from "../models/LocationModel";
-import EditIcon from "@material-ui/icons/Edit";
+import InventoryModel from "../models/Inventory";
+import LocationModel from "../models/Location";
 import SaveIcon from "@material-ui/icons/Save";
 import ImageUpload from "./ImageUpload";
-import DefaultImage from "../images/InventoryBlank.png";
 import firebase from "../firebase/firebase.utils";
+import VendorInventoryItem from "./VendorInventoryItem";
 
 type NewInventoryState = {
   description: string;
@@ -91,91 +90,48 @@ const VendorInventory: React.FC<Props> = (props) => {
         inventory.map(function (inventoryItem) {
           return (
             <div>
-              <Grid container spacing={2}>
-                <Grid item xs={6} sm={1}>
-                  <img
-                    className="thumbnail"
-                    src={
-                      inventoryItem && inventoryItem.ImageUrl != ""
-                        ? inventoryItem.ImageUrl
-                        : DefaultImage
-                    }
-                  />
-                </Grid>
-                <Grid item xs={6} sm={8}>
-                  <TextField
-                    variant="outlined"
-                    fullWidth
-                    label="Description"
-                    value={inventoryItem && inventoryItem.Description}
-                  />
-                </Grid>
-                <Grid item xs={6} sm={1}>
-                  <TextField
-                    variant="outlined"
-                    fullWidth
-                    label="Quantity"
-                    value={inventoryItem && inventoryItem.Quantity}
-                  />
-                </Grid>
-                <Grid item xs={6} sm={1}>
-                  <TextField
-                    variant="outlined"
-                    fullWidth
-                    label="Price"
-                    disabled
-                    value={inventoryItem && inventoryItem.Price}
-                  />
-                </Grid>
-                <Grid item xs={6} sm={1}>
-                  <IconButton>
-                    <EditIcon />
-                  </IconButton>
-                </Grid>
-              </Grid>
+              <VendorInventoryItem InventoryModel={inventoryItem} />
             </div>
           );
         })}
       <div>
-        {
-          <Grid container spacing={2}>
-            <Grid item xs={6} sm={1}>
-              <ImageUpload onSelectedFile={addFile} />
-            </Grid>
-            <Grid item xs={6} sm={8}>
-              <TextField
-                variant="outlined"
-                fullWidth
-                name="description"
-                label="Description"
-                onChange={onNewInventoryUpdate}
-              />
-            </Grid>
-            <Grid item xs={6} sm={1}>
-              <TextField
-                variant="outlined"
-                fullWidth
-                label="Quantity"
-                onChange={onNewInventoryUpdate}
-                name="quantity"
-              />
-            </Grid>
-            <Grid item xs={6} sm={1}>
-              <TextField
-                variant="outlined"
-                fullWidth
-                label="Price"
-                onChange={onNewInventoryUpdate}
-                name="price"
-              />
-            </Grid>
-            <Grid item xs={6} sm={1}>
-              <IconButton onClick={() => addNewInventory()}>
-                <SaveIcon />
-              </IconButton>
-            </Grid>
+        <Grid container spacing={2}>
+          <Grid item xs={6} sm={1}>
+            <ImageUpload onSelectedFile={addFile} />
           </Grid>
-        }
+          <Grid item xs={6} sm={8}>
+            <TextField
+              variant="outlined"
+              fullWidth
+              name="description"
+              label="Description"
+              onChange={onNewInventoryUpdate}
+            />
+          </Grid>
+          <Grid item xs={6} sm={1}>
+            <TextField
+              variant="outlined"
+              fullWidth
+              label="Quantity"
+              onChange={onNewInventoryUpdate}
+              name="quantity"
+            />
+          </Grid>
+          <Grid item xs={6} sm={1}>
+            <TextField
+              variant="outlined"
+              fullWidth
+              label="Price"
+              onChange={onNewInventoryUpdate}
+              name="price"
+            />
+          </Grid>
+          <Grid item xs={6} sm={1}>
+            <IconButton onClick={() => addNewInventory()}>
+              <SaveIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
       </div>
     </div>
   );

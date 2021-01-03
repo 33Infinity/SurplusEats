@@ -1,4 +1,4 @@
-import { ErrorModel } from "../models/ErrorModel";
+import { Error } from "../models/Error";
 //import Axios from "./API";
 
 export default class BaseRequest {
@@ -8,7 +8,7 @@ export default class BaseRequest {
       const json = await response.json();
       return json;
     } catch (exception) {
-      return ErrorModel.NewError(exception);
+      return Error.NewError(exception);
     }
   }
 

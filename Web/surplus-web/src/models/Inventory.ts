@@ -1,7 +1,7 @@
-import BaseModel from "./BaseModel";
-import LocationModel from "./LocationModel";
+import BaseModel from "./Base";
+import LocationModel from "./Location";
 
-export default class InventoryModel extends BaseModel {
+export default class Inventory extends BaseModel {
   Description: string;
   Price: number;
   Quantity: number;
@@ -31,8 +31,8 @@ export default class InventoryModel extends BaseModel {
     aLocationModel,
     anId,
     aCreatedDate
-  ): InventoryModel {
-    return new InventoryModel(
+  ): Inventory {
+    return new Inventory(
       aDescription,
       aPrice,
       aQuantity,

@@ -1,6 +1,6 @@
-import BaseModel from "./BaseModel";
+import BaseModel from "./Base";
 
-export default class VendorModel extends BaseModel {
+export default class Vendor extends BaseModel {
   Name: string;
   ImageUrl: string;
   Description: string;
@@ -16,8 +16,8 @@ export default class VendorModel extends BaseModel {
     aDescription,
     anId,
     aCreatedDate
-  ): VendorModel {
-    return new VendorModel(aName, anImageUrl, aDescription, anId, aCreatedDate);
+  ): Vendor {
+    return new Vendor(aName, anImageUrl, aDescription, anId, aCreatedDate);
   }
 
   public static NewVendorFromJson(someJson) {

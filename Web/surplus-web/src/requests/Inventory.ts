@@ -4,7 +4,7 @@ import HttpMethods from "./HttpMethods";
 
 export default class Inventory extends BaseRequest {
   async getByLocation(aLat, aLon) {
-    const url = Endpoints.getByLocation;
+    const url = Endpoints.Inventory.getByLocation;
     const data = {
       Latitude: aLat,
       Longitude: aLon,
@@ -15,7 +15,7 @@ export default class Inventory extends BaseRequest {
   }
 
   async getByVendorLocation(aVendorId, aLocationId) {
-    let url = Endpoints.getByVendorLocation;
+    let url = Endpoints.Inventory.getByVendorLocation;
     const data = {
       VendorId: aVendorId,
       LocationId: aLocationId,
@@ -26,7 +26,7 @@ export default class Inventory extends BaseRequest {
   }
 
   async addInventory(anInventoryModel) {
-    let url = Endpoints.addInventory;
+    let url = Endpoints.Inventory.addInventory;
     const requestObject = this.buildRequestObject(
       HttpMethods.post,
       anInventoryModel

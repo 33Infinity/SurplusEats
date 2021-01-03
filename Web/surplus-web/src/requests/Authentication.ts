@@ -1,5 +1,5 @@
 import BaseRequest from "./BaseRequest";
-import ProfileModel from "../models/ProfileModel";
+import ProfileModel from "../models/Profile";
 
 export default class Authentication extends BaseRequest {
   async register(aUsername, anEmail, aPassword, aFirstName, aLastName) {

@@ -7,6 +7,8 @@ import SaveIcon from "@material-ui/icons/Save";
 import ImageUpload from "./ImageUpload";
 import firebase from "../firebase/firebase.utils";
 import VendorInventoryItem from "./VendorInventoryItem";
+import HttpHelper from "../utils/HttpHelper";
+import Header from "./Header";
 
 type NewInventoryState = {
   description: string;
@@ -15,12 +17,7 @@ type NewInventoryState = {
   imageUrl: string;
 };
 
-interface Props {
-  VendorId: string;
-  LocationId: string;
-}
-
-const VendorInventory: React.FC<Props> = (props) => {
+const VendorInventory: React.FC = () => {
   let inventoryService = new InventoryService();
   const [newInventory, setNewInventory] = useState<Partial<NewInventoryState>>({
     description: "",
@@ -38,9 +35,11 @@ const VendorInventory: React.FC<Props> = (props) => {
     });
   };
   useEffect(() => {
+    const vendorId = HttpHelper.getUrlParamValue("VendorId");
+    const locationId = HttpHelper.getUrlParamValue("LocationId");
     inventoryService = new InventoryService();
     inventoryService
-      .getByVendorLocation(props.VendorId, props.LocationId)
+      .getByVendorLocation(vendorId, locationId)
       .then((response) => {
         const locationModel =
           response != null ? response[0].LocationModel : null;
@@ -85,6 +84,7 @@ const VendorInventory: React.FC<Props> = (props) => {
 
   return (
     <div>
+      <Header />
       {inventory &&
         inventory.length > 0 &&
         inventory.map(function (inventoryItem) {

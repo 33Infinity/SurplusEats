@@ -12,11 +12,11 @@ export default class Location {
   buildLocationModels(someJson) {
     let locationModels: LocationModel[] = [];
     const vendorModel = VendorModel.NewVendor(
-      someJson.Vendor.Name,
-      someJson.Vendor.Description,
-      someJson.Vendor.ImageUrl,
-      someJson.Vendor.Id,
-      someJson.Vendor.CreatedDate
+      someJson.Vendor[0].Name,
+      someJson.Vendor[0].Description,
+      someJson.Vendor[0].ImageUrl,
+      someJson.Vendor[0].Id,
+      someJson.Vendor[0].CreatedDate
     );
     for (let i = 0; i < someJson.Locations.length; i++) {
       const locationModel = LocationModel.NewLocation(

@@ -17,7 +17,7 @@ exports.getByVendor = location_functions.https.onRequest(
       let retObj: IResponse = {};
       const data = JSON.parse(request.body);
       const vendorId = data.VendorId;
-      const vendors = await SqlHelper.getById(
+      const vendor = await SqlHelper.getById(
         location_admin,
         VendorTO.TableName,
         vendorId
@@ -27,7 +27,7 @@ exports.getByVendor = location_functions.https.onRequest(
         vendorId
       );
       retObj.Locations = locations;
-      retObj.Vendor = vendors;
+      retObj.Vendor = vendor;
       response.send(HttpHelper.buildResponse(retObj));
     });
   }

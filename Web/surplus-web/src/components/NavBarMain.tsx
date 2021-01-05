@@ -220,8 +220,13 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
                 <ShoppingCart />
               </Badge>
             </IconButton>
-            <nav>
-              <Link to="/profile" className="white-link">
+
+
+            
+              <Link 
+                to="/profile" 
+                className="white-link"               
+                >
                 <IconButton
                   aria-label="account of current user"
                   aria-controls="primary-search-account-menu"
@@ -231,7 +236,21 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
                   <AccountCircle />
                 </IconButton>
               </Link>
-            </nav>
+
+              <Menu
+                id="fade-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={false}
+                onClose={() => {}}                
+              >
+                <MenuItem onClick={() => {}}>Profile</MenuItem>
+                <MenuItem onClick={() => {}}>Log In</MenuItem>
+                <MenuItem onClick={() => {}}>Log Out</MenuItem>
+              </Menu>
+
+
+          
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

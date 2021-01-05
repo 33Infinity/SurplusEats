@@ -32,3 +32,13 @@ exports.getByVendor = location_functions.https.onRequest(
     });
   }
 );
+
+exports.addLocation = location_functions.https.onRequest(
+  async (request: any, response: any) => {
+    return location_cors(request, response, async () => {
+      const data = JSON.parse(request.body);
+      const resp = LocationDAO.addLocation(location_admin, data);
+      response.send(resp);
+    });
+  }
+);

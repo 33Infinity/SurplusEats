@@ -1,8 +1,6 @@
 import React from "react";
 import LocationModel from "../models/Location";
 import { Grid, TextField, IconButton } from "@material-ui/core";
-import SaveIcon from "@material-ui/icons/Save";
-import ArrowUpward from "@material-ui/icons/ArrowUpward";
 import { Link } from "react-router-dom";
 
 interface Props {

@@ -20,4 +20,23 @@ export default class Location {
     );
     return response;
   }
+
+  static async addLocation(admin, location) {
+    const locationTO = LocationTO.NewLocation(
+      location.VendorModel.Id,
+      location.Name,
+      location.Latitude,
+      location.Longitude,
+      location.Address,
+      location.PostalCode,
+      null,
+      new Date()
+    );
+    const response = await SqlHelper.insert(
+      admin,
+      LocationTO.TableName,
+      locationTO.getTuple()
+    );
+    return response;
+  }
 }

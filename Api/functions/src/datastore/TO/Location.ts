@@ -37,7 +37,7 @@ export default class Location extends BaseTable {
     this.PostalCode = aPostalCode;
   }
   public static NewLocation(
-    aVendorModel,
+    aVendorId,
     aName,
     aLatitude,
     aLongitude,
@@ -47,7 +47,7 @@ export default class Location extends BaseTable {
     aCreatedDate
   ): Location {
     return new Location(
-      aVendorModel,
+      aVendorId,
       aName,
       aLatitude,
       aLongitude,
@@ -57,5 +57,15 @@ export default class Location extends BaseTable {
       aCreatedDate
     );
   }
-  getTuple() {}
+  getTuple() {
+    return {
+      Name: this.Name,
+      Latitude: this.Latitude,
+      Longitude: this.Longitude,
+      Address: this.Address,
+      PostalCode: this.PostalCode,
+      VendorId: this.VendorId,
+      CreatedDate: this.CreatedDate,
+    };
+  }
 }

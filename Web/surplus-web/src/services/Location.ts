@@ -9,6 +9,12 @@ export default class Location {
     return this.buildLocationModels(json);
   }
 
+  async addLocation(aLocationModel) {
+    const request = new LocationRequest();
+    const json = await request.addLocation(aLocationModel);
+    return !json.HasError;
+  }
+
   buildLocationModels(someJson) {
     let locationModels: LocationModel[] = [];
     const vendorModel = VendorModel.NewVendor(

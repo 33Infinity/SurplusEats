@@ -56,6 +56,7 @@ export default class Inventory extends BaseTable {
       LocationId: this.LocationId,
       Price: this.Price,
       Quantity: this.Quantity,
+      CreatedDate: this.CreatedDate,
     };
   }
 }

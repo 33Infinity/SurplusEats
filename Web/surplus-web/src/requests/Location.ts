@@ -12,4 +12,14 @@ export default class Location extends BaseRequest {
     const json = await this.getJson(url, requestObject);
     return json;
   }
+
+  async addLocation(aLocationModel) {
+    let url = Endpoints.Location.addLocation;
+    const requestObject = this.buildRequestObject(
+      HttpMethods.post,
+      aLocationModel
+    );
+    const json = await this.getJson(url, requestObject);
+    return json;
+  }
 }

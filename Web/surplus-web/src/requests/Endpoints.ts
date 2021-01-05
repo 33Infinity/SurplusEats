@@ -11,6 +11,8 @@ export default class Endpoints {
   };
 
   static Location = class {
+    public static addLocation =
+      "http://localhost:6002/surplus-functions/us-central1/location-addLocation";
     public static getByVendor =
       "http://localhost:6002/surplus-functions/us-central1/location-getByVendor";
   };

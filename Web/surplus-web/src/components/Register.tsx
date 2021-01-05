@@ -10,12 +10,15 @@ import {
   FormControlLabel,
   Button,
   Avatar,
+  IconButton  
 } from "@material-ui/core";
+import CloseIcon from '@material-ui/icons/Close';
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import FormTextField from "../controls/FormTextField";
 import { auth } from '../firebase/firebase.utils';
 import Header from "./Header";
+import Snackbar from '@material-ui/core/Snackbar';
 
 type RegisterState = {
   email: string;
@@ -46,6 +49,9 @@ const useStyles = makeStyles((theme) =>
     submit: {
       margin: theme.spacing(3, 0, 2),
     },
+    error: {
+      backgroundColor: theme.palette.error.dark,
+    }
   })
 );
 
@@ -70,30 +76,60 @@ const Register: React.FC = () => {
   let validationForm: ValidatorForm = React.createRef();
   const history = useHistory();
   
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showError, setShowError] = useState(false);
+
   const onProfileUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.type === "checkbox" ? event.target.checked : event.target.value;
     setProfile({ ...profile, [event.target.name]: value });
   };
 
-  const onSignUp = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  const onSignUp = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    validationForm.current.isFormValid(false).then((isValid) => {     
-      return false;
-    });
-
-    try {
-      const { user } = await auth.createUserWithEmailAndPassword(profile.email!, profile.password!);
-      history.push("/#/home"); 
-    } catch(error) {
-      console.log(error);
-    }
+    validationForm.current.isFormValid(false).then(async (isValid) => {     
+      if(isValid) {
+        try {
+          await auth.createUserWithEmailAndPassword(profile.email!, profile.password!);
+          history.push("/#/home"); 
+        } catch(error) {
+          setErrorMessage(error.message);    
+          setShowError(true);
+        }
+      } else {
+        return false;
+      }
+    });    
   }
 
   const classes = useStyles();
   return (
     <div>
       <Header />
+      <Snackbar
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}          
+          ContentProps={{
+            classes: {
+              root: classes.error
+            }
+          }}
+          open={showError}          
+          onClose={() => setShowError(false)}          
+          message={errorMessage}
+          action={[            
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"              
+              onClick={() => setShowError(false)}
+            >
+              <CloseIcon />
+            </IconButton>,
+          ]}
+        />
       <div className="center">
         <Container component="main" maxWidth="xs">
           <div className={classes.paper}>

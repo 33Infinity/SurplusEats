@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from 'react-router-dom';
 import {
   makeStyles,
   createStyles,
@@ -9,12 +10,15 @@ import {
   FormControlLabel,
   Button,
   Avatar,
+  IconButton  
 } from "@material-ui/core";
+import CloseIcon from '@material-ui/icons/Close';
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import FormTextField from "../controls/FormTextField";
 import { auth } from '../firebase/firebase.utils';
 import Header from "./Header";
+import Snackbar from '@material-ui/core/Snackbar';
 
 type RegisterState = {
   email: string;
@@ -22,6 +26,8 @@ type RegisterState = {
   lastName: string;
   password: string;
   confirmPassword: string;
+  isVendor: boolean;
+  vendorName: string
 };
 
 const useStyles = makeStyles((theme) =>
@@ -43,6 +49,9 @@ const useStyles = makeStyles((theme) =>
     submit: {
       margin: theme.spacing(3, 0, 2),
     },
+    error: {
+      backgroundColor: theme.palette.error.dark,
+    }
   })
 );
 
@@ -53,6 +62,8 @@ const Register: React.FC = () => {
     lastName: "",
     password: "",
     confirmPassword: "",
+    isVendor: false,
+    vendorName: ""
   });
    
   ValidatorForm.addValidationRule('isPasswordMatch', (value) => {          
@@ -63,30 +74,62 @@ const Register: React.FC = () => {
   });  
 
   let validationForm: ValidatorForm = React.createRef();
+  const history = useHistory();
+  
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showError, setShowError] = useState(false);
 
   const onProfileUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setProfile({ ...profile, [event.target.name]: event.target.value });
+    const value = event.target.type === "checkbox" ? event.target.checked : event.target.value;
+    setProfile({ ...profile, [event.target.name]: value });
   };
 
-  const onSignUp = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  const onSignUp = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    validationForm.current.isFormValid(false).then((isValid) => {     
-      return false;
-    });
-
-    try {
-      const { user } = await auth.createUserWithEmailAndPassword(profile.email!, profile.password!);
-      setProfile({ ...profile, email: "", firstName: "", lastName: "", password: "", confirmPassword: "" });
-    } catch(error) {
-      console.log(error);
-    }
+    validationForm.current.isFormValid(false).then(async (isValid) => {     
+      if(isValid) {
+        try {
+          await auth.createUserWithEmailAndPassword(profile.email!, profile.password!);
+          history.push("/#/home"); 
+        } catch(error) {
+          setErrorMessage(error.message);    
+          setShowError(true);
+        }
+      } else {
+        return false;
+      }
+    });    
   }
 
   const classes = useStyles();
   return (
     <div>
       <Header />
+      <Snackbar
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}          
+          ContentProps={{
+            classes: {
+              root: classes.error
+            }
+          }}
+          open={showError}          
+          onClose={() => setShowError(false)}          
+          message={errorMessage}
+          action={[            
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"              
+              onClick={() => setShowError(false)}
+            >
+              <CloseIcon />
+            </IconButton>,
+          ]}
+        />
       <div className="center">
         <Container component="main" maxWidth="xs">
           <div className={classes.paper}>
@@ -122,7 +165,17 @@ const Register: React.FC = () => {
                     ]}
                     validators={["required"]}
                   />
-                </Grid>
+                </Grid>                
+                {profile.isVendor && 
+                  <Grid item xs={12} >
+                    <FormTextField
+                      label="Vendor Name"
+                      name="vendorName"
+                      value={profile.vendorName}
+                      onChange={onProfileUpdate} 
+                    />
+                  </Grid>
+                }
                 <Grid item xs={12}>
                   <FormTextField
                     label="Email Address"
@@ -161,12 +214,20 @@ const Register: React.FC = () => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <FormControlLabel
+                <FormControlLabel
                     control={
-                      <Checkbox value="allowExtraEmails" color="primary" />
+                      <Checkbox 
+                        value={profile.isVendor}                        
+                        name="isVendor"
+                        onChange={(event) => {
+                            profile.vendorName = "";
+                            onProfileUpdate(event)
+                          }
+                        }
+                        color="primary" />
                     }
-                    label="I want to receive notifications via email."
-                  />
+                    label="Vendor Account"
+                  />                  
                 </Grid>
               </Grid>
               <Button

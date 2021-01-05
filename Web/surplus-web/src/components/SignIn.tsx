@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from 'react-router-dom';
 import {
   makeStyles,
   createStyles,
@@ -8,7 +9,9 @@ import {
   Button,
   Avatar,
   Link,
+  IconButton  
 } from "@material-ui/core";
+import CloseIcon from '@material-ui/icons/Close';
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import FormTextField from "../controls/FormTextField";
@@ -46,6 +49,9 @@ const useStyles = makeStyles((theme) =>
     },
     submitGrid: {
       marginTop: "20px"
+    },
+    error: {
+      backgroundColor: theme.palette.error.dark,
     }
   })
 );
@@ -56,7 +62,11 @@ const SignIn: React.FC = () => {
     password: "",
   });
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showError, setShowError] = useState(false);
+
   let validationForm: ValidatorForm = React.createRef();
+  const history = useHistory();
 
   const onProfileUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
     setProfile({ ...profile, [event.target.name]: event.target.value });
@@ -65,22 +75,49 @@ const SignIn: React.FC = () => {
   const onSignIn = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();   
 
-    validationForm.current.isFormValid(false).then((isValid) => {     
-      return false;
-    });
-
-    try {
-        await auth.signInWithEmailAndPassword(profile.email!, profile.password!);
-        setProfile({ ...profile, email: "", password: ""});
-    } catch(error) {
-        console.log(error);
-    }
+    validationForm.current.isFormValid(false).then(async (isValid) => {     
+      if(isValid) {
+        try {
+          await auth.signInWithEmailAndPassword(profile.email!, profile.password!);        
+          history.push("/#/home"); 
+        } catch(error) {
+          setErrorMessage(error.message);    
+          setShowError(true);   
+        }
+      } else {
+        return false;
+      }
+    });  
   }
 
   const classes = useStyles();
   return (
     <div>
       <Header />
+      <Snackbar
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}          
+          ContentProps={{
+            classes: {
+              root: classes.error
+            }
+          }}
+          open={showError}          
+          onClose={() => setShowError(false)}          
+          message={errorMessage}
+          action={[            
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"              
+              onClick={() => setShowError(false)}
+            >
+              <CloseIcon />
+            </IconButton>,
+          ]}
+        />
       <div className="center">
         <Container component="main" maxWidth="xs">
           <div className={classes.paper}>

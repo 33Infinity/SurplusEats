@@ -1,0 +1,16 @@
+firebase emulators:start
+firebase emulators:start --inspect-functions 6000 //this will start debugger
+NOTE: Be in Api folder
+
+build:
+NOTE: Be in functions folder
+npm run-script build
+
+deploy:
+NOTE: Be in Api folder
+firebase deploy --only functions
+firebase functions:log will give detailed error
+
+kill emuluator:
+netstat -ano | findstr : 6002
+taskkill /PID <PID> /F

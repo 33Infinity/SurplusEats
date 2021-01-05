@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from 'react-router-dom';
 import {
   makeStyles,
   createStyles,
@@ -22,6 +23,8 @@ type RegisterState = {
   lastName: string;
   password: string;
   confirmPassword: string;
+  isVendor: boolean;
+  vendorName: string
 };
 
 const useStyles = makeStyles((theme) =>
@@ -53,6 +56,8 @@ const Register: React.FC = () => {
     lastName: "",
     password: "",
     confirmPassword: "",
+    isVendor: false,
+    vendorName: ""
   });
    
   ValidatorForm.addValidationRule('isPasswordMatch', (value) => {          
@@ -63,9 +68,11 @@ const Register: React.FC = () => {
   });  
 
   let validationForm: ValidatorForm = React.createRef();
-
+  const history = useHistory();
+  
   const onProfileUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setProfile({ ...profile, [event.target.name]: event.target.value });
+    const value = event.target.type === "checkbox" ? event.target.checked : event.target.value;
+    setProfile({ ...profile, [event.target.name]: value });
   };
 
   const onSignUp = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -77,7 +84,7 @@ const Register: React.FC = () => {
 
     try {
       const { user } = await auth.createUserWithEmailAndPassword(profile.email!, profile.password!);
-      setProfile({ ...profile, email: "", firstName: "", lastName: "", password: "", confirmPassword: "" });
+      history.push("/#/home"); 
     } catch(error) {
       console.log(error);
     }
@@ -122,7 +129,17 @@ const Register: React.FC = () => {
                     ]}
                     validators={["required"]}
                   />
-                </Grid>
+                </Grid>                
+                {profile.isVendor && 
+                  <Grid item xs={12} >
+                    <FormTextField
+                      label="Vendor Name"
+                      name="vendorName"
+                      value={profile.vendorName}
+                      onChange={onProfileUpdate} 
+                    />
+                  </Grid>
+                }
                 <Grid item xs={12}>
                   <FormTextField
                     label="Email Address"
@@ -161,12 +178,20 @@ const Register: React.FC = () => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <FormControlLabel
+                <FormControlLabel
                     control={
-                      <Checkbox value="allowExtraEmails" color="primary" />
+                      <Checkbox 
+                        value={profile.isVendor}                        
+                        name="isVendor"
+                        onChange={(event) => {
+                            profile.vendorName = "";
+                            onProfileUpdate(event)
+                          }
+                        }
+                        color="primary" />
                     }
-                    label="I want to receive notifications via email."
-                  />
+                    label="Vendor Account"
+                  />                  
                 </Grid>
               </Grid>
               <Button

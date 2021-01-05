@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from 'react-router-dom';
 import {
   makeStyles,
   createStyles,
@@ -57,6 +58,7 @@ const SignIn: React.FC = () => {
   });
 
   let validationForm: ValidatorForm = React.createRef();
+  const history = useHistory();
 
   const onProfileUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
     setProfile({ ...profile, [event.target.name]: event.target.value });
@@ -70,8 +72,8 @@ const SignIn: React.FC = () => {
     });
 
     try {
-        await auth.signInWithEmailAndPassword(profile.email!, profile.password!);
-        setProfile({ ...profile, email: "", password: ""});
+        await auth.signInWithEmailAndPassword(profile.email!, profile.password!);        
+        history.push("/#/home"); 
     } catch(error) {
         console.log(error);
     }

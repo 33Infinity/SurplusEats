@@ -18,10 +18,11 @@ import ProfileModel from "../models/Profile";
 import { auth } from "../firebase/firebase.utils";
 
 type User = {
+  currentUser: ProfileModel;
   setCurrentUser: (user: ProfileModel) => void;
 };
 
-const App: React.FC<User> = ({ setCurrentUser }) => {
+const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
   useEffect(() => {
     const unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
       setCurrentUser(
@@ -49,8 +50,10 @@ const App: React.FC<User> = ({ setCurrentUser }) => {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/Profile" component={Profile} />
-            <Route exact path="/Signin" component={SignIn} />
-            <Route exact path="/Register" component={Register} />
+            <Route exact path="/Signin"  render={() => 
+              currentUser.Authenticated ? <Home /> : <SignIn />} />
+            <Route exact path="/Register"  render={() => 
+              currentUser.Authenticated ? <Home /> : <Register />} />
             <Route exact path="/VendorInventory" component={VendorInventory} />
           </Switch>
           <Footer />
@@ -64,4 +67,8 @@ const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: (user) => dispatch(setCurrentUser(user)),
 });
 
-export default connect(null, mapDispatchToProps)(App);
+const mapStateToProps = (state) => ({
+  currentUser: state.user.currentUser  
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

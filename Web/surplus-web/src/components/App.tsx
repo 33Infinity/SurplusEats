@@ -50,7 +50,8 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
         <div>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/Profile" component={Profile} />
+            <Route exact path="/Profile" render={() => 
+              currentUser?.Authenticated ? <Profile /> : <SignIn />} />
             <Route exact path="/Signin"  render={() => 
               currentUser?.Authenticated ? <Home /> : <SignIn />} />
             <Route exact path="/Register"  render={() => 

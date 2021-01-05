@@ -35,7 +35,8 @@ export default class Profile extends BaseModel {
     aFirstName,
     aLastName,
     anId,
-    aCreatedDate
+    aCreatedDate,
+    aAuthenticated
   ): Profile {
     return new Profile(
       aUserName,
@@ -44,7 +45,7 @@ export default class Profile extends BaseModel {
       aFirstName,
       aLastName,
       null,
-      false,
+      aAuthenticated,
       anId,
       aCreatedDate
     );

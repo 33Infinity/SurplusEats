@@ -33,7 +33,8 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
           user?.displayName,
           "",
           "",
-          true
+          true,
+          user !== null ? true : false
         )
       );
     });
@@ -51,9 +52,9 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
             <Route exact path="/" component={Home} />
             <Route exact path="/Profile" component={Profile} />
             <Route exact path="/Signin"  render={() => 
-              currentUser.Authenticated ? <Home /> : <SignIn />} />
+              currentUser?.Authenticated ? <Home /> : <SignIn />} />
             <Route exact path="/Register"  render={() => 
-              currentUser.Authenticated ? <Home /> : <Register />} />
+              currentUser?.Authenticated ? <Home /> : <Register />} />
             <Route exact path="/VendorInventory" component={VendorInventory} />
           </Switch>
           <Footer />

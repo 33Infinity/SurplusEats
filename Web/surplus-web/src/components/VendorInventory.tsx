@@ -10,7 +10,7 @@ import firebase from "../firebase/firebase.utils";
 import VendorInventoryItem from "./VendorInventoryItem";
 import HttpHelper from "../utils/HttpHelper";
 import Header from "./Header";
-import { confirmYesNo } from "./Confirmation";
+import { confirmWithTwoButtons } from "./Confirmation";
 
 type NewInventoryState = {
   description: string;
@@ -96,7 +96,9 @@ const VendorInventory: React.FC = () => {
     }
   }
   async function deleteInventory(anInventoryId) {
-    confirmYesNo(
+    confirmWithTwoButtons(
+      "Yes",
+      "No",
       "Delete Confirmation",
       "Are you sure you want to delete this inventory item?",
       () => processDeleteConfirmation(anInventoryId),

@@ -1,7 +1,9 @@
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
-export async function confirmYesNo(
+export async function confirmWithTwoButtons(
+  aButtonConfirmLabel,
+  aButtonDenyLabel,
   aTitle,
   aMessage,
   aFunctionOnYes,
@@ -13,11 +15,11 @@ export async function confirmYesNo(
     message: aMessage,
     buttons: [
       {
-        label: "Yes",
+        label: aButtonConfirmLabel,
         onClick: () => aFunctionOnYes(),
       },
       {
-        label: "No",
+        label: aButtonDenyLabel,
         onClick: () => aFunctionOnNo,
       },
     ],

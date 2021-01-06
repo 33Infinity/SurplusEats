@@ -34,4 +34,14 @@ export default class Inventory extends BaseRequest {
     const json = await this.getJson(url, requestObject);
     return json;
   }
+
+  async deleteInventory(anInventoryId) {
+    let url = Endpoints.Inventory.deleteInventory;
+    const data = {
+      InventoryId: anInventoryId,
+    };
+    const requestObject = this.buildRequestObject(HttpMethods.post, data);
+    const json = await this.getJson(url, requestObject);
+    return json;
+  }
 }

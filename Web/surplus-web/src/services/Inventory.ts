@@ -24,6 +24,12 @@ export default class Inventory {
     return !json.HasError;
   }
 
+  async deleteInventory(anInventoryId) {
+    const request = new InventoryRequest();
+    const json = await request.deleteInventory(anInventoryId);
+    return !json.HasError;
+  }
+
   buildInventoryModels(someJson) {
     const inventoryModels: InventoryModel[] = [];
     for (let i = 0; i < someJson.length; i++) {

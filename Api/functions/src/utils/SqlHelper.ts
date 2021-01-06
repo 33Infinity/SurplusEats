@@ -43,6 +43,15 @@ export default class SqlHelper {
     return !response.HasError;
   }
 
+  static async delete(anAdmin, aTableName, anId) {
+    const response = await anAdmin
+      .firestore()
+      .collection(aTableName)
+      .doc(anId)
+      .delete();
+    return !response.HasError;
+  }
+
   static buildResponse(response) {
     return response.docs.map((doc) => {
       let ret = doc.data();

@@ -86,3 +86,14 @@ exports.add = inventory_functions.https.onRequest(
     });
   }
 );
+
+exports.delete = inventory_functions.https.onRequest(
+  async (request: any, response: any) => {
+    return inventory_cors(request, response, async () => {
+      const data = JSON.parse(request.body);
+      const inventoryId = data.InventoryId;
+      const resp = InventoryDAO.deleteInventory(inventory_admin, inventoryId);
+      response.send(resp);
+    });
+  }
+);

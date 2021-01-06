@@ -10,6 +10,7 @@ import firebase from "../firebase/firebase.utils";
 import VendorInventoryItem from "./VendorInventoryItem";
 import HttpHelper from "../utils/HttpHelper";
 import Header from "./Header";
+import { confirmYesNo } from "./Confirmation";
 
 type NewInventoryState = {
   description: string;
@@ -94,6 +95,19 @@ const VendorInventory: React.FC = () => {
       alert("Validation Failed");
     }
   }
+  async function deleteInventory(anInventoryId) {
+    confirmYesNo(
+      "Delete Confirmation",
+      "Are you sure you want to delete this inventory item?",
+      () => processDeleteConfirmation(anInventoryId),
+      null
+    );
+  }
+  async function processDeleteConfirmation(anInventoryId) {
+    inventoryService.deleteInventory(anInventoryId).then(() => {
+      getByVendorLocation();
+    });
+  }
   function validate() {
     return true;
   }
@@ -106,7 +120,10 @@ const VendorInventory: React.FC = () => {
         inventory.map(function (inventoryItem) {
           return (
             <div>
-              <VendorInventoryItem InventoryModel={inventoryItem} />
+              <VendorInventoryItem
+                InventoryModel={inventoryItem}
+                deleteInventory={deleteInventory}
+              />
             </div>
           );
         })}

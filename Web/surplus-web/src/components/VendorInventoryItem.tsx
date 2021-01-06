@@ -3,12 +3,17 @@ import { Grid, TextField, IconButton } from "@material-ui/core";
 import DefaultImage from "../images/InventoryBlank.png";
 import InventoryModel from "../models/Inventory";
 import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 interface Props {
   InventoryModel: InventoryModel | undefined;
+  deleteInventory(anInventoryId: string): any;
 }
 
 const VendorInventoryItem: React.FC<Props> = (props) => {
+  async function deleteInventory(anInventoryId) {
+    props.deleteInventory(anInventoryId);
+  }
   return (
     <div>
       <Grid container spacing={2}>
@@ -50,6 +55,13 @@ const VendorInventoryItem: React.FC<Props> = (props) => {
         <Grid item xs={6} sm={1}>
           <IconButton>
             <EditIcon />
+          </IconButton>
+          <IconButton
+            onClick={() =>
+              deleteInventory(props.InventoryModel && props.InventoryModel.Id)
+            }
+          >
+            <DeleteIcon />
           </IconButton>
         </Grid>
       </Grid>

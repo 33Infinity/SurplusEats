@@ -43,6 +43,15 @@ export default class Inventory {
     return response;
   }
 
+  static async deleteInventory(admin, anInventoryId) {
+    const response = await SqlHelper.delete(
+      admin,
+      InventoryTO.TableName,
+      anInventoryId
+    );
+    return response;
+  }
+
   static Normalize(someJson) {
     const inventory = someJson.Inventory;
     const locations = someJson.Locations;

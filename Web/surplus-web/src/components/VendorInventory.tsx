@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Grid, TextField, IconButton } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import InventoryService from "../services/Inventory";
 import InventoryModel from "../models/Inventory";
 import LocationModel from "../models/Location";
@@ -35,6 +36,21 @@ const VendorInventory: React.FC = () => {
     });
   };
   useEffect(() => {
+    getByVendorLocation();
+  }, []);
+  const [inventory, setInventory] = useState<Partial<InventoryModel[] | null>>(
+    []
+  );
+  function clearNewInventory() {
+    setNewInventory({
+      ...newInventory,
+      description: "",
+      price: "",
+      quantity: "",
+      imageUrl: "",
+    });
+  }
+  function getByVendorLocation() {
     const vendorId = HttpHelper.getUrlParamValue("VendorId");
     const locationId = HttpHelper.getUrlParamValue("LocationId");
     inventoryService = new InventoryService();
@@ -42,14 +58,13 @@ const VendorInventory: React.FC = () => {
       .getByVendorLocation(vendorId, locationId)
       .then((response) => {
         const locationModel =
-          response != null ? response[0].LocationModel : null;
+          response != null && response.length > 0
+            ? response[0].LocationModel
+            : null;
         setLocationModel(locationModel);
         setInventory(response);
       });
-  }, []);
-  const [inventory, setInventory] = useState<Partial<InventoryModel[] | null>>(
-    []
-  );
+  }
   async function addFile(aFile) {
     const storageRef = firebase.storage().ref();
     const fileRef = storageRef.child(aFile.name);
@@ -71,8 +86,9 @@ const VendorInventory: React.FC = () => {
         null,
         null
       );
-      inventoryService.addInventory(inventoryModel).then((response) => {
-        console.log(response);
+      inventoryService.addInventory(inventoryModel).then(() => {
+        getByVendorLocation();
+        clearNewInventory();
       });
     } else {
       alert("Validation Failed");
@@ -106,6 +122,7 @@ const VendorInventory: React.FC = () => {
               name="description"
               label="Description"
               onChange={onNewInventoryUpdate}
+              value={newInventory.description}
             />
           </Grid>
           <Grid item xs={6} sm={1}>
@@ -115,6 +132,7 @@ const VendorInventory: React.FC = () => {
               label="Quantity"
               onChange={onNewInventoryUpdate}
               name="quantity"
+              value={newInventory.quantity}
             />
           </Grid>
           <Grid item xs={6} sm={1}>
@@ -124,6 +142,7 @@ const VendorInventory: React.FC = () => {
               label="Price"
               onChange={onNewInventoryUpdate}
               name="price"
+              value={newInventory.price}
             />
           </Grid>
           <Grid item xs={6} sm={1}>
@@ -133,6 +152,7 @@ const VendorInventory: React.FC = () => {
           </Grid>
         </Grid>
       </div>
+      <Link to="/Home">Back To Locations</Link>
     </div>
   );
 };

@@ -21,12 +21,7 @@ type NewLocationState = {
 const VendorHome: React.FC<Props> = (props) => {
   let locationService = new LocationService();
   useEffect(() => {
-    locationService = new LocationService();
-    locationService.getByVendor(props.VendorId).then((response) => {
-      const vendorModel = response != null ? response[0].VendorModel : null;
-      setVendorModel(vendorModel);
-      setLocations(response);
-    });
+    getByVendor();
   }, []);
   const [vendorModel, setVendorModel] = useState<Partial<VendorModel | null>>();
   const [locations, setLocations] = useState<Partial<LocationModel[] | null>>(
@@ -39,6 +34,14 @@ const VendorHome: React.FC<Props> = (props) => {
     latitude: "",
     longitude: "",
   });
+  function getByVendor() {
+    locationService = new LocationService();
+    locationService.getByVendor(props.VendorId).then((response) => {
+      const vendorModel = response != null ? response[0].VendorModel : null;
+      setVendorModel(vendorModel);
+      setLocations(response);
+    });
+  }
   async function addNewLocation() {
     const locationModel = LocationModel.NewLocation(
       vendorModel,
@@ -50,8 +53,8 @@ const VendorHome: React.FC<Props> = (props) => {
       null,
       null
     );
-    locationService.addLocation(locationModel).then((response) => {
-      console.log(response);
+    locationService.addLocation(locationModel).then(() => {
+      getByVendor();
     });
   }
   const onNewLocationUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {

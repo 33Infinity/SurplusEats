@@ -50,12 +50,28 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
         <div>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/Profile" render={() => 
-              currentUser?.Authenticated ? <Profile /> : <SignIn />} />
-            <Route exact path="/Signin"  render={() => 
-              currentUser?.Authenticated ? <Home /> : <SignIn />} />
-            <Route exact path="/Register"  render={() => 
-              currentUser?.Authenticated ? <Home /> : <Register />} />
+            <Route exact path="/Home" component={Home} />
+            <Route
+              exact
+              path="/Profile"
+              render={() =>
+                currentUser?.Authenticated ? <Profile /> : <SignIn />
+              }
+            />
+            <Route
+              exact
+              path="/Signin"
+              render={() =>
+                currentUser?.Authenticated ? <Home /> : <SignIn />
+              }
+            />
+            <Route
+              exact
+              path="/Register"
+              render={() =>
+                currentUser?.Authenticated ? <Home /> : <Register />
+              }
+            />
             <Route exact path="/VendorInventory" component={VendorInventory} />
           </Switch>
           <Footer />
@@ -70,7 +86,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-  currentUser: state.user.currentUser  
+  currentUser: state.user.currentUser,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

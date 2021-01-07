@@ -137,7 +137,7 @@ const Register: React.FC = () => {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign up
+              Register Account
             </Typography>
             <ValidatorForm ref={validationForm} className={classes.form} debounceTime={1000}>
               <Grid container spacing={2}>
@@ -237,7 +237,7 @@ const Register: React.FC = () => {
                 className={classes.submit}
                 onClick={(event) => onSignUp(event)}
               >
-                Sign Up
+                Register
               </Button>
               <Grid container justify="flex-end"></Grid>
             </ValidatorForm>

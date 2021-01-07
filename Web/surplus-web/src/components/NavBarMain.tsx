@@ -240,7 +240,15 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
                 anchorEl={profileEl}
                 keepMounted
                 open={Boolean(profileEl)}
-                onClose={handleProfileClose}                
+                onClose={handleProfileClose}   
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'center',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'center',
+                }}             
               >                
                 {
                   currentUser?.Authenticated ? 

@@ -10,6 +10,7 @@ import GeoLocationHelper from "./utils/GeoLocationHelper";
 import HttpHelper from "./utils/HttpHelper";
 import LocationTO from "./datastore/TO/Location";
 import VendorTO from "./datastore/TO/Vendor";
+import InventoryTO from "./datastore/TO/Inventory";
 import IResponse from "./IResponse";
 import InventoryDAO from "./datastore/DAO/Inventory";
 import VendorDAO from "./datastore/DAO/Vendor";
@@ -31,7 +32,7 @@ exports.getByLocation = inventory_functions.https.onRequest(
         locations,
         10
       );
-      let inventory = await InventoryDAO.getInventoryByLocations(
+      let inventory = await InventoryDAO.getByLocations(
         inventory_admin,
         closestLocations
       );
@@ -64,7 +65,7 @@ exports.getByVendorLocation = inventory_functions.https.onRequest(
         LocationTO.TableName,
         locationId
       );
-      const inventory = await InventoryDAO.getInventoryByLocations(
+      const inventory = await InventoryDAO.getByLocations(
         inventory_admin,
         locations
       );
@@ -81,7 +82,30 @@ exports.add = inventory_functions.https.onRequest(
   async (request: any, response: any) => {
     return inventory_cors(request, response, async () => {
       const data = JSON.parse(request.body);
-      const resp = InventoryDAO.addInventory(inventory_admin, data);
+      const resp = InventoryDAO.add(inventory_admin, data);
+      response.send(resp);
+    });
+  }
+);
+
+exports.update = inventory_functions.https.onRequest(
+  async (request: any, response: any) => {
+    return inventory_cors(request, response, async () => {
+      const data = JSON.parse(request.body);
+      const inventoryTO = InventoryTO.NewInventory(
+        data.Description,
+        data.Price,
+        data.Quantity,
+        data.ImageUrl,
+        data.LocationModel.Id,
+        data.Id,
+        data.CreatedDate
+      );
+      const resp = InventoryDAO.update(
+        inventory_admin,
+        data.Id,
+        inventoryTO.getTuple()
+      );
       response.send(resp);
     });
   }
@@ -92,7 +116,7 @@ exports.delete = inventory_functions.https.onRequest(
     return inventory_cors(request, response, async () => {
       const data = JSON.parse(request.body);
       const inventoryId = data.InventoryId;
-      const resp = InventoryDAO.deleteInventory(inventory_admin, inventoryId);
+      const resp = InventoryDAO.delete(inventory_admin, inventoryId);
       response.send(resp);
     });
   }

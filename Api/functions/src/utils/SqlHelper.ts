@@ -34,12 +34,21 @@ export default class SqlHelper {
     return this.buildResponse(response);
   }
 
-  static async insert(anAdmin, aTableName, someKeyValuePairs) {
+  static async insert(anAdmin, aTableName, aTuple) {
     const response = await anAdmin
       .firestore()
       .collection(aTableName)
       .doc()
-      .set(someKeyValuePairs);
+      .set(aTuple);
+    return !response.HasError;
+  }
+
+  static async update(anAdmin, aTableName, aTuple, anId) {
+    const response = await anAdmin
+      .firestore()
+      .collection(aTableName)
+      .doc(anId)
+      .update(aTuple);
     return !response.HasError;
   }
 

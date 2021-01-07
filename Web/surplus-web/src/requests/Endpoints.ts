@@ -10,6 +10,8 @@ export default class Endpoints {
     public static getByVendorLocation =
       "http://localhost:6002/surplus-functions/us-central1/inventory-getByVendorLocation";
     //"https://us-central1-surplus-functions.cloudfunctions.net/inventory-getByVendor";
+    public static updateInventory =
+      "http://localhost:6002/surplus-functions/us-central1/inventory-update";
   };
 
   static Location = class {

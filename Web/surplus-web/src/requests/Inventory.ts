@@ -35,6 +35,16 @@ export default class Inventory extends BaseRequest {
     return json;
   }
 
+  async updateInventory(anInventoryModel) {
+    let url = Endpoints.Inventory.updateInventory;
+    const requestObject = this.buildRequestObject(
+      HttpMethods.post,
+      anInventoryModel
+    );
+    const json = await this.getJson(url, requestObject);
+    return json;
+  }
+
   async deleteInventory(anInventoryId) {
     let url = Endpoints.Inventory.deleteInventory;
     const data = {

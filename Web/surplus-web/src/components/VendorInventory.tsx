@@ -21,6 +21,7 @@ type NewInventoryState = {
 
 const VendorInventory: React.FC = () => {
   let inventoryService = new InventoryService();
+
   const [newInventory, setNewInventory] = useState<Partial<NewInventoryState>>({
     description: "",
     price: "",
@@ -42,6 +43,7 @@ const VendorInventory: React.FC = () => {
   const [inventory, setInventory] = useState<Partial<InventoryModel[] | null>>(
     []
   );
+
   function clearNewInventory() {
     setNewInventory({
       ...newInventory,
@@ -95,6 +97,11 @@ const VendorInventory: React.FC = () => {
       alert("Validation Failed");
     }
   }
+  async function updateInventory(anInventoryModel) {
+    inventoryService.updateInventory(anInventoryModel).then(() => {
+      getByVendorLocation();
+    });
+  }
   async function deleteInventory(anInventoryId) {
     confirmWithTwoButtons(
       "Yes",
@@ -124,6 +131,7 @@ const VendorInventory: React.FC = () => {
             <div>
               <VendorInventoryItem
                 InventoryModel={inventoryItem}
+                updateInventory={updateInventory}
                 deleteInventory={deleteInventory}
               />
             </div>

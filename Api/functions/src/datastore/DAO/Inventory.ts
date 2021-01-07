@@ -4,7 +4,7 @@ import SqlHelper from "../../utils/SqlHelper";
 import InventoryTO from "../TO/Inventory";
 
 export default class Inventory {
-  static async getInventoryByLocations(admin, someLocations): Promise<any> {
+  static async getByLocations(admin, someLocations): Promise<any> {
     const locationArray: string[] = [];
     someLocations.forEach((location) => {
       locationArray.push(location.Id);
@@ -25,7 +25,7 @@ export default class Inventory {
     return response;
   }
 
-  static async addInventory(admin, inventory) {
+  static async add(admin, inventory) {
     const inventoryTO = InventoryTO.NewInventory(
       inventory.Description,
       inventory.Price,
@@ -43,7 +43,17 @@ export default class Inventory {
     return response;
   }
 
-  static async deleteInventory(admin, anInventoryId) {
+  static async update(admin, anId, inventory) {
+    const response = await SqlHelper.update(
+      admin,
+      InventoryTO.TableName,
+      inventory,
+      anId
+    );
+    return response;
+  }
+
+  static async delete(admin, anInventoryId) {
     const response = await SqlHelper.delete(
       admin,
       InventoryTO.TableName,

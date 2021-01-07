@@ -24,6 +24,12 @@ export default class Inventory {
     return !json.HasError;
   }
 
+  async updateInventory(anInventoryModel) {
+    const request = new InventoryRequest();
+    const json = await request.updateInventory(anInventoryModel);
+    return !json.HasError;
+  }
+
   async deleteInventory(anInventoryId) {
     const request = new InventoryRequest();
     const json = await request.deleteInventory(anInventoryId);

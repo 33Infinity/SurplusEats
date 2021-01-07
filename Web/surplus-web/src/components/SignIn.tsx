@@ -174,16 +174,7 @@ const SignIn: React.FC = () => {
                 onClick={signInWithGoogle}
               >
                 Sign In with Google
-              </Button>
-              <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={() => auth.signOut()}
-              >
-                Sign Out
-              </Button>
+              </Button>           
               </Grid>
               <Grid container justify="flex-end"></Grid>
             </ValidatorForm>

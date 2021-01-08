@@ -39,4 +39,16 @@ export default class Location {
     );
     return response;
   }
+
+  static Normalize(someJson) {
+    const locations = someJson.Locations;
+    const vendors = someJson.Vendors;
+    return locations.map((locationItem) => {
+      const vendor = vendors.find(
+        (eachVendor) => eachVendor.Id === locationItem.VendorId
+      );
+      locationItem.Vendor = vendor;
+      return locationItem;
+    });
+  }
 }

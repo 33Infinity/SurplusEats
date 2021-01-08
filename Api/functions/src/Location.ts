@@ -10,6 +10,9 @@ import HttpHelper from "./utils/HttpHelper";
 import SqlHelper from "./utils/SqlHelper";
 import IResponse from "./IResponse";
 import VendorTO from "./datastore/TO/Vendor";
+import GeoLocationHelper from "./utils/GeoLocationHelper";
+import LocationTO from "./datastore/TO/Location";
+import VendorDAO from "./datastore/DAO/Vendor";
 
 exports.getByVendor = location_functions.https.onRequest(
   async (request: any, response: any) => {
@@ -27,7 +30,33 @@ exports.getByVendor = location_functions.https.onRequest(
         vendorId
       );
       retObj.Locations = locations;
-      retObj.Vendor = vendor;
+      retObj.Vendors = vendor;
+      retObj = LocationDAO.Normalize(retObj);
+      response.send(HttpHelper.buildResponse(retObj));
+    });
+  }
+);
+
+exports.getByLatLon = location_functions.https.onRequest(
+  async (request: any, response: any) => {
+    return location_cors(request, response, async () => {
+      let retObj: IResponse = {};
+      const data = JSON.parse(request.body);
+      const latitude = data.Latitude;
+      const longitude = data.Longitude;
+      let locations = await SqlHelper.get(location_admin, LocationTO.TableName);
+      const closestLocations = GeoLocationHelper.GetClosestNLocations(
+        latitude,
+        longitude,
+        locations,
+        10
+      );
+      retObj.Locations = closestLocations;
+      retObj.Vendors = await VendorDAO.getVendorByLocations(
+        location_admin,
+        closestLocations
+      );
+      retObj = LocationDAO.Normalize(retObj);
       response.send(HttpHelper.buildResponse(retObj));
     });
   }

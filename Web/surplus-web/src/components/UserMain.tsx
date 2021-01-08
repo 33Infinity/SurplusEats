@@ -1,31 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Grid, TextField } from "@material-ui/core";
-import InventoryService from "../services/Inventory";
+import LocationModel from "../models/Location";
 import InventoryModel from "../models/Inventory";
 
-const UserInventory: React.FC = () => {
-  const [inventory, setInventory] = useState<Partial<InventoryModel[] | null>>(
-    []
-  );
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const inventoryService = new InventoryService();
-        inventoryService
-          .getByLocation(position.coords.latitude, position.coords.longitude)
-          .then((response) => {
-            setInventory(response);
-          });
-      });
-    } else {
-      alert("GeoLocation not enabled");
-    }
-  }, []);
-  return (
+interface Props {
+  showInventory: boolean;
+  locations: (LocationModel | undefined)[] | null;
+  inventory: (InventoryModel | undefined)[] | null;
+}
+
+const UserMain: React.FC<Props> = (props) => {
+  const getInventory = (
     <div>
-      {inventory &&
-        inventory.length > 0 &&
-        inventory.map(function (inventoryItem) {
+      {props.inventory &&
+        props.inventory.length > 0 &&
+        props.inventory.map(function (inventoryItem) {
           return (
             <div>
               <Grid container spacing={2}>
@@ -60,6 +49,8 @@ const UserInventory: React.FC = () => {
       <div>No Results</div>
     </div>
   );
+  const getLocations = <div>Test</div>;
+  return <>{props.showInventory ? getInventory : getLocations}</>;
 };
 
-export default UserInventory;
+export default UserMain;

@@ -3,6 +3,17 @@ import Endpoints from "./Endpoints";
 import HttpMethods from "./HttpMethods";
 
 export default class Location extends BaseRequest {
+  async getByLatLon(aLat, aLon) {
+    const url = Endpoints.Location.getByLatLon;
+    const data = {
+      Latitude: aLat,
+      Longitude: aLon,
+    };
+    const requestObject = this.buildRequestObject(HttpMethods.post, data);
+    const json = await this.getJson(url, requestObject);
+    return json;
+  }
+
   async getByVendor(aVendorId) {
     const url = Endpoints.Location.getByVendor;
     const data = {

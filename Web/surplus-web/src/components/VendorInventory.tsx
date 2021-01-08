@@ -21,7 +21,6 @@ type NewInventoryState = {
 
 const VendorInventory: React.FC = () => {
   let inventoryService = new InventoryService();
-
   const [newInventory, setNewInventory] = useState<Partial<NewInventoryState>>({
     description: "",
     price: "",

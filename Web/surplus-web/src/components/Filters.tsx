@@ -4,7 +4,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
-import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -18,14 +17,18 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Filters: React.FC = () => {
+interface Props {
+  toggleViewBy(name: any): any;
+}
+
+const Filters: React.FC<Props> = ({ toggleViewBy }) => {
   const ITEM = "Item";
   const VENDOR = "Vendor";
   const classes = useStyles();
   const [viewBy, setViewBy] = React.useState(ITEM);
   const handleViewByChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setViewBy(event.target.value as string);
-    //TODO: Tell redux to rerender either vendor list or item list
+    toggleViewBy(event.target.value === ITEM ? true : false);
   };
   const [sortBy, setSortBy] = React.useState("");
   const handleSortByChange = (event: React.ChangeEvent<{ value: unknown }>) => {

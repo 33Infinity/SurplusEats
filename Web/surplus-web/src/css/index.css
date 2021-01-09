@@ -18,6 +18,10 @@ code {
   padding: 10px;
 }
 
+.leaflet-container {
+  height: 800px;
+}
+
 .thumbnail {
   height: 50px;
   width: 50px;

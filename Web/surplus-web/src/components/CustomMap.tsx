@@ -12,7 +12,7 @@ interface IMappingProperties {
 
 const CustomMap: React.FC<IMappingProperties> = (props) => {
   const centeredPosition: LatLngTuple = [
-    props.centerLatitude,
+    props.centerLatitude && props.centerLatitude,
     props.centerLongitude,
   ];
   const map = (

@@ -5,6 +5,8 @@ import InventoryService from "../services/Inventory";
 import LocationService from "../services/Location";
 import LocationModel from "../models/Location";
 import InventoryModel from "../models/Inventory";
+import CustomMap from "./CustomMap";
+import ArrayUtils from "../utils/ArrayUtils";
 
 const UserHome: React.FC = () => {
   const [locations, setLocations] = useState<Partial<LocationModel[] | null>>(
@@ -53,6 +55,7 @@ const UserHome: React.FC = () => {
       getLocationsByLatLon();
     }
   }
+
   return (
     <div>
       <div className="container-fluid">
@@ -61,14 +64,36 @@ const UserHome: React.FC = () => {
           <div className="col-2">
             <Filters toggleViewBy={toggleInventory} />
           </div>
-          <div className="col-8">
+          <div className="col-6">
             <UserMain
               showInventory={showInventory}
               locations={locations}
               inventory={inventory}
             />
           </div>
-          <div className="col-2">Column3</div>
+          <div className="col-4">
+            <div className="leaflet-container">
+              {locations != null &&
+                ArrayUtils.firstOrDefault(locations, "Latitude", 0) > 0 && (
+                  <CustomMap
+                    centerLatitude={ArrayUtils.firstOrDefault(
+                      locations,
+                      "Latitude",
+                      0
+                    )}
+                    centerLongitude={ArrayUtils.firstOrDefault(
+                      locations,
+                      "Longitude",
+                      0
+                    )}
+                    zoom={11}
+                    locationModels={
+                      locations != null ? locations : new LocationModel[0]()
+                    }
+                  />
+                )}
+            </div>
+          </div>
         </div>
       </div>
     </div>

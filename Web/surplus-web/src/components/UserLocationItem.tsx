@@ -10,7 +10,7 @@ const UserLocationItem: React.FC<Props> = (props) => {
   return (
     <div>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={2}>
+        <Grid item xs={12} sm={1}>
           <img
             src={
               props.locationItem &&
@@ -19,7 +19,7 @@ const UserLocationItem: React.FC<Props> = (props) => {
             }
           />
         </Grid>
-        <Grid item xs={12} sm={2}>
+        <Grid item xs={12} sm={4}>
           <TextField
             variant="outlined"
             fullWidth
@@ -27,7 +27,7 @@ const UserLocationItem: React.FC<Props> = (props) => {
             value={props.locationItem && props.locationItem.Name}
           />
         </Grid>
-        <Grid item xs={12} sm={8}>
+        <Grid item xs={12} sm={7}>
           <TextField
             variant="outlined"
             fullWidth

@@ -7,6 +7,10 @@ import LocationModel from "../models/Location";
 import InventoryModel from "../models/Inventory";
 import CustomMap from "./CustomMap";
 import ArrayUtils from "../utils/ArrayUtils";
+import CardButton from "./CardButton";
+import InventoryImage from "../images/Inventory.png";
+import VendorImage from "../images/Vendor.png";
+import { Grid } from "@material-ui/core";
 
 const UserHome: React.FC = () => {
   const [locations, setLocations] = useState<Partial<LocationModel[] | null>>(
@@ -58,44 +62,60 @@ const UserHome: React.FC = () => {
 
   return (
     <div>
-      <div className="container-fluid">
-        <h1>Test</h1>
-        <div className="row">
-          <div className="col-2">
-            <Filters toggleViewBy={toggleInventory} />
-          </div>
-          <div className="col-6">
+      <Grid container spacing={8} direction="row" style={{ padding: 20 }}>
+        <Grid item xs={12} sm={2}>
+          <h4>Filters</h4>
+          <Filters toggleViewBy={toggleInventory} />
+        </Grid>
+        <Grid item xs={12} sm={5}>
+          <Grid container spacing={2} direction="row">
+            <Grid item xs={6} sm={3}>
+              <CardButton
+                height={"100"}
+                text="View By Vendor"
+                imagePath={VendorImage}
+              />
+            </Grid>
+            <Grid item xs={6} sm={3}>
+              <CardButton
+                height={"100"}
+                text="View By Inventory"
+                imagePath={InventoryImage}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} direction="row" style={{ padding: 40 }}>
             <UserMain
               showInventory={showInventory}
               locations={locations}
               inventory={inventory}
             />
+          </Grid>
+        </Grid>
+        <Grid item xs={12} sm={5}>
+          <div className="leaflet-container">
+            {locations != null &&
+              ArrayUtils.firstOrDefault(locations, "Latitude", 0) > 0 && (
+                <CustomMap
+                  centerLatitude={ArrayUtils.firstOrDefault(
+                    locations,
+                    "Latitude",
+                    0
+                  )}
+                  centerLongitude={ArrayUtils.firstOrDefault(
+                    locations,
+                    "Longitude",
+                    0
+                  )}
+                  zoom={11}
+                  locationModels={
+                    locations != null ? locations : new LocationModel[0]()
+                  }
+                />
+              )}
           </div>
-          <div className="col-4">
-            <div className="leaflet-container">
-              {locations != null &&
-                ArrayUtils.firstOrDefault(locations, "Latitude", 0) > 0 && (
-                  <CustomMap
-                    centerLatitude={ArrayUtils.firstOrDefault(
-                      locations,
-                      "Latitude",
-                      0
-                    )}
-                    centerLongitude={ArrayUtils.firstOrDefault(
-                      locations,
-                      "Longitude",
-                      0
-                    )}
-                    zoom={11}
-                    locationModels={
-                      locations != null ? locations : new LocationModel[0]()
-                    }
-                  />
-                )}
-            </div>
-          </div>
-        </div>
-      </div>
+        </Grid>
+      </Grid>
     </div>
   );
 };

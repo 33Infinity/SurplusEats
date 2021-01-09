@@ -1,6 +1,8 @@
 import React from "react";
-import { Grid, TextField } from "@material-ui/core";
+import DefaultImage from "../images/InventoryBlank.png";
 import LocationModel from "../models/Location";
+import MediaCard from "./MediaCard";
+import StringUtils from "../utils/StringUtils";
 
 interface Props {
   locationItem: LocationModel | undefined;
@@ -8,38 +10,22 @@ interface Props {
 
 const UserLocationItem: React.FC<Props> = (props) => {
   return (
-    <div>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={1}>
-          <img
-            src={
-              props.locationItem &&
-              props.locationItem.VendorModel &&
-              props.locationItem.VendorModel.ImageUrl
-            }
-          />
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <TextField
-            variant="outlined"
-            fullWidth
-            label="Name"
-            value={props.locationItem && props.locationItem.Name}
-          />
-        </Grid>
-        <Grid item xs={12} sm={7}>
-          <TextField
-            variant="outlined"
-            fullWidth
-            label="Description"
-            value={
-              props.locationItem &&
-              props.locationItem.VendorModel &&
-              props.locationItem.VendorModel.Description
-            }
-          />
-        </Grid>
-      </Grid>
+    <div style={{ padding: 10 }}>
+      <MediaCard
+        title={props.locationItem && props.locationItem.Name}
+        text={
+          props.locationItem &&
+          props.locationItem.VendorModel &&
+          props.locationItem.VendorModel.Description
+        }
+        imageUrl={StringUtils.valueOrDefault(
+          props.locationItem &&
+            props.locationItem.VendorModel &&
+            props.locationItem.VendorModel.ImageUrl &&
+            props.locationItem.VendorModel.ImageUrl,
+          DefaultImage
+        )}
+      />
     </div>
   );
 };

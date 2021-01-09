@@ -21,6 +21,18 @@ export default class Location {
     return !json.HasError;
   }
 
+  async updateLocation(aLocationModel) {
+    const request = new LocationRequest();
+    const json = await request.updateLocation(aLocationModel);
+    return !json.HasError;
+  }
+
+  async deleteLocation(aLocationId) {
+    const request = new LocationRequest();
+    const json = await request.deleteLocation(aLocationId);
+    return !json.HasError;
+  }
+
   buildLocationModels(someJson) {
     let locationModels: LocationModel[] = [];
     for (let i = 0; i < someJson.length; i++) {

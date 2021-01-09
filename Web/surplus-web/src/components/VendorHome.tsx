@@ -5,6 +5,7 @@ import VendorModel from "../models/Vendor";
 import VendorLocation from "./VendorLocation";
 import { Grid, TextField, IconButton } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
+import { confirmWithTwoButtons } from "./Confirmation";
 
 interface Props {
   VendorId: string;
@@ -63,6 +64,26 @@ const VendorHome: React.FC<Props> = (props) => {
       [event.target.name]: event.target.value,
     });
   };
+  async function updateLocation(aLocationModel) {
+    locationService.updateLocation(aLocationModel).then(() => {
+      getByVendor();
+    });
+  }
+  async function deleteLocation(aLocationId) {
+    confirmWithTwoButtons(
+      "Yes",
+      "No",
+      "Delete Confirmation",
+      "Are you sure you want to delete this location?",
+      () => processDeleteConfirmation(aLocationId),
+      null
+    );
+  }
+  async function processDeleteConfirmation(aLocationId) {
+    locationService.deleteLocation(aLocationId).then(() => {
+      getByVendor();
+    });
+  }
   return (
     <div>
       {locations &&
@@ -70,12 +91,17 @@ const VendorHome: React.FC<Props> = (props) => {
         locations.map(function (locationModel) {
           return (
             <div>
-              <VendorLocation LocationModel={locationModel} />
+              <VendorLocation
+                LocationModel={locationModel}
+                updateLocation={updateLocation}
+                deleteLocation={deleteLocation}
+              />
             </div>
           );
         })}
       <Grid container spacing={2}>
-        <Grid item xs={6} sm={4}>
+        <Grid item xs={6} sm={1}></Grid>
+        <Grid item xs={6} sm={3}>
           <TextField
             variant="outlined"
             fullWidth

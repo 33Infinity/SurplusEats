@@ -16,10 +16,14 @@ export default class Endpoints {
 
   static Location = class {
     public static addLocation =
-      "http://localhost:6002/surplus-functions/us-central1/location-addLocation";
+      "http://localhost:6002/surplus-functions/us-central1/location-add";
+    public static deleteLocation =
+      "http://localhost:6002/surplus-functions/us-central1/location-delete";
     public static getByLatLon =
       "http://localhost:6002/surplus-functions/us-central1/location-getByLatLon";
     public static getByVendor =
       "http://localhost:6002/surplus-functions/us-central1/location-getByVendor";
+    public static updateLocation =
+      "http://localhost:6002/surplus-functions/us-central1/location-update";
   };
 }

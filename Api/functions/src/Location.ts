@@ -62,11 +62,46 @@ exports.getByLatLon = location_functions.https.onRequest(
   }
 );
 
-exports.addLocation = location_functions.https.onRequest(
+exports.add = location_functions.https.onRequest(
   async (request: any, response: any) => {
     return location_cors(request, response, async () => {
       const data = JSON.parse(request.body);
-      const resp = LocationDAO.addLocation(location_admin, data);
+      const resp = LocationDAO.add(location_admin, data);
+      response.send(resp);
+    });
+  }
+);
+
+exports.update = location_functions.https.onRequest(
+  async (request: any, response: any) => {
+    return location_cors(request, response, async () => {
+      const data = JSON.parse(request.body);
+      const locationTO = LocationTO.NewLocation(
+        data.VendorModel.Id,
+        data.Name,
+        data.Latitude,
+        data.Longitude,
+        data.Address,
+        data.PostalCode,
+        data.Id,
+        data.CreatedDate
+      );
+      const resp = LocationDAO.update(
+        location_admin,
+        data.Id,
+        locationTO.getTuple()
+      );
+      response.send(resp);
+    });
+  }
+);
+
+exports.delete = location_functions.https.onRequest(
+  async (request: any, response: any) => {
+    return location_cors(request, response, async () => {
+      const data = JSON.parse(request.body);
+      const locationId = data.LocationId;
+      const resp = LocationDAO.delete(location_admin, locationId);
       response.send(resp);
     });
   }

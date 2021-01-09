@@ -21,7 +21,7 @@ export default class Location {
     return response;
   }
 
-  static async addLocation(admin, location) {
+  static async add(admin, location) {
     const locationTO = LocationTO.NewLocation(
       location.VendorModel.Id,
       location.Name,
@@ -36,6 +36,25 @@ export default class Location {
       admin,
       LocationTO.TableName,
       locationTO.getTuple()
+    );
+    return response;
+  }
+
+  static async update(admin, anId, location) {
+    const response = await SqlHelper.update(
+      admin,
+      LocationTO.TableName,
+      location,
+      anId
+    );
+    return response;
+  }
+
+  static async delete(admin, aLocationId) {
+    const response = await SqlHelper.delete(
+      admin,
+      LocationTO.TableName,
+      aLocationId
     );
     return response;
   }

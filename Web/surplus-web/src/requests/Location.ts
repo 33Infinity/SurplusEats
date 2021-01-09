@@ -33,4 +33,24 @@ export default class Location extends BaseRequest {
     const json = await this.getJson(url, requestObject);
     return json;
   }
+
+  async updateLocation(aLocationModel) {
+    let url = Endpoints.Location.updateLocation;
+    const requestObject = this.buildRequestObject(
+      HttpMethods.post,
+      aLocationModel
+    );
+    const json = await this.getJson(url, requestObject);
+    return json;
+  }
+
+  async deleteLocation(aLocationId) {
+    let url = Endpoints.Location.deleteLocation;
+    const data = {
+      LocationId: aLocationId,
+    };
+    const requestObject = this.buildRequestObject(HttpMethods.post, data);
+    const json = await this.getJson(url, requestObject);
+    return json;
+  }
 }

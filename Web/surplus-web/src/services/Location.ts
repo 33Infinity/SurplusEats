@@ -27,8 +27,8 @@ export default class Location {
       const locationModel = LocationModel.NewLocation(
         VendorModel.NewVendor(
           someJson[i].Vendor.Name,
-          someJson[i].Vendor.Description,
           someJson[i].Vendor.ImageUrl,
+          someJson[i].Vendor.Description,
           someJson[i].Vendor.Id,
           someJson[i].Vendor.CreatedDate
         ),

@@ -25,7 +25,7 @@ const Filters: React.FC<Props> = ({ toggleViewBy }) => {
   const ITEM = "Item";
   const VENDOR = "Vendor";
   const classes = useStyles();
-  const [viewBy, setViewBy] = React.useState(ITEM);
+  const [viewBy, setViewBy] = React.useState(VENDOR);
   const handleViewByChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setViewBy(event.target.value as string);
     toggleViewBy(event.target.value === ITEM ? true : false);
@@ -33,7 +33,6 @@ const Filters: React.FC<Props> = ({ toggleViewBy }) => {
   const [sortBy, setSortBy] = React.useState("");
   const handleSortByChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setSortBy(event.target.value as string);
-    //TODO: Tell redux to rerender how items are sorted
   };
 
   function GetItemSortBySelect() {
@@ -63,8 +62,8 @@ const Filters: React.FC<Props> = ({ toggleViewBy }) => {
       <FormControl className={classes.formControl}>
         <InputLabel>View By</InputLabel>
         <Select value={viewBy} onChange={handleViewByChange}>
-          <MenuItem value={ITEM}>{ITEM}</MenuItem>
           <MenuItem value={VENDOR}>{VENDOR}</MenuItem>
+          <MenuItem value={ITEM}>{ITEM}</MenuItem>
         </Select>
       </FormControl>
       <FormControl className={classes.formControl}>

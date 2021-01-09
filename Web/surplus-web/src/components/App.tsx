@@ -10,7 +10,12 @@ import SignIn from "./SignIn";
 import Register from "./Register";
 import VendorInventory from "./VendorInventory";
 import Footer from "./Footer";
-import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  HashRouter as Router,
+  Route,
+  Switch,
+  BrowserRouter,
+} from "react-router-dom";
 import { connect } from "react-redux";
 import { setCurrentUser } from "../redux/user/user.actions";
 import { useEffect } from "react";
@@ -46,7 +51,7 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
 
   return (
     <SessionContext.Provider value={CurrentSession}>
-      <Router>
+      <BrowserRouter>
         <div>
           <Switch>
             <Route exact path="/" component={Home} />
@@ -76,7 +81,7 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
           </Switch>
           <Footer />
         </div>
-      </Router>
+      </BrowserRouter>
     </SessionContext.Provider>
   );
 };

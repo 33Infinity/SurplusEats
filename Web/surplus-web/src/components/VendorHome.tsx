@@ -86,6 +86,7 @@ const VendorHome: React.FC<Props> = (props) => {
   }
   return (
     <div>
+      <img src={vendorModel?.ImageUrl}></img>
       {locations &&
         locations.length > 0 &&
         locations.map(function (locationModel) {

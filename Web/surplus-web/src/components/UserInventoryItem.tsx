@@ -1,6 +1,8 @@
 import React from "react";
-import { Grid, TextField } from "@material-ui/core";
+import MediaCard from "./MediaCard";
 import InventoryModel from "../models/Inventory";
+import DefaultImage from "../images/InventoryBlank.png";
+import StringUtils from "../utils/StringUtils";
 
 interface Props {
   inventoryItem: (InventoryModel | undefined) | null;
@@ -9,32 +11,20 @@ interface Props {
 const UserInventoryItem: React.FC<Props> = (props) => {
   return (
     <div>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={4}>
-          <TextField
-            variant="outlined"
-            fullWidth
-            label="Description"
-            value={props.inventoryItem && props.inventoryItem.Description}
-          />
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <TextField
-            variant="outlined"
-            fullWidth
-            label="Quantity"
-            value={props.inventoryItem && props.inventoryItem.Quantity}
-          />
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <TextField
-            variant="outlined"
-            fullWidth
-            label="price"
-            value={props.inventoryItem && props.inventoryItem.Price}
-          />
-        </Grid>
-      </Grid>
+      <MediaCard
+        title={"Name Of Inventory Item"}
+        text={StringUtils.valueOrDefault(
+          props.inventoryItem && props.inventoryItem.Description,
+          "No description provided"
+        )}
+        imageUrl={StringUtils.valueOrDefault(
+          props.inventoryItem &&
+            props.inventoryItem.LocationModel &&
+            props.inventoryItem.LocationModel.VendorModel &&
+            props.inventoryItem.LocationModel.VendorModel.ImageUrl,
+          DefaultImage
+        )}
+      />
     </div>
   );
 };

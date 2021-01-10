@@ -41,8 +41,8 @@ export default class Inventory {
     for (let i = 0; i < someJson.length; i++) {
       const vendorModel = VendorModel.NewVendor(
         someJson[i].Location.Vendor.Name,
-        someJson[i].Location.Vendor.Description,
         someJson[i].Location.Vendor.ImageUrl,
+        someJson[i].Location.Vendor.Description,
         someJson[i].Location.Vendor.Id,
         someJson[i].Location.Vendor.CreatedDate
       );

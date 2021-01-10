@@ -11,14 +11,42 @@ import CardButton from "./CardButton";
 import InventoryImage from "../images/Inventory.png";
 import VendorImage from "../images/Vendor.png";
 import { Grid } from "@material-ui/core";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+  })
+);
 
 const UserHome: React.FC = () => {
+  const ITEM = "Item";
+  const VENDOR = "Vendor";
+  const PRICE = "Price";
+  const DISTANCE = "Distance";
+  const NAME = "Name";
+  const classes = useStyles();
+  const [viewBy, setViewBy] = React.useState(VENDOR);
   const [locations, setLocations] = useState<Partial<LocationModel[] | null>>(
     []
   );
   const [inventory, setInventory] = useState<Partial<InventoryModel[] | null>>(
     []
   );
+  const [sortBy, setSortBy] = React.useState(DISTANCE);
+  const handleSortByChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setSortBy(event.target.value as string);
+  };
   useEffect(() => {
     getLocationsByLatLon();
   }, []);
@@ -51,13 +79,32 @@ const UserHome: React.FC = () => {
       alert("GeoLocation not enabled");
     }
   }
-  function toggleInventory(aValue) {
-    setShowInventory(aValue);
-    if (aValue) {
-      getInventoryByLocation();
-    } else {
-      getLocationsByLatLon();
-    }
+  function GetItemSortBySelect() {
+    return (
+      <Select value={sortBy} onChange={handleSortByChange}>
+        <MenuItem value={PRICE}>{PRICE}</MenuItem>
+        <MenuItem value={NAME}>{NAME}</MenuItem>
+      </Select>
+    );
+  }
+  function GetVendorSortBySelect() {
+    return (
+      <Select value={sortBy} onChange={handleSortByChange}>
+        <MenuItem value={DISTANCE}>{DISTANCE}</MenuItem>
+        <MenuItem value={NAME}>{NAME}</MenuItem>
+      </Select>
+    );
+  }
+  function setShowInventoryTrue() {
+    setViewBy(ITEM);
+    setSortBy(PRICE);
+    setShowInventory(true);
+    getInventoryByLocation();
+  }
+  function setShowInventoryFalse() {
+    setViewBy(VENDOR);
+    setShowInventory(false);
+    getLocationsByLatLon();
   }
 
   return (
@@ -65,7 +112,7 @@ const UserHome: React.FC = () => {
       <Grid container spacing={8} direction="row" style={{ padding: 20 }}>
         <Grid item xs={12} sm={2}>
           <h4>Filters</h4>
-          <Filters toggleViewBy={toggleInventory} />
+          <Filters viewBy={viewBy} />
         </Grid>
         <Grid item xs={12} sm={5}>
           <Grid container spacing={2} direction="row">
@@ -74,6 +121,7 @@ const UserHome: React.FC = () => {
                 height={"100"}
                 text="View By Vendor"
                 imagePath={VendorImage}
+                handleClickEvent={setShowInventoryFalse}
               />
             </Grid>
             <Grid item xs={6} sm={3}>
@@ -81,7 +129,17 @@ const UserHome: React.FC = () => {
                 height={"100"}
                 text="View By Inventory"
                 imagePath={InventoryImage}
+                handleClickEvent={setShowInventoryTrue}
               />
+            </Grid>
+            <Grid item xs={6} sm={4}></Grid>
+            <Grid item xs={6} sm={2}>
+              <FormControl className={classes.formControl}>
+                <InputLabel>Sort By</InputLabel>
+                {viewBy == ITEM
+                  ? GetItemSortBySelect()
+                  : GetVendorSortBySelect()}
+              </FormControl>
             </Grid>
           </Grid>
           <Grid container spacing={2} direction="row" style={{ padding: 40 }}>

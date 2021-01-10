@@ -16,12 +16,13 @@ interface Props {
   imagePath: string;
   height: string;
   text: string;
+  handleClickEvent(): any;
 }
 
 const CardButton: React.FC<Props> = (props) => {
   const classes = useStyles();
   function onClick() {
-    alert("clicked");
+    props.handleClickEvent();
   }
   return (
     <Card className={classes.root}>

@@ -17,7 +17,6 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import FormTextField from "../controls/FormTextField";
 import { auth } from "../firebase/firebase.utils";
-import Header from "./Header";
 import Snackbar from "@material-ui/core/Snackbar";
 import ProfileModel from "../models/Profile";
 import AuthenticationService from "../services/Authentication";

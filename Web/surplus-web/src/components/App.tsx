@@ -22,13 +22,15 @@ import { useEffect } from "react";
 import ProfileModel from "../models/Profile";
 import { auth } from "../firebase/firebase.utils";
 import Header from "./Header";
+import Loading from "./Loading";
 
 type User = {
   currentUser: ProfileModel;
   setCurrentUser: (user: ProfileModel) => void;
+  isLoading: boolean
 };
 
-const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
+const App: React.FC<User> = ({ currentUser, setCurrentUser, isLoading }) => {
   useEffect(() => {
     const unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
       setCurrentUser(
@@ -55,6 +57,10 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
       <BrowserRouter>
         <div>
         <Header />
+
+        {isLoading ? <Loading />
+          :
+
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/Home" component={Home} />
@@ -81,6 +87,8 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
             />
             <Route exact path="/VendorInventory" component={VendorInventory} />
           </Switch>
+        }
+
           <Footer />
         </div>
       </BrowserRouter>
@@ -94,6 +102,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
   currentUser: state.user.currentUser,
+  isLoading: state.loading.isLoading,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

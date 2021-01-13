@@ -95,8 +95,7 @@ const SignIn: React.FC = () => {
 
   const classes = useStyles();
   return (
-    <div>
-      <Header />
+    <div>     
       <Snackbar
         anchorOrigin={{
           vertical: "top",

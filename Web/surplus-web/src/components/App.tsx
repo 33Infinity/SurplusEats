@@ -21,6 +21,7 @@ import { setCurrentUser } from "../redux/user/user.actions";
 import { useEffect } from "react";
 import ProfileModel from "../models/Profile";
 import { auth } from "../firebase/firebase.utils";
+import Header from "./Header";
 
 type User = {
   currentUser: ProfileModel;
@@ -50,9 +51,10 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
   }, []);
 
   return (
-    <SessionContext.Provider value={CurrentSession}>
+    <SessionContext.Provider value={CurrentSession}>     
       <BrowserRouter>
         <div>
+        <Header />
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/Home" component={Home} />

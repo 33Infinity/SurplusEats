@@ -1,24 +1,24 @@
 import React, { useState } from "react";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import {
   makeStyles,
   createStyles,
   Container,
   Typography,
-  Grid,   
+  Grid,
   Button,
   Avatar,
   Link,
-  IconButton  
+  IconButton,
 } from "@material-ui/core";
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from "@material-ui/icons/Close";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import FormTextField from "../controls/FormTextField";
-import { signInWithGoogle } from '../firebase/firebase.utils';
-import { auth } from '../firebase/firebase.utils';
+import { signInWithGoogle } from "../firebase/firebase.utils";
+import { auth } from "../firebase/firebase.utils";
 import Header from "./Header";
-import Snackbar from '@material-ui/core/Snackbar';
+import Snackbar from "@material-ui/core/Snackbar";
 
 type RegisterState = {
   email: string;
@@ -48,11 +48,11 @@ const useStyles = makeStyles((theme) =>
       margin: theme.spacing(1, 0, 0),
     },
     submitGrid: {
-      marginTop: "20px"
+      marginTop: "20px",
     },
     error: {
       backgroundColor: theme.palette.error.dark,
-    }
+    },
   })
 );
 
@@ -73,51 +73,54 @@ const SignIn: React.FC = () => {
   };
 
   const onSignIn = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();   
+    event.preventDefault();
 
-    validationForm.current.isFormValid(false).then(async (isValid) => {     
-      if(isValid) {
+    validationForm.current.isFormValid(false).then(async (isValid) => {
+      if (isValid) {
         try {
-          await auth.signInWithEmailAndPassword(profile.email!, profile.password!);        
-          history.push("/#/home"); 
-        } catch(error) {
-          setErrorMessage(error.message);    
-          setShowError(true);   
+          await auth.signInWithEmailAndPassword(
+            profile.email!,
+            profile.password!
+          );
+          history.push("/#/home");
+        } catch (error) {
+          setErrorMessage(error.message);
+          setShowError(true);
         }
       } else {
         return false;
       }
-    });  
-  }
+    });
+  };
 
   const classes = useStyles();
   return (
     <div>
       <Header />
       <Snackbar
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}          
-          ContentProps={{
-            classes: {
-              root: classes.error
-            }
-          }}
-          open={showError}          
-          onClose={() => setShowError(false)}          
-          message={errorMessage}
-          action={[            
-            <IconButton
-              key="close"
-              aria-label="Close"
-              color="inherit"              
-              onClick={() => setShowError(false)}
-            >
-              <CloseIcon />
-            </IconButton>,
-          ]}
-        />
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        ContentProps={{
+          classes: {
+            root: classes.error,
+          },
+        }}
+        open={showError}
+        onClose={() => setShowError(false)}
+        message={errorMessage}
+        action={[
+          <IconButton
+            key="close"
+            aria-label="Close"
+            color="inherit"
+            onClick={() => setShowError(false)}
+          >
+            <CloseIcon />
+          </IconButton>,
+        ]}
+      />
       <div className="center">
         <Container component="main" maxWidth="xs">
           <div className={classes.paper}>
@@ -127,7 +130,11 @@ const SignIn: React.FC = () => {
             <Typography component="h1" variant="h5">
               Sign In
             </Typography>
-            <ValidatorForm ref={validationForm} className={classes.form} debounceTime={1000}>
+            <ValidatorForm
+              ref={validationForm}
+              className={classes.form}
+              debounceTime={1000}
+            >
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <FormTextField
@@ -150,35 +157,33 @@ const SignIn: React.FC = () => {
                     validators={["required"]}
                     value={profile.password}
                     onChange={onProfileUpdate}
-                    errorMessages={[
-                      "this field is required"                      
-                    ]}
+                    errorMessages={["this field is required"]}
                   />
                 </Grid>
               </Grid>
               <Grid className={classes.submitGrid}>
-              <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={(event) => onSignIn(event)}
-              >
-                Sign In
-              </Button>
-              <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={signInWithGoogle}
-              >
-                Sign In with Google
-              </Button>           
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={(event) => onSignIn(event)}
+                >
+                  Sign In
+                </Button>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={signInWithGoogle}
+                >
+                  Sign In with Google
+                </Button>
               </Grid>
               <Grid container justify="flex-end"></Grid>
             </ValidatorForm>
-            <Link href="#/register">Register new account</Link>
+            <Link href="register">Register new account</Link>
           </div>
         </Container>
       </div>

@@ -11,7 +11,16 @@ export const authenticateCurrentUserAsync = () => {
     setTimeout(() => {
       dispatch(
         setCurrentUser(
-          ProfileModel.NewNonVendor("", "", "", "Aaron", "Flores", "", true, false)
+          ProfileModel.NewProfile(
+            "",
+            "",
+            "",
+            "Aaron",
+            "Flores",
+            "",
+            true,
+            false
+          )
         )
       );
     }, 7000);

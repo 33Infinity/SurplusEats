@@ -31,7 +31,7 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
   useEffect(() => {
     const unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
       setCurrentUser(
-        ProfileModel.NewNonVendor(
+        ProfileModel.NewProfile(
           "",
           user?.email,
           "",
@@ -60,21 +60,21 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
               exact
               path="/Profile"
               render={() =>
-                currentUser?.Authenticated ? <Profile /> : <SignIn />
+                currentUser?.IsAuthenticated ? <Profile /> : <SignIn />
               }
             />
             <Route
               exact
               path="/Signin"
               render={() =>
-                currentUser?.Authenticated ? <Home /> : <SignIn />
+                currentUser?.IsAuthenticated ? <Home /> : <SignIn />
               }
             />
             <Route
               exact
               path="/Register"
               render={() =>
-                currentUser?.Authenticated ? <Home /> : <Register />
+                currentUser?.IsAuthenticated ? <Home /> : <Register />
               }
             />
             <Route exact path="/VendorInventory" component={VendorInventory} />

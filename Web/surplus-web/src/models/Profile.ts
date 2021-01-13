@@ -1,15 +1,13 @@
 import BaseModel from "./Base";
 
 export default class Profile extends BaseModel {
-  UserName: string;
   Email: string;
   Password: string;
   FirstName: string;
   LastName: string;
-  Vendor: Boolean;
-  Authenticated: Boolean;
+  IsVendor: Boolean;
+  IsAuthenticated: Boolean;
   private constructor(
-    aUserName,
     anEmail,
     aPassword,
     aFirstName,
@@ -20,32 +18,30 @@ export default class Profile extends BaseModel {
     aCreatedDate
   ) {
     super(anId, aCreatedDate);
-    this.UserName = aUserName;
     this.Email = anEmail;
     this.Password = aPassword;
     this.FirstName = aFirstName;
     this.LastName = aLastName;
-    this.Vendor = aVendor;
-    this.Authenticated = isAuthenticated;
+    this.IsVendor = aVendor;
+    this.IsAuthenticated = isAuthenticated;
   }
-  public static NewNonVendor(
-    aUserName,
+  public static NewProfile(
     anEmail,
     aPassword,
     aFirstName,
     aLastName,
+    isVendor,
     anId,
     aCreatedDate,
-    aAuthenticated
+    isAuthenticated
   ): Profile {
     return new Profile(
-      aUserName,
       anEmail,
       aPassword,
       aFirstName,
       aLastName,
-      null,
-      aAuthenticated,
+      isVendor,
+      isAuthenticated,
       anId,
       aCreatedDate
     );

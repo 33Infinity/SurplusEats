@@ -19,7 +19,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import ProfileModel from "../models/Profile";
 import { selectCartItemsCount } from "../redux/cart/cart.selectors";
-import { auth } from '../firebase/firebase.utils';
+import { auth } from "../firebase/firebase.utils";
 
 const useStyles = makeStyles((theme: any) => ({
   grow: {
@@ -225,7 +225,7 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
               <Badge badgeContent={cartItemCount} color="secondary">
                 <ShoppingCart />
               </Badge>
-            </IconButton> 
+            </IconButton>
             <IconButton
               aria-label="account of current user"
               aria-controls="primary-search-account-menu"
@@ -233,45 +233,38 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
               color="inherit"
               onClick={handleProfileClick}
             >
-            <AccountCircle />
+              <AccountCircle />
             </IconButton>
-              <Menu
-                id="fade-menu"
-                anchorEl={profileEl}
-                keepMounted
-                open={Boolean(profileEl)}
-                onClose={handleProfileClose}   
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'center',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'center',
-                }}             
-              >                
-                {
-                  currentUser?.Authenticated ? 
-                  <>
-                    <MenuItem onClick={handleProfileClose}>
-                      <Link 
-                        to="/profile"                                    
-                      >Profile</Link>
-                    </MenuItem>
-                    <MenuItem onClick={() => auth.signOut()}>                    
-                      <Link 
-                        to="/home"                                    
-                      >Log out</Link>                   
-                    </MenuItem> 
-                  </> 
-                  :  
-                    <MenuItem onClick={handleProfileClose}>
-                      <Link 
-                        to="/signin"                                    
-                      >Sign in</Link>
-                    </MenuItem>
-                }                
-              </Menu>          
+            <Menu
+              id="fade-menu"
+              anchorEl={profileEl}
+              keepMounted
+              open={Boolean(profileEl)}
+              onClose={handleProfileClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "center",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "center",
+              }}
+            >
+              {currentUser?.IsAuthenticated ? (
+                <>
+                  <MenuItem onClick={handleProfileClose}>
+                    <Link to="/profile">Profile</Link>
+                  </MenuItem>
+                  <MenuItem onClick={() => auth.signOut()}>
+                    <Link to="/home">Log out</Link>
+                  </MenuItem>
+                </>
+              ) : (
+                <MenuItem onClick={handleProfileClose}>
+                  <Link to="/signin">Sign in</Link>
+                </MenuItem>
+              )}
+            </Menu>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

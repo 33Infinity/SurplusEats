@@ -27,7 +27,7 @@ import Loading from "./Loading";
 type User = {
   currentUser: ProfileModel;
   setCurrentUser: (user: ProfileModel) => void;
-  isLoading: boolean
+  isLoading: boolean;
 };
 
 const App: React.FC<User> = ({ currentUser, setCurrentUser, isLoading }) => {
@@ -53,41 +53,51 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser, isLoading }) => {
   }, []);
 
   return (
-    <SessionContext.Provider value={CurrentSession}>     
+    <SessionContext.Provider value={CurrentSession}>
       <BrowserRouter>
         <div>
-        <Header />
+          <Header />
 
-        {isLoading ? <Loading />
-          :
-
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/Home" component={Home} />
-            <Route
-              exact
-              path="/Profile"
-              render={() =>
-                currentUser?.IsAuthenticated ? <Profile /> : <SignIn />
-              }
-            />
-            <Route
-              exact
-              path="/Signin"
-              render={() =>
-                currentUser?.IsAuthenticated ? <Home /> : <SignIn />
-              }
-            />
-            <Route
-              exact
-              path="/Register"
-              render={() =>
-                currentUser?.IsAuthenticated ? <Home /> : <Register />
-              }
-            />
-            <Route exact path="/VendorInventory" component={VendorInventory} />
-          </Switch>
-        }
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={() =>
+                  currentUser?.IsAuthenticated ? <Home /> : <SignIn />
+                }
+              />
+              <Route exact path="/Home" component={Home} />
+              <Route
+                exact
+                path="/Profile"
+                render={() =>
+                  currentUser?.IsAuthenticated ? <Profile /> : <SignIn />
+                }
+              />
+              <Route
+                exact
+                path="/Signin"
+                render={() =>
+                  currentUser?.IsAuthenticated ? <Home /> : <SignIn />
+                }
+              />
+              <Route
+                exact
+                path="/Register"
+                render={() =>
+                  currentUser?.IsAuthenticated ? <Home /> : <Register />
+                }
+              />
+              <Route
+                exact
+                path="/VendorInventory"
+                component={VendorInventory}
+              />
+            </Switch>
+          )}
 
           <Footer />
         </div>

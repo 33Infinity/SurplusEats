@@ -1,10 +1,11 @@
 import ProfileModel from "../models/Profile";
+import VendorModel from "../models/Vendor";
 import AuthenticationRequest from "../requests/Authentication";
 
 export default class Authentication {
-  async register(aProfileModel): Promise<ProfileModel> {
+  async register(aProfileModel, aVendorModel): Promise<ProfileModel> {
     const request = new AuthenticationRequest();
-    const json = await request.register(aProfileModel);
+    const json = await request.register(aProfileModel, aVendorModel);
     return this.buildProfileModel(json);
   }
 

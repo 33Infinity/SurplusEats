@@ -32,7 +32,6 @@ export const ImageUpload: React.FunctionComponent<Props> = ({
   const classes = useStyles();
   const [selectedFile, setSelectedFile] = React.useState("");
   const handleCapture = ({ target }: any) => {
-    const c = target.files[0];
     setSelectedFile(target.files[0]);
   };
 

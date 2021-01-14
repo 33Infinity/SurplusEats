@@ -51,7 +51,7 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
   }, []);
 
   return (
-    <SessionContext.Provider value={CurrentSession}>     
+    <SessionContext.Provider value={CurrentSession}>
       <BrowserRouter>
         <div>
         <Header />       

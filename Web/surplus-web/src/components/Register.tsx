@@ -19,6 +19,7 @@ import FormTextField from "../controls/FormTextField";
 import { auth } from "../firebase/firebase.utils";
 import Snackbar from "@material-ui/core/Snackbar";
 import ProfileModel from "../models/Profile";
+import VendorModel from "../models/Vendor";
 import AuthenticationService from "../services/Authentication";
 
 type RegisterState = {
@@ -105,7 +106,21 @@ const Register: React.FC = () => {
             new Date(),
             false
           );
-          newProfile = await authenticationService.register(newProfile);
+          let newVendor;
+          if (profile.isVendor) {
+            newVendor = VendorModel.NewVendor(
+              profile.vendorName,
+              null,
+              null,
+              null,
+              new Date()
+            );
+          }
+          console.log(newVendor);
+          newProfile = await authenticationService.register(
+            newProfile,
+            newVendor
+          );
           if (newProfile.IsAuthenticated) {
             await auth.createUserWithEmailAndPassword(
               profile.email!,
@@ -125,7 +140,7 @@ const Register: React.FC = () => {
 
   const classes = useStyles();
   return (
-    <div>     
+    <div>
       <Snackbar
         anchorOrigin={{
           vertical: "top",

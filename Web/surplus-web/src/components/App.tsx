@@ -22,15 +22,13 @@ import { useEffect } from "react";
 import ProfileModel from "../models/Profile";
 import { auth } from "../firebase/firebase.utils";
 import Header from "./Header";
-import Loading from "./Loading";
 
 type User = {
   currentUser: ProfileModel;
-  setCurrentUser: (user: ProfileModel) => void;
-  isLoading: boolean
+  setCurrentUser: (user: ProfileModel) => void
 };
 
-const App: React.FC<User> = ({ currentUser, setCurrentUser, isLoading }) => {
+const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
   useEffect(() => {
     const unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
       setCurrentUser(
@@ -56,11 +54,7 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser, isLoading }) => {
     <SessionContext.Provider value={CurrentSession}>     
       <BrowserRouter>
         <div>
-        <Header />
-
-        {isLoading ? <Loading />
-          :
-
+        <Header />       
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/Home" component={Home} />
@@ -86,9 +80,7 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser, isLoading }) => {
               }
             />
             <Route exact path="/VendorInventory" component={VendorInventory} />
-          </Switch>
-        }
-
+          </Switch> 
           <Footer />
         </div>
       </BrowserRouter>
@@ -101,8 +93,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-  currentUser: state.user.currentUser,
-  isLoading: state.loading.isLoading,
+  currentUser: state.user.currentUser
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

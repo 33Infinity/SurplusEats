@@ -17,8 +17,8 @@ import { ValidatorForm } from "react-material-ui-form-validator";
 import FormTextField from "../controls/FormTextField";
 import { signInWithGoogle } from "../firebase/firebase.utils";
 import { auth } from "../firebase/firebase.utils";
-import Header from "./Header";
 import Snackbar from "@material-ui/core/Snackbar";
+import BackDrop from './Backdrop';
 
 type RegisterState = {
   email: string;
@@ -62,6 +62,7 @@ const SignIn: React.FC = () => {
     password: "",
   });
 
+  const [isLoading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [showError, setShowError] = useState(false);
 
@@ -74,7 +75,7 @@ const SignIn: React.FC = () => {
 
   const onSignIn = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-
+    let valid = true;
     validationForm.current.isFormValid(false).then(async (isValid) => {
       if (isValid) {
         try {
@@ -88,14 +89,18 @@ const SignIn: React.FC = () => {
           setShowError(true);
         }
       } else {
-        return false;
+        valid = false;
       }
     });
+
+    setLoading(false);
+    return valid;
   };
 
   const classes = useStyles();
   return (
-    <div>     
+    <div>
+      <BackDrop isLoading={isLoading} />
       <Snackbar
         anchorOrigin={{
           vertical: "top",
@@ -166,7 +171,9 @@ const SignIn: React.FC = () => {
                   variant="contained"
                   color="primary"
                   className={classes.submit}
-                  onClick={(event) => onSignIn(event)}
+                  onClick={(event) => {
+                    setLoading(true)
+                    onSignIn(event)}}
                 >
                   Sign In
                 </Button>
@@ -186,8 +193,7 @@ const SignIn: React.FC = () => {
           </div>
         </Container>
       </div>
-    </div>
-  );
+    </div>)  
 };
 
 export default SignIn;

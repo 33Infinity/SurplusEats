@@ -30,7 +30,7 @@ exports.register = authentication_functions.https.onRequest(
           response.status(500).send(error);
           return;
         }
-        if (vendorName !== null) {
+        if (vendorName != null) {
           const vendor = await VendorDAO.getByName(
             authentication_admin,
             vendorName
@@ -78,6 +78,7 @@ exports.signIn = authentication_functions.https.onRequest(
         response.status(500).send(error);
         return;
       }
+      profile.IsAuthenticated = true;
       response.send(profile);
     });
   }

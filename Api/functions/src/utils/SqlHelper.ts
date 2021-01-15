@@ -62,6 +62,7 @@ export default class SqlHelper {
   }
 
   static buildResponse(response) {
+    if (response.docs.length === 0) return null;
     return response.docs.map((doc) => {
       let ret = doc.data();
       ret.Id = doc.id;

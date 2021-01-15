@@ -1,7 +1,7 @@
 import Clause from "../Clause";
 import Operators from "../Operators";
 import SqlHelper from "../../utils/SqlHelper";
-import InventoryTO from "../TO/Inventory";
+import InventoryTO from "../to/Inventory";
 
 export default class Inventory {
   static async getByLocations(admin, someLocations): Promise<any> {

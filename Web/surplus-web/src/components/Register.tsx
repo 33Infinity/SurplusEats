@@ -20,7 +20,9 @@ import { auth } from "../firebase/firebase.utils";
 import Snackbar from "@material-ui/core/Snackbar";
 import ProfileModel from "../models/Profile";
 import VendorModel from "../models/Vendor";
+import ErrorModel from "../models/Error";
 import AuthenticationService from "../services/Authentication";
+import Error from "../models/Error";
 
 type RegisterState = {
   email: string;
@@ -117,16 +119,25 @@ const Register: React.FC = () => {
             );
           }
           console.log(newVendor);
-          newProfile = await authenticationService.register(
+          const registeredProfile = await authenticationService.register(
             newProfile,
             newVendor
           );
-          if (newProfile.IsAuthenticated) {
-            await auth.createUserWithEmailAndPassword(
-              profile.email!,
-              profile.password!
-            );
-            history.push("home");
+          if (registeredProfile instanceof ErrorModel) {
+            const err = registeredProfile as ErrorModel;
+            setErrorMessage(err.ErrorMessage);
+            setShowError(true);
+          } else {
+            if (registeredProfile.IsAuthenticated) {
+              await auth.createUserWithEmailAndPassword(
+                profile.email!,
+                profile.password!
+              );
+              history.push("home");
+            } else {
+              setErrorMessage("Unable to register");
+              setShowError(true);
+            }
           }
         } catch (error) {
           setErrorMessage(error.message);

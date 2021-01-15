@@ -8,12 +8,12 @@ const inventory_cors = require("cors")({
 import SqlHelper from "./utils/SqlHelper";
 import GeoLocationHelper from "./utils/GeoLocationHelper";
 import HttpHelper from "./utils/HttpHelper";
-import LocationTO from "./datastore/TO/Location";
-import VendorTO from "./datastore/TO/Vendor";
-import InventoryTO from "./datastore/TO/Inventory";
+import LocationTO from "./datastore/to/Location";
+import VendorTO from "./datastore/to/Vendor";
+import InventoryTO from "./datastore/to/Inventory";
 import IResponse from "./IResponse";
-import InventoryDAO from "./datastore/DAO/Inventory";
-import VendorDAO from "./datastore/DAO/Vendor";
+import InventoryDAO from "./datastore/dao/Inventory";
+import VendorDAO from "./datastore/dao/Vendor";
 
 exports.getByLocation = inventory_functions.https.onRequest(
   async (request: any, response: any) => {

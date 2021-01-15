@@ -5,14 +5,14 @@ const location_admin = require("firebase-admin");
 const location_cors = require("cors")({
   origin: true,
 });
-import LocationDAO from "./datastore/DAO/Location";
+import LocationDAO from "./datastore/dao/Location";
 import HttpHelper from "./utils/HttpHelper";
 import SqlHelper from "./utils/SqlHelper";
 import IResponse from "./IResponse";
-import VendorTO from "./datastore/TO/Vendor";
+import VendorTO from "./datastore/to/Vendor";
 import GeoLocationHelper from "./utils/GeoLocationHelper";
-import LocationTO from "./datastore/TO/Location";
-import VendorDAO from "./datastore/DAO/Vendor";
+import LocationTO from "./datastore/to/Location";
+import VendorDAO from "./datastore/dao/Vendor";
 
 exports.getByVendor = location_functions.https.onRequest(
   async (request: any, response: any) => {

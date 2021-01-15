@@ -1,4 +1,4 @@
-export class Error {
+export default class Error {
   private constructor(aMessage) {
     this.ErrorMessage = aMessage;
   }

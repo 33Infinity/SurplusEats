@@ -1,7 +1,7 @@
 import Clause from "../Clause";
 import Operators from "../Operators";
 import SqlHelper from "../../utils/SqlHelper";
-import LocationTO from "../TO/Location";
+import LocationTO from "../to/Location";
 
 export default class Location {
   static async getLocationsByVendor(admin, aVendorId) {

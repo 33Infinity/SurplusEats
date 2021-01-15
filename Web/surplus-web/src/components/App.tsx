@@ -25,7 +25,7 @@ import Header from "./Header";
 
 type User = {
   currentUser: ProfileModel;
-  setCurrentUser: (user: ProfileModel) => void
+  setCurrentUser: (user: ProfileModel) => void;
 };
 
 const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
@@ -54,9 +54,15 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
     <SessionContext.Provider value={CurrentSession}>
       <BrowserRouter>
         <div>
-        <Header />       
+          <Header />
           <Switch>
-            <Route exact path="/" component={Home} />
+            <Route
+              exact
+              path="/"
+              render={() =>
+                currentUser?.IsAuthenticated ? <Home /> : <SignIn />
+              }
+            />
             <Route exact path="/Home" component={Home} />
             <Route
               exact
@@ -80,7 +86,7 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
               }
             />
             <Route exact path="/VendorInventory" component={VendorInventory} />
-          </Switch> 
+          </Switch>
           <Footer />
         </div>
       </BrowserRouter>
@@ -93,7 +99,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-  currentUser: state.user.currentUser
+  currentUser: state.user.currentUser,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

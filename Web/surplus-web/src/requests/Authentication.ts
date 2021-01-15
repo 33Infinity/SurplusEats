@@ -13,4 +13,15 @@ export default class Authentication extends BaseRequest {
     const json = await this.getJson(url, requestObject);
     return json;
   }
+
+  async signIn(anEmail, aPassword) {
+    let url = Endpoints.Authentication.signIn;
+    const data = {
+      Email: anEmail,
+      Password: aPassword,
+    };
+    const requestObject = this.buildRequestObject(HttpMethods.post, data);
+    const json = await this.getJson(url, requestObject);
+    return json;
+  }
 }

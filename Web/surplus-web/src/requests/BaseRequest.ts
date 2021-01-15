@@ -1,5 +1,4 @@
-import { Error } from "../models/Error";
-//import Axios from "./API";
+import Error from "../models/Error";
 
 export default class BaseRequest {
   async getJson(aUrl, aRequesObject) {

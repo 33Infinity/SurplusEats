@@ -1,7 +1,8 @@
 import Clause from "../Clause";
 import Operators from "../Operators";
 import SqlHelper from "../../utils/SqlHelper";
-import ProfileTO from "../TO/Profile";
+import ProfileTO from "../to/Profile";
+import Encryption from "../../utils/Encryption";
 
 export default class Profile {
   static async getByEmail(admin, anEmail) {
@@ -17,10 +18,30 @@ export default class Profile {
     return response;
   }
 
+  static async getByUserNamePassword(admin, anEmail, aPassword) {
+    const clauses: Clause[] = [];
+    clauses.push(
+      Clause.NewClause(ProfileTO.ColumnNames.Email, Operators.equals, anEmail)
+    );
+    clauses.push(
+      Clause.NewClause(
+        ProfileTO.ColumnNames.Password,
+        Operators.equals,
+        aPassword
+      )
+    );
+    const response = await SqlHelper.getWithClauses(
+      admin,
+      ProfileTO.TableName,
+      clauses
+    );
+    return response;
+  }
+
   static async add(admin, profile) {
     const profileTO = ProfileTO.NewProfile(
       profile.Email,
-      profile.Password,
+      Encryption.encrypt(profile.Password),
       profile.FirstName,
       profile.LastName,
       profile.IsVendor,

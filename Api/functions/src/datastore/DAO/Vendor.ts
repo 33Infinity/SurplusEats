@@ -1,5 +1,5 @@
 import SqlHelper from "../../utils/SqlHelper";
-import VendorTO from "../TO/Vendor";
+import VendorTO from "../to/Vendor";
 import Clause from "../Clause";
 import Operators from "../Operators";
 

@@ -2,6 +2,7 @@ export default class Endpoints {
   static Authentication = class {
     public static register =
       "http://localhost:6002/surplus-functions/us-central1/auth-register";
+    public static signIn = "";
   };
 
   static Inventory = class {

@@ -4,10 +4,11 @@ const authentication_admin = require("firebase-admin");
 const authentication_cors = require("cors")({
   origin: true,
 });
-import ProfileDAO from "./datastore/DAO/Profile";
-import VendorDAO from "./datastore/DAO/Vendor";
+import ProfileDAO from "./datastore/dao/Profile";
+import VendorDAO from "./datastore/dao/Vendor";
 import Error from "./Error";
 import Constants from "./Constants";
+import Encryption from "./utils/Encryption";
 
 exports.register = authentication_functions.https.onRequest(
   async (request: any, response: any) => {
@@ -54,6 +55,30 @@ exports.register = authentication_functions.https.onRequest(
         return;
       }
       response.send(resp);
+    });
+  }
+);
+
+exports.signIn = authentication_functions.https.onRequest(
+  async (request: any, response: any) => {
+    return authentication_cors(request, response, async () => {
+      const data = JSON.parse(request.body);
+      const email = data.Email;
+      const password = Encryption.encrypt(data.Password);
+      const profile = await ProfileDAO.getByUserNamePassword(
+        authentication_admin,
+        email,
+        password
+      );
+      if (profile === null && profile.length === 0) {
+        const error = Error.NewError(
+          Constants.Error.PROFILE_DOES_NOT_EXIST,
+          "500"
+        );
+        response.status(500).send(error);
+        return;
+      }
+      response.send(profile);
     });
   }
 );

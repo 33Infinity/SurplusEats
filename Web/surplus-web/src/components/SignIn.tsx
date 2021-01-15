@@ -18,7 +18,10 @@ import FormTextField from "../controls/FormTextField";
 import { signInWithGoogle } from "../firebase/firebase.utils";
 import { auth } from "../firebase/firebase.utils";
 import Snackbar from "@material-ui/core/Snackbar";
-import BackDrop from './Backdrop';
+import BackDrop from "./Backdrop";
+import AuthenticationService from "../services/Authentication";
+import Error from "../models/Error";
+import Profile from "../models/Profile";
 
 type RegisterState = {
   email: string;
@@ -57,6 +60,7 @@ const useStyles = makeStyles((theme) =>
 );
 
 const SignIn: React.FC = () => {
+  const authenticationService = new AuthenticationService();
   const [profile, setProfile] = useState<Partial<RegisterState>>({
     email: "",
     password: "",
@@ -79,14 +83,33 @@ const SignIn: React.FC = () => {
     validationForm.current.isFormValid(false).then(async (isValid) => {
       if (isValid) {
         try {
-          await auth.signInWithEmailAndPassword(
-            profile.email!,
-            profile.password!
+          let signedInProfile = await authenticationService.signIn(
+            profile.email,
+            profile.password
           );
-          history.push("/#/home");
+          if (signedInProfile instanceof Error) {
+            const err = signedInProfile as Error;
+            setErrorMessage(err.ErrorMessage);
+            setShowError(true);
+            valid = false;
+          } else {
+            signedInProfile = signedInProfile as Profile;
+            if (signedInProfile.IsAuthenticated) {
+              await auth.signInWithEmailAndPassword(
+                profile.email!,
+                profile.password!
+              );
+              history.push("home");
+            } else {
+              setErrorMessage("Unable to authenticate");
+              setShowError(true);
+              valid = false;
+            }
+          }
         } catch (error) {
           setErrorMessage(error.message);
           setShowError(true);
+          valid = false;
         }
       } else {
         valid = false;
@@ -172,8 +195,9 @@ const SignIn: React.FC = () => {
                   color="primary"
                   className={classes.submit}
                   onClick={(event) => {
-                    setLoading(true)
-                    onSignIn(event)}}
+                    setLoading(true);
+                    onSignIn(event);
+                  }}
                 >
                   Sign In
                 </Button>
@@ -193,7 +217,8 @@ const SignIn: React.FC = () => {
           </div>
         </Container>
       </div>
-    </div>)  
+    </div>
+  );
 };
 
 export default SignIn;

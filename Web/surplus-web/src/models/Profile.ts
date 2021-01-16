@@ -46,4 +46,7 @@ export default class Profile extends BaseModel {
       aCreatedDate
     );
   }
+  public static EmptyProfile(): Profile {
+    return new Profile("", "", "", "", "", false, "", null);
+  }
 }

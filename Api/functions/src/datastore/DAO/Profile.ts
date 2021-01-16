@@ -8,14 +8,22 @@ export default class Profile {
   static async getByEmail(admin, anEmail) {
     const clauses: Clause[] = [];
     clauses.push(
-      Clause.NewClause(ProfileTO.ColumnNames.Email, Operators.equals, anEmail)
+      Clause.NewClause(
+        ProfileTO.ColumnNames.Email,
+        Operators.equals,
+        anEmail.toLowerCase()
+      )
     );
     const response = await SqlHelper.getWithClauses(
       admin,
       ProfileTO.TableName,
       clauses
     );
-    return response;
+    if (response == null || response.length === 0) {
+      return response;
+    }
+    const tuple = Profile.buildTuple(response[0], true);
+    return tuple;
   }
 
   static async getByUserNamePassword(admin, anEmail, aPassword) {
@@ -35,22 +43,31 @@ export default class Profile {
       ProfileTO.TableName,
       clauses
     );
-    return response;
+    if (response == null || response.length === 0) {
+      return response;
+    }
+    const tuple = Profile.buildTuple(response[0], true);
+    return tuple;
   }
 
   static async add(admin, profile) {
-    const profileTO = ProfileTO.NewProfile(
-      profile.Email,
-      Encryption.encrypt(profile.Password),
-      profile.FirstName,
-      profile.LastName,
-      profile.IsVendor,
-      true,
-      null,
-      new Date()
-    );
-    const tuple = profileTO.getTuple();
+    const tuple = Profile.buildTuple(profile, true);
+    tuple.Password = Encryption.encrypt(profile.Password);
     await SqlHelper.insert(admin, ProfileTO.TableName, tuple);
     return tuple;
+  }
+
+  private static buildTuple(aProfile, isAuthenticated) {
+    const profileTO = ProfileTO.NewProfile(
+      aProfile.Email.toLowerCase(),
+      null,
+      aProfile.FirstName,
+      aProfile.LastName,
+      aProfile.IsVendor,
+      isAuthenticated,
+      aProfile.Id,
+      aProfile.CreatedDate
+    );
+    return profileTO.getTuple();
   }
 }

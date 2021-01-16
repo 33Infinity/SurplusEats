@@ -20,8 +20,10 @@ import { connect } from "react-redux";
 import { setCurrentUser } from "../redux/user/user.actions";
 import { useEffect } from "react";
 import ProfileModel from "../models/Profile";
+import ErrorModel from "../models/Error";
 import { auth } from "../firebase/firebase.utils";
 import Header from "./Header";
+import AuthenticationService from "../services/Authentication";
 
 type User = {
   currentUser: ProfileModel;
@@ -31,18 +33,20 @@ type User = {
 const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
   useEffect(() => {
     const unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
-      setCurrentUser(
-        ProfileModel.NewProfile(
-          "",
-          user?.email,
-          "",
-          user?.displayName,
-          "",
-          "",
-          true,
-          user !== null ? true : false
-        )
-      );
+      const authenticationService = new AuthenticationService();
+      if (user == null) {
+        setCurrentUser(ProfileModel.EmptyProfile());
+        return;
+      }
+      authenticationService.getProfile(user?.email).then((profile) => {
+        if (profile instanceof ErrorModel) {
+          setCurrentUser(ProfileModel.EmptyProfile());
+          return;
+        }
+        if (profile instanceof ProfileModel) {
+          setCurrentUser(profile);
+        }
+      });
     });
 
     return () => {

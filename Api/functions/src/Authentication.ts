@@ -17,7 +17,7 @@ exports.register = authentication_functions.https.onRequest(
       try {
         const data = JSON.parse(request.body);
         const email = data.Profile.Email;
-        const vendorName = data.Vendor?.VendorName;
+        const vendorName = data.Vendor?.Name;
         const profile = await ProfileDAO.getByEmail(
           authentication_admin,
           email
@@ -72,13 +72,32 @@ exports.signIn = authentication_functions.https.onRequest(
       );
       if (profile === null && profile.length === 0) {
         const error = Error.NewError(
-          Constants.Error.PROFILE_DOES_NOT_EXIST,
+          Constants.Error.INVALID_CREDENTIALS,
           "500"
         );
         response.status(500).send(error);
         return;
       }
       profile.IsAuthenticated = true;
+      response.send(profile);
+    });
+  }
+);
+
+exports.getProfile = authentication_functions.https.onRequest(
+  async (request: any, response: any) => {
+    return authentication_cors(request, response, async () => {
+      const data = JSON.parse(request.body);
+      const email = data.Email;
+      const profile = await ProfileDAO.getByEmail(authentication_admin, email);
+      if (profile === null && profile.length === 0) {
+        const error = Error.NewError(
+          Constants.Error.INVALID_CREDENTIALS,
+          "500"
+        );
+        response.status(500).send(error);
+        return;
+      }
       response.send(profile);
     });
   }

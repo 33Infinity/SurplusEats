@@ -21,7 +21,6 @@ const Profile: React.FC = () => {
   const classes = useStyles();
   return (
     <div>
-      <Header />
       <div className={classes.root}>
         <Grid container spacing={3}>
           <h1>Profile Page</h1>

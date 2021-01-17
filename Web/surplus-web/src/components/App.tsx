@@ -4,7 +4,8 @@ import CurrentSession from "../CurrentSession";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/App.css";
 import "../css/ShoppingCart.css";
-import Home from "./Home";
+import UserHome from "./UserHome";
+import VendorHome from "./VendorHome";
 import Profile from "./Profile";
 import SignIn from "./SignIn";
 import Register from "./Register";
@@ -64,10 +65,32 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
               exact
               path="/"
               render={() =>
-                currentUser?.IsAuthenticated ? <Home /> : <SignIn />
+                currentUser?.IsAuthenticated ? (
+                  currentUser?.IsVendor ? (
+                    <VendorHome />
+                  ) : (
+                    <UserHome />
+                  )
+                ) : (
+                  <SignIn />
+                )
               }
             />
-            <Route exact path="/Home" component={Home} />
+            <Route
+              exact
+              path="/Home"
+              render={() =>
+                currentUser?.IsAuthenticated ? (
+                  currentUser?.IsVendor ? (
+                    <VendorHome />
+                  ) : (
+                    <UserHome />
+                  )
+                ) : (
+                  <SignIn />
+                )
+              }
+            />
             <Route
               exact
               path="/Profile"
@@ -79,14 +102,30 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
               exact
               path="/Signin"
               render={() =>
-                currentUser?.IsAuthenticated ? <Home /> : <SignIn />
+                currentUser?.IsAuthenticated ? (
+                  currentUser?.IsVendor ? (
+                    <VendorHome />
+                  ) : (
+                    <UserHome />
+                  )
+                ) : (
+                  <SignIn />
+                )
               }
             />
             <Route
               exact
               path="/Register"
               render={() =>
-                currentUser?.IsAuthenticated ? <Home /> : <Register />
+                currentUser?.IsAuthenticated ? (
+                  currentUser?.IsVendor ? (
+                    <VendorHome />
+                  ) : (
+                    <UserHome />
+                  )
+                ) : (
+                  <Register />
+                )
               }
             />
             <Route exact path="/VendorInventory" component={VendorInventory} />

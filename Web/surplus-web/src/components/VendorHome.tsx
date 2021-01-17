@@ -2,14 +2,12 @@ import React, { useEffect, useState } from "react";
 import LocationService from "../services/Location";
 import LocationModel from "../models/Location";
 import VendorModel from "../models/Vendor";
+import ProfileModel from "../models/Profile";
 import VendorLocation from "./VendorLocation";
 import { Grid, TextField, IconButton } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
 import { confirmWithTwoButtons } from "./Confirmation";
-
-interface Props {
-  VendorId: string;
-}
+import { connect } from "react-redux";
 
 type NewLocationState = {
   name: string;
@@ -19,7 +17,11 @@ type NewLocationState = {
   longitude: string;
 };
 
-const VendorHome: React.FC<Props> = (props) => {
+type Redux = {
+  currentUser: ProfileModel;
+};
+
+const VendorHome: React.FC<Redux> = ({ currentUser }) => {
   let locationService = new LocationService();
   useEffect(() => {
     getByVendor();
@@ -37,7 +39,7 @@ const VendorHome: React.FC<Props> = (props) => {
   });
   function getByVendor() {
     locationService = new LocationService();
-    locationService.getByVendor(props.VendorId).then((response) => {
+    locationService.getByVendor(currentUser?.Email).then((response) => {
       const vendorModel = response != null ? response[0].VendorModel : null;
       setVendorModel(vendorModel);
       setLocations(response);
@@ -157,4 +159,8 @@ const VendorHome: React.FC<Props> = (props) => {
   );
 };
 
-export default VendorHome;
+const mapStateToProps = (state) => ({
+  currentUser: state.user.currentUser,
+});
+
+export default connect(mapStateToProps)(VendorHome);

@@ -17,6 +17,23 @@ export default class Vendor {
     return response;
   }
 
+  static async getByEmail(admin, anEmail) {
+    const clauses: Clause[] = [];
+    clauses.push(
+      Clause.NewClause(
+        VendorTO.ColumnNames.UserEmail,
+        Operators.equals,
+        anEmail
+      )
+    );
+    const response = await SqlHelper.getWithClauses(
+      admin,
+      VendorTO.TableName,
+      clauses
+    );
+    return response;
+  }
+
   static async getByName(admin, aName) {
     const clauses: Clause[] = [];
     clauses.push(
@@ -32,7 +49,7 @@ export default class Vendor {
 
   static async add(admin, vendor, anEmail) {
     const vendorTO = VendorTO.NewVendor(
-      anEmail,
+      anEmail.toLowerCase(),
       vendor.Name,
       vendor.ImageUrl,
       vendor.Description,

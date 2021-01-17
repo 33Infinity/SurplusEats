@@ -4,5 +4,6 @@ export default class Constants {
     public static INVALID_CREDENTIALS = "Invalid Credentials";
     public static UNKNOWN_SERVER_ERROR = "Unknown Server Error";
     public static VENDOR_ALREADY_EXISTS = "Vendor already exists";
+    public static VENDOR_DOES_NOT_EXIST = "Vendor does not exist";
   };
 }

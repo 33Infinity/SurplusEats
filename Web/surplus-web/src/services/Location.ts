@@ -6,13 +6,13 @@ export default class Location {
   async getByLatLon(aLat, aLon): Promise<LocationModel[] | null> {
     const request = new LocationRequest();
     const json = await request.getByLatLon(aLat, aLon);
-    return this.buildLocationModels(json);
+    return json != null ? this.buildLocationModels(json) : null;
   }
 
-  async getByVendor(aVendorId): Promise<LocationModel[] | null> {
+  async getByVendor(anEmail): Promise<LocationModel[] | null> {
     const request = new LocationRequest();
-    const json = await request.getByVendor(aVendorId);
-    return this.buildLocationModels(json);
+    const json = await request.getByVendor(anEmail);
+    return json != null ? this.buildLocationModels(json) : null;
   }
 
   async addLocation(aLocationModel) {

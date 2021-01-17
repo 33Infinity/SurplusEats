@@ -62,6 +62,9 @@ export default class Location {
   static Normalize(someJson) {
     const locations = someJson.Locations;
     const vendors = someJson.Vendors;
+    if (locations == null) {
+      return null;
+    }
     return locations.map((locationItem) => {
       const vendor = vendors.find(
         (eachVendor) => eachVendor.Id === locationItem.VendorId

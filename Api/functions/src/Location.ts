@@ -9,25 +9,30 @@ import LocationDAO from "./datastore/dao/Location";
 import HttpHelper from "./utils/HttpHelper";
 import SqlHelper from "./utils/SqlHelper";
 import IResponse from "./IResponse";
-import VendorTO from "./datastore/to/Vendor";
 import GeoLocationHelper from "./utils/GeoLocationHelper";
 import LocationTO from "./datastore/to/Location";
 import VendorDAO from "./datastore/dao/Vendor";
+import Error from "./Error";
+import Constants from "./Constants";
 
 exports.getByVendor = location_functions.https.onRequest(
   async (request: any, response: any) => {
     return location_cors(request, response, async () => {
       let retObj: IResponse = {};
       const data = JSON.parse(request.body);
-      const vendorId = data.VendorId;
-      const vendor = await SqlHelper.getById(
-        location_admin,
-        VendorTO.TableName,
-        vendorId
-      );
+      const email = data.Email;
+      const vendor = await VendorDAO.getByEmail(location_admin, email);
+      if (vendor == null || vendor.length == 0) {
+        const error = Error.NewError(
+          Constants.Error.VENDOR_DOES_NOT_EXIST,
+          "500"
+        );
+        response.status(500).send(error);
+        return;
+      }
       const locations = await LocationDAO.getLocationsByVendor(
         location_admin,
-        vendorId
+        vendor[0].UserEmail
       );
       retObj.Locations = locations;
       retObj.Vendors = vendor;

@@ -14,10 +14,10 @@ export default class Location extends BaseRequest {
     return json;
   }
 
-  async getByVendor(aVendorId) {
+  async getByVendor(anEmail) {
     const url = Endpoints.Location.getByVendor;
     const data = {
-      VendorId: aVendorId,
+      Email: anEmail,
     };
     const requestObject = this.buildRequestObject(HttpMethods.post, data);
     const json = await this.getJson(url, requestObject);

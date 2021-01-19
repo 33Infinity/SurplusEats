@@ -84,6 +84,8 @@ exports.update = location_functions.https.onRequest(
       const locationTO = LocationTO.NewLocation(
         data.VendorModel.Id,
         data.Name,
+        data.City,
+        data.State,
         data.Latitude,
         data.Longitude,
         data.Address,

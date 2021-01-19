@@ -24,6 +24,15 @@ export default class Location extends BaseRequest {
     return json;
   }
 
+  async getLatLonFromLocation(aLocationModel) {
+    const url = `https://nominatim.openstreetmap.org/search?q=${aLocationModel.Address},+${aLocationModel.City}+${aLocationModel.State}+${aLocationModel.PostalCode}&format=json&polygon=1&addressdetails=1`.replaceAll(
+      " ",
+      "+"
+    );
+    const json = await this.getJson(url, null);
+    return json;
+  }
+
   async addLocation(aLocationModel) {
     let url = Endpoints.Location.addLocation;
     const requestObject = this.buildRequestObject(

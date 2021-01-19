@@ -19,6 +19,9 @@ export default class Vendor extends BaseModel {
   ): Vendor {
     return new Vendor(aName, anImageUrl, aDescription, anId, aCreatedDate);
   }
+  public static NewBlankVendor(): Vendor {
+    return new Vendor("", "", "", "", "");
+  }
 
   public static NewVendorFromJson(someJson) {
     return this.NewVendor(

@@ -25,6 +25,8 @@ export default class Location {
     const locationTO = LocationTO.NewLocation(
       location.VendorModel.Id,
       location.Name,
+      location.City,
+      location.State,
       location.Latitude,
       location.Longitude,
       location.Address,

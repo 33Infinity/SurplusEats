@@ -6,6 +6,8 @@ export default class Location extends BaseTable {
   static ColumnNames = class {
     public static VendorId = "VendorId";
     public static Name = "Name";
+    public static City = "City";
+    public static State = "State";
     public static Latitude = "Latitude";
     public static Longitude = "Longitude";
     public static Address = "Address";
@@ -14,6 +16,8 @@ export default class Location extends BaseTable {
 
   VendorId: string;
   Name: string;
+  City: string;
+  State: string;
   Latitude: number;
   Longitude: number;
   Address: string;
@@ -21,6 +25,8 @@ export default class Location extends BaseTable {
   private constructor(
     aVendorId,
     aName,
+    aCity,
+    aState,
     aLatitude,
     aLongitude,
     anAddress,
@@ -31,6 +37,8 @@ export default class Location extends BaseTable {
     super(anId, aCreatedDate);
     this.VendorId = aVendorId;
     this.Name = aName;
+    this.City = aCity;
+    this.State = aState;
     this.Latitude = aLatitude;
     this.Longitude = aLongitude;
     this.Address = anAddress;
@@ -39,6 +47,8 @@ export default class Location extends BaseTable {
   public static NewLocation(
     aVendorId,
     aName,
+    aCity,
+    aState,
     aLatitude,
     aLongitude,
     anAddress,
@@ -49,6 +59,8 @@ export default class Location extends BaseTable {
     return new Location(
       aVendorId,
       aName,
+      aCity,
+      aState,
       aLatitude,
       aLongitude,
       anAddress,
@@ -60,6 +72,8 @@ export default class Location extends BaseTable {
   getTuple() {
     return {
       Name: this.Name,
+      City: this.City,
+      State: this.State,
       Latitude: this.Latitude,
       Longitude: this.Longitude,
       Address: this.Address,

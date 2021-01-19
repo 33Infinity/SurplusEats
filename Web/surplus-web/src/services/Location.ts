@@ -15,6 +15,12 @@ export default class Location {
     return json != null ? this.buildLocationModels(json) : null;
   }
 
+  async getLatLonFromLocation(aLocationModel): Promise<any> {
+    const request = new LocationRequest();
+    const json = await request.getLatLonFromLocation(aLocationModel);
+    return json;
+  }
+
   async addLocation(aLocationModel) {
     const request = new LocationRequest();
     const json = await request.addLocation(aLocationModel);
@@ -45,6 +51,8 @@ export default class Location {
           someJson[i].Vendor.CreatedDate
         ),
         someJson[i].Name,
+        someJson[i].City,
+        someJson[i].State,
         someJson[i].Latitude,
         someJson[i].Longitude,
         someJson[i].Address,

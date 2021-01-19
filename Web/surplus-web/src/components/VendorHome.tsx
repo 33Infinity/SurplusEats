@@ -4,10 +4,11 @@ import LocationModel from "../models/Location";
 import VendorModel from "../models/Vendor";
 import ProfileModel from "../models/Profile";
 import VendorLocation from "./VendorLocation";
-import { Grid, TextField, IconButton } from "@material-ui/core";
-import SaveIcon from "@material-ui/icons/Save";
 import { confirmWithTwoButtons } from "./Confirmation";
 import { connect } from "react-redux";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
+import VendorLocationDialog from "./VendorLocationDialog";
 
 type NewLocationState = {
   name: string;
@@ -26,7 +27,7 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
   useEffect(() => {
     getByVendor();
   }, []);
-  const [vendorModel, setVendorModel] = useState<Partial<VendorModel | null>>();
+  const [vendorModel, setVendorModel] = useState<VendorModel>();
   const [locations, setLocations] = useState<Partial<LocationModel[] | null>>(
     []
   );
@@ -37,27 +38,18 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
     latitude: "",
     longitude: "",
   });
+  const [openNewLocationDialog, setOpenNewLocationDialog] = React.useState(
+    false
+  );
   function getByVendor() {
     locationService = new LocationService();
     locationService.getByVendor(currentUser?.Email).then((response) => {
-      const vendorModel = response != null ? response[0].VendorModel : null;
+      const vendorModel =
+        response != null
+          ? response[0].VendorModel
+          : VendorModel.NewBlankVendor();
       setVendorModel(vendorModel);
       setLocations(response);
-    });
-  }
-  async function addNewLocation() {
-    const locationModel = LocationModel.NewLocation(
-      vendorModel,
-      newLocation.name,
-      newLocation.latitude,
-      newLocation.longitude,
-      newLocation.address,
-      newLocation.postalCode,
-      null,
-      null
-    );
-    locationService.addLocation(locationModel).then(() => {
-      getByVendor();
     });
   }
   const onNewLocationUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,11 +58,6 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
       [event.target.name]: event.target.value,
     });
   };
-  async function updateLocation(aLocationModel) {
-    locationService.updateLocation(aLocationModel).then(() => {
-      getByVendor();
-    });
-  }
   async function deleteLocation(aLocationId) {
     confirmWithTwoButtons(
       "Yes",
@@ -86,8 +73,15 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
       getByVendor();
     });
   }
+  const handleOpenNewLocationDialog = () => {
+    setOpenNewLocationDialog(true);
+  };
+  const handleCloseNewLocationDialog = () => {
+    setOpenNewLocationDialog(false);
+  };
   return (
     <div>
+      <h1>Locations</h1>
       <img src={vendorModel?.ImageUrl}></img>
       {locations &&
         locations.length > 0 &&
@@ -95,66 +89,29 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
           return (
             <div>
               <VendorLocation
-                LocationModel={locationModel}
-                updateLocation={updateLocation}
+                location={locationModel}
                 deleteLocation={deleteLocation}
+                handleOpenNewLocationDialog={handleOpenNewLocationDialog}
               />
             </div>
           );
         })}
-      <Grid container spacing={2}>
-        <Grid item xs={6} sm={1}></Grid>
-        <Grid item xs={6} sm={3}>
-          <TextField
-            variant="outlined"
-            fullWidth
-            name="name"
-            label="Name"
-            onChange={onNewLocationUpdate}
-          />
-        </Grid>
-        <Grid item xs={6} sm={1}>
-          <TextField
-            variant="outlined"
-            fullWidth
-            label="Latitude"
-            onChange={onNewLocationUpdate}
-            name="latitude"
-          />
-        </Grid>
-        <Grid item xs={6} sm={1}>
-          <TextField
-            variant="outlined"
-            fullWidth
-            label="Longitude"
-            onChange={onNewLocationUpdate}
-            name="longitude"
-          />
-        </Grid>
-        <Grid item xs={6} sm={4}>
-          <TextField
-            variant="outlined"
-            fullWidth
-            label="Address"
-            onChange={onNewLocationUpdate}
-            name="address"
-          />
-        </Grid>
-        <Grid item xs={6} sm={1}>
-          <TextField
-            variant="outlined"
-            fullWidth
-            label="Postal Code"
-            onChange={onNewLocationUpdate}
-            name="postalCode"
-          />
-        </Grid>
-        <Grid item xs={6} sm={1}>
-          <IconButton onClick={() => addNewLocation()}>
-            <SaveIcon />
-          </IconButton>
-        </Grid>
-      </Grid>
+      <VendorLocationDialog
+        locationModel={LocationModel.NewBlankLocation(vendorModel)}
+        vendorModel={
+          vendorModel != null ? vendorModel : VendorModel.NewBlankVendor()
+        }
+        onCloseDialog={handleCloseNewLocationDialog}
+        dialogOpen={openNewLocationDialog}
+        newLocation={true}
+      ></VendorLocationDialog>
+      <Fab
+        color="primary"
+        aria-label="add"
+        onClick={() => handleOpenNewLocationDialog()}
+      >
+        <AddIcon />
+      </Fab>
     </div>
   );
 };

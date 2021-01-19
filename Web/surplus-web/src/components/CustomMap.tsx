@@ -7,7 +7,7 @@ interface IMappingProperties {
   centerLatitude: number;
   centerLongitude: number;
   zoom: number;
-  locationModels: LocationModel[];
+  locationModels: (LocationModel | undefined)[] | null;
 }
 
 const CustomMap: React.FC<IMappingProperties> = (props) => {
@@ -28,6 +28,7 @@ const CustomMap: React.FC<IMappingProperties> = (props) => {
 };
 
 function getMarkers(locationModels) {
+  if (locationModels == null) return;
   return locationModels.map((eachLocation) => {
     const position: LatLngTuple = [
       eachLocation.Latitude!,

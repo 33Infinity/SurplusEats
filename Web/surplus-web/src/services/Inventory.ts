@@ -49,6 +49,8 @@ export default class Inventory {
       const locationModel = LocationModel.NewLocation(
         vendorModel,
         someJson[i].Location.Name,
+        someJson[i].Location.City,
+        someJson[i].Location.State,
         someJson[i].Location.Latitude,
         someJson[i].Location.Longitude,
         someJson[i].Location.Address,

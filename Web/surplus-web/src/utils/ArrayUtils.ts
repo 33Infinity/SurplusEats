@@ -5,7 +5,8 @@ export default class ArrayUtils {
       : aDefaultValue;
   }
 
-  static objectToArrary(anObject) {
+  static objectToArray(anObject) {
+    if (anObject == null) return anObject;
     let arr: any[] = [];
     arr.push(anObject);
     return arr;

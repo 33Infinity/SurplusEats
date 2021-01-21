@@ -30,9 +30,15 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
     false
   );
   const [newLocation, setNewLocation] = useState(true);
-  const [locationToUpdate, setLocationToUpdate] = useState<LocationModel>(
+  const [location, setLocation] = useState<LocationModel>(
     LocationModel.NewBlankLocation(vendorModel)
   );
+  function OnLocationUpdate(aName, aValue) {
+    setLocation({
+      ...location,
+      [aName]: aValue,
+    });
+  }
   async function getByVendor() {
     locationService = new LocationService();
     locationService.getByVendor(currentUser?.Email).then((response) => {
@@ -54,15 +60,9 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
   }
   function editLocation(aLocationModel: LocationModel) {
     setOpenNewLocationDialog(true);
-    setLocationToUpdate(aLocationModel);
+    setLocation(aLocationModel);
     setNewLocation(false);
   }
-  /* function updateLocation(aLocationModel: LocationModel) {
-    const locationService = new LocationService();
-    locationService.updateLocation(aLocationModel).then(() => {
-      getByVendor();
-    });
-  } */
   async function deleteLocation(aLocationId) {
     confirmWithTwoButtons(
       "Yes",
@@ -78,8 +78,10 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
       getByVendor();
     });
   }
-  function handleOpenNewLocationDialog() {
-    setLocationToUpdate(LocationModel.NewBlankLocation(vendorModel));
+  function handleOpenNewLocationDialog(isNew) {
+    if (isNew) {
+      setLocation(LocationModel.NewBlankLocation(vendorModel));
+    }
     setOpenNewLocationDialog(true);
   }
   function handleCloseNewLocationDialog(refreshLocations) {
@@ -108,7 +110,7 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
           );
         })}
       <VendorLocationDialog
-        locationModel={locationToUpdate}
+        locationModel={location}
         vendorModel={
           vendorModel != null ? vendorModel : VendorModel.NewBlankVendor()
         }
@@ -116,11 +118,12 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
         dialogOpen={openNewLocationDialog}
         reopenDialog={handleOpenNewLocationDialog}
         newLocation={newLocation}
+        setLocation={OnLocationUpdate}
       ></VendorLocationDialog>
       <Fab
         color="primary"
         aria-label="add"
-        onClick={() => handleOpenNewLocationDialog()}
+        onClick={() => handleOpenNewLocationDialog(true)}
       >
         <AddIcon />
       </Fab>

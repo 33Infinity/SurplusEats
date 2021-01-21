@@ -32,7 +32,7 @@ exports.getByVendor = location_functions.https.onRequest(
       }
       const locations = await LocationDAO.getLocationsByVendor(
         location_admin,
-        vendor[0].UserEmail
+        vendor[0].Id
       );
       retObj.Locations = locations;
       retObj.Vendors = vendor;

@@ -22,7 +22,6 @@ import ProfileModel from "../models/Profile";
 import VendorModel from "../models/Vendor";
 import ErrorModel from "../models/Error";
 import AuthenticationService from "../services/Authentication";
-import Error from "../models/Error";
 
 type RegisterState = {
   email: string;

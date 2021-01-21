@@ -133,8 +133,11 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const toggleDialog = (type: HeaderEventType) => {      
-    setShowDialog(!showDialog);
+  const toggleDialog = () => {      
+    setShowDialog(!showDialog);     
+  }
+
+  const SetDialogType = (type: HeaderEventType) => {  
     setDialogType(type);  
   }
 
@@ -236,12 +239,12 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
-                <MailIcon onClick={() => toggleDialog(HeaderEventType.IsMail)} />
+                <MailIcon onClick={() => {SetDialogType(HeaderEventType.IsMail); toggleDialog()}} />
               </Badge>
             </IconButton>
             <IconButton aria-label="show 17 new notifications" color="inherit">
               <Badge color="secondary">
-                <NotificationsIcon onClick={() => toggleDialog(HeaderEventType.IsNotification)} />
+                <NotificationsIcon onClick={() => {SetDialogType(HeaderEventType.IsNotification); toggleDialog()}} />
               </Badge>
             </IconButton>
             <IconButton
@@ -250,7 +253,7 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
               color="inherit"
             >
               <Badge badgeContent={cartItemCount} color="secondary">
-                <ShoppingCart onClick={() => toggleDialog(HeaderEventType.IsCart)} />
+                <ShoppingCart onClick={() => {SetDialogType(HeaderEventType.IsCart); toggleDialog()}} />
               </Badge>
             </IconButton>
             <IconButton
@@ -308,7 +311,7 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-      {showDialog ? <div ref={wrapperRef}><DropdownMenu dropDownType={dialogType} /></div> : null }     
+      {showDialog ? <div ref={wrapperRef}><DropdownMenu dropDownType={dialogType} btnEvent={toggleDialog} /></div> : null }     
     </div>
   );
 };

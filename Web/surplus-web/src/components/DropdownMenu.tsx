@@ -29,10 +29,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type MyType = {
-  dropDownType: HeaderEventType
+  dropDownType: HeaderEventType,
+  btnEvent: () => void
 }
 
-const DropdownMenu: React.FC<MyType> = ({dropDownType}) => {
+const DropdownMenu: React.FC<MyType> = ({dropDownType, btnEvent}) => {
     const classes = useStyles();
     const btnText = dropDownType === HeaderEventType.IsMail 
         || dropDownType === HeaderEventType.IsNotification ? "CLOSE" : "CHECKOOUT";
@@ -46,7 +47,8 @@ const DropdownMenu: React.FC<MyType> = ({dropDownType}) => {
                   fullWidth
                   variant="contained"
                   color="primary"   
-                  className={classes.button}              
+                  className={classes.button}
+                  onClick={btnEvent}              
                 >{btnText}</Button>
         </div>
     )

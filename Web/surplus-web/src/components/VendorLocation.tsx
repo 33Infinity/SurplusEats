@@ -7,9 +7,9 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 interface Props {
-  location: LocationModel | undefined;
+  location: LocationModel;
   deleteLocation(aLocationId: string): any;
-  handleOpenNewLocationDialog(): any;
+  editLocation(aLocationModel: LocationModel);
 }
 
 const VendorLocation: React.FC<Props> = (props) => {
@@ -66,9 +66,9 @@ const VendorLocation: React.FC<Props> = (props) => {
           <TextField
             variant="outlined"
             fullWidth
-            name="latitude"
-            label="Latitude"
-            value={props.location?.Latitude}
+            name="city"
+            label="City"
+            value={props.location?.City}
             disabled
           />
         </Grid>
@@ -76,14 +76,14 @@ const VendorLocation: React.FC<Props> = (props) => {
           <TextField
             variant="outlined"
             fullWidth
-            name="longitude"
-            label="Longitude"
-            value={props.location?.Longitude}
+            name="state"
+            label="State"
+            value={props.location?.State}
             disabled
           />
         </Grid>
         <Grid item xs={6} sm={1}>
-          <IconButton onClick={props.handleOpenNewLocationDialog}>
+          <IconButton onClick={() => props.editLocation(props.location)}>
             <EditIcon />
           </IconButton>
           <IconButton

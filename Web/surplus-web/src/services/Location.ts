@@ -1,6 +1,7 @@
 import LocationModel from "../models/Location";
 import VendorModel from "../models/Vendor";
 import LocationRequest from "../requests/Location";
+import ErrorModel from "../models/Error";
 
 export default class Location {
   async getByLatLon(aLat, aLon): Promise<LocationModel[] | null> {
@@ -15,9 +16,12 @@ export default class Location {
     return json != null ? this.buildLocationModels(json) : null;
   }
 
-  async getLatLonFromLocation(aLocationModel): Promise<any> {
+  async getLatLonFromLocation(aLocationModel): Promise<any | ErrorModel> {
     const request = new LocationRequest();
     const json = await request.getLatLonFromLocation(aLocationModel);
+    if (json == null || json.length == 0) {
+      return ErrorModel.NewError("Invalid Address");
+    }
     return json;
   }
 

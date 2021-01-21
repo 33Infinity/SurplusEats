@@ -20,7 +20,27 @@ export async function confirmWithTwoButtons(
       },
       {
         label: aButtonDenyLabel,
-        onClick: () => aFunctionOnNo,
+        onClick: () => aFunctionOnNo(),
+      },
+    ],
+  });
+  return result;
+}
+
+export async function confirmWithSingleButton(
+  aButtonConfirmLabel,
+  aTitle,
+  aMessage,
+  aFunctionOnYes
+) {
+  let result = false;
+  await confirmAlert({
+    title: aTitle,
+    message: aMessage,
+    buttons: [
+      {
+        label: aButtonConfirmLabel,
+        onClick: () => aFunctionOnYes(),
       },
     ],
   });

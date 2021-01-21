@@ -1,18 +1,24 @@
 import React, { useState } from "react";
 import LocationModel from "../models/Location";
 import VendorModel from "../models/Vendor";
+import ErrorModel from "../models/Error";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
-import { Grid, TextField } from "@material-ui/core";
+import { Grid, TextField, IconButton } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import LocationService from "../services/Location";
 import CustomMap from "./CustomMap";
+import ArrayUtils from "../utils/ArrayUtils";
+import Snackbar from "@material-ui/core/Snackbar";
+import { confirmWithTwoButtons } from "./Confirmation";
 
 interface Props {
   locationModel: LocationModel;
   vendorModel: VendorModel;
-  onCloseDialog(): any;
+  onCloseDialog(refreshLocations): any;
+  reopenDialog(): any;
   dialogOpen: boolean;
   newLocation: boolean;
 }
@@ -36,10 +42,15 @@ const useStyles = makeStyles((theme: Theme) =>
         width: "100ch",
       },
     },
+    error: {
+      backgroundColor: theme.palette.error.dark,
+    },
   })
 );
 
 const VendorLocationDialog: React.FC<Props> = (props) => {
+  const CONFIRMATION_BUTTON_TEXT_SAVE = "Save";
+  const CONFIRMATION_BUTTON_TEXT_CONFIRM_ADDRESS = "Confirm Address";
   let locationService = new LocationService();
   const classes = useStyles();
   const [location, setLocation] = useState<Partial<LocationState>>({
@@ -54,13 +65,33 @@ const VendorLocationDialog: React.FC<Props> = (props) => {
   const [locationsForMap, setLocationsForMap] = useState<
     Partial<LocationModel[]>
   >();
+  const [addressConfirmed, setAddressConfirmed] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showError, setShowError] = useState(false);
   const onLocationUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLocation({
       ...location,
       [event.target.name]: event.target.value,
     });
   };
+  async function handleCancel() {
+    setAddressConfirmed(false);
+    props.onCloseDialog(false);
+  }
   async function handleSave() {
+    props.onCloseDialog(false);
+    if (addressConfirmed) {
+      if (locationsForMap && locationsForMap.length > 0 && locationsForMap[0]) {
+        locationsForMap[0].VendorModel = props.vendorModel;
+        if (props.newLocation) {
+          addNewLocation(locationsForMap[0]);
+        } else {
+          updateLocation(locationsForMap[0]);
+        }
+      }
+      return;
+    }
+    setErrorMessage("");
     const locationModelToSave = LocationModel.NewLocation(
       props.vendorModel,
       location.name,
@@ -76,6 +107,12 @@ const VendorLocationDialog: React.FC<Props> = (props) => {
     const response = await locationService.getLatLonFromLocation(
       locationModelToSave
     );
+    if (response instanceof ErrorModel) {
+      setShowError(true);
+      setErrorMessage(response.ErrorMessage);
+      setAddressConfirmed(false);
+      return;
+    }
     locationModelToSave.Latitude = response[0].lat;
     locationModelToSave.Longitude = response[0].lon;
     setLocation({
@@ -83,42 +120,69 @@ const VendorLocationDialog: React.FC<Props> = (props) => {
       latitude: response[0].lat,
       longitude: response[0].lon,
     });
-    setLocationsForMap(getLocationModelsArrayForMap());
-    /* if (props.newLocation) {
-      addNewLocation(locationModelToSave);
-    } else {
-      updateLocation(locationModelToSave);
-    } */
+    setLocationsForMap(ArrayUtils.objectToArrary(locationModelToSave));
+    setShowError(false);
+    await confirmWithTwoButtons(
+      "Yes",
+      "No",
+      "Address Confirmation",
+      `Do you confirm ${response[0].display_name} as the address?`,
+      confirmAddress,
+      denyAddress
+    );
+  }
+  function confirmAddress() {
+    setAddressConfirmed(true);
+    props.reopenDialog();
+  }
+  function denyAddress() {
+    setAddressConfirmed(false);
+    resetLocationCoordinates();
+    props.reopenDialog();
+  }
+  function resetLocationCoordinates() {
+    setLocation({
+      ...location,
+      latitude: 0,
+      longitude: 0,
+    });
   }
   async function addNewLocation(aLocationModel) {
     locationService.addLocation(aLocationModel).then(() => {
-      props.onCloseDialog();
+      props.onCloseDialog(true);
     });
   }
   async function updateLocation(aLocationModel) {
     locationService.updateLocation(aLocationModel).then(() => {
-      props.onCloseDialog();
+      props.onCloseDialog(true);
     });
-  }
-  function getLocationModelsArrayForMap() {
-    const locationArr: LocationModel[] = [];
-    const locationItem = LocationModel.NewLocation(
-      props.vendorModel,
-      location.name,
-      location.city,
-      location.state,
-      location.latitude,
-      location.longitude,
-      location.address,
-      location.postalCode,
-      props.locationModel.Id,
-      props.locationModel.CreatedDate
-    );
-    locationArr.push(locationItem);
-    return locationArr;
   }
   return (
     <>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        ContentProps={{
+          classes: {
+            root: classes.error,
+          },
+        }}
+        open={showError}
+        onClose={() => setShowError(false)}
+        message={errorMessage}
+        action={[
+          <IconButton
+            key="close"
+            aria-label="Close"
+            color="inherit"
+            onClick={() => setShowError(false)}
+          >
+            <CloseIcon />
+          </IconButton>,
+        ]}
+      />
       <Dialog
         maxWidth={"md"}
         open={props.dialogOpen}
@@ -133,6 +197,7 @@ const VendorLocationDialog: React.FC<Props> = (props) => {
                 name="name"
                 label="My Store Name"
                 onChange={onLocationUpdate}
+                value={location.name}
               />
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -142,6 +207,7 @@ const VendorLocationDialog: React.FC<Props> = (props) => {
                 name="city"
                 label="City"
                 onChange={onLocationUpdate}
+                value={location.city}
               />
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -151,6 +217,7 @@ const VendorLocationDialog: React.FC<Props> = (props) => {
                 name="state"
                 label="State"
                 onChange={onLocationUpdate}
+                value={location.state}
               />
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -160,6 +227,7 @@ const VendorLocationDialog: React.FC<Props> = (props) => {
                 name="address"
                 label="123 N Street"
                 onChange={onLocationUpdate}
+                value={location.address}
               />
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -169,15 +237,18 @@ const VendorLocationDialog: React.FC<Props> = (props) => {
                 name="postalCode"
                 label="12345"
                 onChange={onLocationUpdate}
+                value={location.postalCode}
               />
             </Grid>
             <Grid container justify="flex-end">
               <DialogActions>
-                <Button onClick={props.onCloseDialog} color="primary">
+                <Button onClick={handleCancel} color="primary">
                   Cancel
                 </Button>
                 <Button onClick={handleSave} color="primary">
-                  Save
+                  {addressConfirmed
+                    ? CONFIRMATION_BUTTON_TEXT_SAVE
+                    : CONFIRMATION_BUTTON_TEXT_CONFIRM_ADDRESS}
                 </Button>
               </DialogActions>
             </Grid>
@@ -186,9 +257,7 @@ const VendorLocationDialog: React.FC<Props> = (props) => {
               location.latitude != 0 && (
                 <Grid item xs={12} sm={12}>
                   <CustomMap
-                    locationModels={
-                      locationsForMap != null ? locationsForMap : null
-                    }
+                    locationModels={locationsForMap}
                     centerLatitude={
                       location.latitude != null ? location.latitude : 0
                     }

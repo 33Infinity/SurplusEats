@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import LocationService from "../services/Location";
+import VendorService from "../services/Vendor";
 import LocationModel from "../models/Location";
 import VendorModel from "../models/Vendor";
 import ProfileModel from "../models/Profile";
+import ErrorModel from "../models/Error";
 import VendorLocation from "./VendorLocation";
 import { confirmWithTwoButtons } from "./Confirmation";
 import { connect } from "react-redux";
@@ -10,20 +12,13 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import VendorLocationDialog from "./VendorLocationDialog";
 
-type NewLocationState = {
-  name: string;
-  address: string;
-  postalCode: string;
-  latitude: string;
-  longitude: string;
-};
-
 type Redux = {
   currentUser: ProfileModel;
 };
 
 const VendorHome: React.FC<Redux> = ({ currentUser }) => {
   let locationService = new LocationService();
+  let vendorService = new VendorService();
   useEffect(() => {
     getByVendor();
   }, []);
@@ -31,33 +26,43 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
   const [locations, setLocations] = useState<Partial<LocationModel[] | null>>(
     []
   );
-  const [newLocation, setNewLocation] = useState<Partial<NewLocationState>>({
-    name: "",
-    address: "",
-    postalCode: "",
-    latitude: "",
-    longitude: "",
-  });
   const [openNewLocationDialog, setOpenNewLocationDialog] = React.useState(
     false
   );
-  function getByVendor() {
+  const [newLocation, setNewLocation] = useState(true);
+  const [locationToUpdate, setLocationToUpdate] = useState<LocationModel>(
+    LocationModel.NewBlankLocation(vendorModel)
+  );
+  async function getByVendor() {
     locationService = new LocationService();
     locationService.getByVendor(currentUser?.Email).then((response) => {
-      const vendorModel =
-        response != null
-          ? response[0].VendorModel
-          : VendorModel.NewBlankVendor();
-      setVendorModel(vendorModel);
-      setLocations(response);
+      const vendorModel = response != null ? response[0].VendorModel : null;
+      if (vendorModel == null) {
+        vendorService = new VendorService();
+        vendorService.getByEmail(currentUser?.Email).then((vendorResponse) => {
+          if (vendorResponse instanceof ErrorModel) {
+            alert("Vendor not found");
+            return;
+          }
+          setVendorModel(vendorResponse);
+        });
+      } else {
+        setVendorModel(vendorModel);
+        setLocations(response);
+      }
     });
   }
-  const onNewLocationUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewLocation({
-      ...newLocation,
-      [event.target.name]: event.target.value,
+  function editLocation(aLocationModel: LocationModel) {
+    setOpenNewLocationDialog(true);
+    setLocationToUpdate(aLocationModel);
+    setNewLocation(false);
+  }
+  /* function updateLocation(aLocationModel: LocationModel) {
+    const locationService = new LocationService();
+    locationService.updateLocation(aLocationModel).then(() => {
+      getByVendor();
     });
-  };
+  } */
   async function deleteLocation(aLocationId) {
     confirmWithTwoButtons(
       "Yes",
@@ -73,12 +78,16 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
       getByVendor();
     });
   }
-  const handleOpenNewLocationDialog = () => {
+  function handleOpenNewLocationDialog() {
+    setLocationToUpdate(LocationModel.NewBlankLocation(vendorModel));
     setOpenNewLocationDialog(true);
-  };
-  const handleCloseNewLocationDialog = () => {
+  }
+  function handleCloseNewLocationDialog(refreshLocations) {
+    if (refreshLocations) {
+      getByVendor();
+    }
     setOpenNewLocationDialog(false);
-  };
+  }
   return (
     <div>
       <h1>Locations</h1>
@@ -88,22 +97,25 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
         locations.map(function (locationModel) {
           return (
             <div>
-              <VendorLocation
-                location={locationModel}
-                deleteLocation={deleteLocation}
-                handleOpenNewLocationDialog={handleOpenNewLocationDialog}
-              />
+              {locationModel != null && (
+                <VendorLocation
+                  location={locationModel}
+                  deleteLocation={deleteLocation}
+                  editLocation={editLocation}
+                />
+              )}
             </div>
           );
         })}
       <VendorLocationDialog
-        locationModel={LocationModel.NewBlankLocation(vendorModel)}
+        locationModel={locationToUpdate}
         vendorModel={
           vendorModel != null ? vendorModel : VendorModel.NewBlankVendor()
         }
         onCloseDialog={handleCloseNewLocationDialog}
         dialogOpen={openNewLocationDialog}
-        newLocation={true}
+        reopenDialog={handleOpenNewLocationDialog}
+        newLocation={newLocation}
       ></VendorLocationDialog>
       <Fab
         color="primary"

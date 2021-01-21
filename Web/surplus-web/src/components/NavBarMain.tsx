@@ -1,4 +1,4 @@
-import React from "react";
+import React, { RefObject } from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -20,6 +20,8 @@ import { connect } from "react-redux";
 import ProfileModel from "../models/Profile";
 import { selectCartItemsCount } from "../redux/cart/cart.selectors";
 import { auth } from "../firebase/firebase.utils";
+import DropdownMenu from './DropdownMenu';
+import HeaderEventType from '../utils/Enum';
 
 const useStyles = makeStyles((theme: any) => ({
   grow: {
@@ -90,15 +92,27 @@ type NavInfo = {
 };
 
 const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
+  React.useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+  });
+ 
+  let wrapperRef = React.useRef<HTMLDivElement>(null);
+
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [profileEl, setProfileEl] = React.useState(null);
+  const [showDialog, setShowDialog] = React.useState(false);
+  const [dialogType, setDialogType] = React.useState(HeaderEventType.IsNotification | HeaderEventType.IsMail | HeaderEventType.IsCart);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleProfileClick = (event) => {
+    setShowDialog(false);
     setProfileEl(event.currentTarget);
   };
 
@@ -118,6 +132,19 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
   const handleMobileMenuOpen = (event: any) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const toggleDialog = (type: HeaderEventType) => {      
+    setShowDialog(!showDialog);
+    setDialogType(type);  
+  }
+
+  const handleClickOutside = (event) => {
+    if(wrapperRef.current && !wrapperRef.current.contains(event.target))
+    {
+      setShowDialog(false);
+    }
+  }
+
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -209,12 +236,12 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
-                <MailIcon />
+                <MailIcon onClick={() => toggleDialog(HeaderEventType.IsMail)} />
               </Badge>
             </IconButton>
             <IconButton aria-label="show 17 new notifications" color="inherit">
               <Badge color="secondary">
-                <NotificationsIcon />
+                <NotificationsIcon onClick={() => toggleDialog(HeaderEventType.IsNotification)} />
               </Badge>
             </IconButton>
             <IconButton
@@ -223,7 +250,7 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
               color="inherit"
             >
               <Badge badgeContent={cartItemCount} color="secondary">
-                <ShoppingCart />
+                <ShoppingCart onClick={() => toggleDialog(HeaderEventType.IsCart)} />
               </Badge>
             </IconButton>
             <IconButton
@@ -281,6 +308,7 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      {showDialog ? <div ref={wrapperRef}><DropdownMenu dropDownType={dialogType} /></div> : null }     
     </div>
   );
 };

@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   }
 
   const BackDrop: React.FC<Partial<IsLoading>> = ({isLoading = false, isInvisible = false}) => {
-    const classes = useStyles();
+    const classes = useStyles();  
     return (
         <Backdrop className={classes.backdrop} open={isLoading} invisible={isInvisible}>
             <CircularProgress style={{'color': 'yellow'}} />

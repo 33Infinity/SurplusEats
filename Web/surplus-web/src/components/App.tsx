@@ -48,13 +48,13 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
           setCurrentUser(profile);
         }
       });
-    });
+    });  
 
     return () => {
-      unsubscribeFromAuth();
+      unsubscribeFromAuth();     
     };
   }, []);
-
+  
   return (
     <SessionContext.Provider value={CurrentSession}>
       <BrowserRouter>

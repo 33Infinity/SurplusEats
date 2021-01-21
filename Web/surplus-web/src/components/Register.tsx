@@ -118,7 +118,7 @@ const Register: React.FC = () => {
               new Date()
             );
           }
-          console.log(newVendor);
+          
           const registeredProfile = await authenticationService.register(
             newProfile,
             newVendor

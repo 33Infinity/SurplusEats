@@ -84,11 +84,20 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
     }
     setOpenNewLocationDialog(true);
   }
-  function handleCloseNewLocationDialog(refreshLocations) {
-    if (refreshLocations) {
-      getByVendor();
-    }
+  function handleCloseDialog() {
     setOpenNewLocationDialog(false);
+  }
+  async function addNewLocation(aLocationModel) {
+    setLocation(aLocationModel);
+    locationService.addLocation(aLocationModel).then(() => {
+      getByVendor();
+    });
+  }
+  async function updateLocation(aLocationModel) {
+    setLocation(aLocationModel);
+    locationService.updateLocation(aLocationModel).then(() => {
+      getByVendor();
+    });
   }
   return (
     <div>
@@ -114,11 +123,12 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
         vendorModel={
           vendorModel != null ? vendorModel : VendorModel.NewBlankVendor()
         }
-        onCloseDialog={handleCloseNewLocationDialog}
+        onCloseDialog={handleCloseDialog}
         dialogOpen={openNewLocationDialog}
-        reopenDialog={handleOpenNewLocationDialog}
         newLocation={newLocation}
         setLocation={OnLocationUpdate}
+        addLocation={addNewLocation}
+        updateLocation={updateLocation}
       ></VendorLocationDialog>
       <Fab
         color="primary"

@@ -4,6 +4,7 @@ import CurrentSession from "../CurrentSession";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/App.css";
 import "../css/ShoppingCart.css";
+import "../css/ConfirmAlert.css";
 import UserHome from "./UserHome";
 import VendorHome from "./VendorHome";
 import Profile from "./Profile";
@@ -48,13 +49,13 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
           setCurrentUser(profile);
         }
       });
-    });  
+    });
 
     return () => {
-      unsubscribeFromAuth();     
+      unsubscribeFromAuth();
     };
   }, []);
-  
+
   return (
     <SessionContext.Provider value={CurrentSession}>
       <BrowserRouter>

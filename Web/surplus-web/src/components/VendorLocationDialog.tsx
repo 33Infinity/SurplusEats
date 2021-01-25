@@ -17,11 +17,12 @@ import { confirmWithTwoButtons } from "./Confirmation";
 interface Props {
   locationModel: LocationModel;
   vendorModel: VendorModel;
-  onCloseDialog(refreshLocations): any;
-  reopenDialog(isNew: Boolean): any;
+  onCloseDialog(): any;
   setLocation(aColumn, aValue): any;
   dialogOpen: boolean;
   newLocation: boolean;
+  addLocation(aLocationModel: LocationModel): any;
+  updateLocation(aLocationModel: LocationModel): any;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -36,36 +37,28 @@ const useStyles = makeStyles((theme: Theme) =>
     error: {
       backgroundColor: theme.palette.error.dark,
     },
+    dialogClose: {
+      float: "right",
+    },
   })
 );
 
 const VendorLocationDialog: React.FC<Props> = (props) => {
   const CONFIRMATION_BUTTON_TEXT_SAVE = "Save";
-  const CONFIRMATION_BUTTON_TEXT_CONFIRM_ADDRESS = "Confirm Address";
   let locationService = new LocationService();
+  let locationModelToSave;
   const classes = useStyles();
-  const [addressConfirmed, setAddressConfirmed] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [showError, setShowError] = useState(false);
   const onLocationUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
     props.setLocation(event.target.name, event.target.value);
   };
   async function handleCancel() {
-    setAddressConfirmed(false);
-    props.onCloseDialog(false);
+    props.onCloseDialog();
   }
   async function handleSave() {
-    props.onCloseDialog(false);
-    if (addressConfirmed) {
-      if (props.newLocation) {
-        addNewLocation(props.locationModel);
-      } else {
-        updateLocation(props.locationModel);
-      }
-      return;
-    }
     setErrorMessage("");
-    const locationModelToSave = LocationModel.NewLocation(
+    locationModelToSave = LocationModel.NewLocation(
       props.vendorModel,
       props.locationModel.Name,
       props.locationModel.City,
@@ -83,7 +76,6 @@ const VendorLocationDialog: React.FC<Props> = (props) => {
     if (response instanceof ErrorModel) {
       setShowError(true);
       setErrorMessage(response.ErrorMessage);
-      setAddressConfirmed(false);
       return;
     }
     locationModelToSave.Latitude = response[0].lat;
@@ -101,27 +93,18 @@ const VendorLocationDialog: React.FC<Props> = (props) => {
     );
   }
   function confirmAddress() {
-    setAddressConfirmed(true);
-    props.reopenDialog(false);
+    if (props.newLocation) {
+      props.addLocation(locationModelToSave);
+    } else {
+      props.updateLocation(locationModelToSave);
+    }
   }
   function denyAddress() {
-    setAddressConfirmed(false);
     resetLocationCoordinates();
-    props.reopenDialog(false);
   }
   function resetLocationCoordinates() {
     props.setLocation("Latitude", 0);
     props.setLocation("Longitude", 0);
-  }
-  async function addNewLocation(aLocationModel) {
-    locationService.addLocation(aLocationModel).then(() => {
-      props.onCloseDialog(true);
-    });
-  }
-  async function updateLocation(aLocationModel) {
-    locationService.updateLocation(aLocationModel).then(() => {
-      props.onCloseDialog(true);
-    });
   }
   return (
     <>
@@ -155,6 +138,17 @@ const VendorLocationDialog: React.FC<Props> = (props) => {
         onClose={props.onCloseDialog}
       >
         <div className={classes.root}>
+          <div>
+            <IconButton
+              className={classes.dialogClose}
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              onClick={handleCancel}
+            >
+              <CloseIcon />
+            </IconButton>
+          </div>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <TextField
@@ -212,9 +206,7 @@ const VendorLocationDialog: React.FC<Props> = (props) => {
                   Cancel
                 </Button>
                 <Button onClick={handleSave} color="primary">
-                  {addressConfirmed
-                    ? CONFIRMATION_BUTTON_TEXT_SAVE
-                    : CONFIRMATION_BUTTON_TEXT_CONFIRM_ADDRESS}
+                  {CONFIRMATION_BUTTON_TEXT_SAVE}
                 </Button>
               </DialogActions>
             </Grid>

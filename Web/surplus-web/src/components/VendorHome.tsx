@@ -23,9 +23,7 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
     getByVendor();
   }, []);
   const [vendorModel, setVendorModel] = useState<VendorModel>();
-  const [locations, setLocations] = useState<Partial<LocationModel[] | null>>(
-    []
-  );
+  const [locations, setLocations] = useState<LocationModel[] | null>([]);
   const [openNewLocationDialog, setOpenNewLocationDialog] = React.useState(
     false
   );
@@ -39,7 +37,7 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
       [aName]: aValue,
     });
   }
-  async function getByVendor() {
+  function getByVendor() {
     locationService = new LocationService();
     locationService.getByVendor(currentUser?.Email).then((response) => {
       const vendorModel = response != null ? response[0].VendorModel : null;

@@ -71,7 +71,7 @@ exports.add = location_functions.https.onRequest(
   async (request: any, response: any) => {
     return location_cors(request, response, async () => {
       const data = JSON.parse(request.body);
-      const resp = LocationDAO.add(location_admin, data);
+      const resp = await LocationDAO.add(location_admin, data);
       response.send(resp);
     });
   }
@@ -93,7 +93,7 @@ exports.update = location_functions.https.onRequest(
         data.Id,
         data.CreatedDate
       );
-      const resp = LocationDAO.update(
+      const resp = await LocationDAO.update(
         location_admin,
         data.Id,
         locationTO.getTuple()
@@ -108,7 +108,7 @@ exports.delete = location_functions.https.onRequest(
     return location_cors(request, response, async () => {
       const data = JSON.parse(request.body);
       const locationId = data.LocationId;
-      const resp = LocationDAO.delete(location_admin, locationId);
+      const resp = await LocationDAO.delete(location_admin, locationId);
       response.send(resp);
     });
   }

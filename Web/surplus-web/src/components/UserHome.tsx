@@ -53,13 +53,13 @@ const UserHome: React.FC = () => {
   const [showInventory, setShowInventory] = useState(false);
   async function getLocationsByLatLon() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
+      navigator.geolocation.getCurrentPosition(async (position) => {
         const locationService = new LocationService();
-        locationService
-          .getByLatLon(position.coords.latitude, position.coords.longitude)
-          .then((response) => {
-            setLocations(response);
-          });
+        const response = await locationService.getByLatLon(
+          position.coords.latitude,
+          position.coords.longitude
+        );
+        setLocations(response);
       });
     } else {
       alert("GeoLocation not enabled");
@@ -67,13 +67,13 @@ const UserHome: React.FC = () => {
   }
   async function getInventoryByLocation() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
+      navigator.geolocation.getCurrentPosition(async (position) => {
         const inventoryService = new InventoryService();
-        inventoryService
-          .getByLocation(position.coords.latitude, position.coords.longitude)
-          .then((response) => {
-            setInventory(response);
-          });
+        const response = await inventoryService.getByLocation(
+          position.coords.latitude,
+          position.coords.longitude
+        );
+        setInventory(response);
       });
     } else {
       alert("GeoLocation not enabled");

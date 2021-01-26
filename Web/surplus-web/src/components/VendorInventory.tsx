@@ -52,20 +52,20 @@ const VendorInventory: React.FC = () => {
       imageUrl: "",
     });
   }
-  function getByVendorLocation() {
+  async function getByVendorLocation() {
     const vendorId = HttpHelper.getUrlParamValue("VendorId");
     const locationId = HttpHelper.getUrlParamValue("LocationId");
     inventoryService = new InventoryService();
-    inventoryService
-      .getByVendorLocation(vendorId, locationId)
-      .then((response) => {
-        const locationModel =
-          response != null && response.length > 0
-            ? response[0].LocationModel
-            : null;
-        setLocationModel(locationModel);
-        setInventory(response);
-      });
+    const response = await inventoryService.getByVendorLocation(
+      vendorId,
+      locationId
+    );
+    const locationModel =
+      response != null && response.length > 0
+        ? response[0].LocationModel
+        : null;
+    setLocationModel(locationModel);
+    setInventory(response);
   }
   async function addFile(aFile) {
     const storageRef = firebase.storage().ref();
@@ -88,18 +88,16 @@ const VendorInventory: React.FC = () => {
         null,
         null
       );
-      inventoryService.addInventory(inventoryModel).then(() => {
-        getByVendorLocation();
-        clearNewInventory();
-      });
+      await inventoryService.addInventory(inventoryModel);
+      getByVendorLocation();
+      clearNewInventory();
     } else {
       alert("Validation Failed");
     }
   }
   async function updateInventory(anInventoryModel) {
-    inventoryService.updateInventory(anInventoryModel).then(() => {
-      getByVendorLocation();
-    });
+    await inventoryService.updateInventory(anInventoryModel);
+    getByVendorLocation();
   }
   async function deleteInventory(anInventoryId) {
     confirmWithTwoButtons(
@@ -112,9 +110,8 @@ const VendorInventory: React.FC = () => {
     );
   }
   async function processDeleteConfirmation(anInventoryId) {
-    inventoryService.deleteInventory(anInventoryId).then(() => {
-      getByVendorLocation();
-    });
+    await inventoryService.deleteInventory(anInventoryId);
+    getByVendorLocation();
   }
   function validate() {
     return true;

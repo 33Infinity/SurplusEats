@@ -6,7 +6,7 @@ import VendorModel from "../models/Vendor";
 import ProfileModel from "../models/Profile";
 import ErrorModel from "../models/Error";
 import VendorLocation from "./VendorLocation";
-import { confirmWithTwoButtons } from "./Confirmation";
+import { confirmWithTwoButtons, confirmWithSingleButton } from "./Confirmation";
 import { connect } from "react-redux";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
@@ -37,24 +37,27 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
       [aName]: aValue,
     });
   }
-  function getByVendor() {
+  async function getByVendor() {
     locationService = new LocationService();
-    locationService.getByVendor(currentUser?.Email).then((response) => {
-      const vendorModel = response != null ? response[0].VendorModel : null;
-      if (vendorModel == null) {
-        vendorService = new VendorService();
-        vendorService.getByEmail(currentUser?.Email).then((vendorResponse) => {
-          if (vendorResponse instanceof ErrorModel) {
-            alert("Vendor not found");
-            return;
-          }
-          setVendorModel(vendorResponse);
-        });
-      } else {
-        setVendorModel(vendorModel);
-        setLocations(response);
+    let locations = await locationService.getByVendor(currentUser?.Email);
+    const vendorModel = locations != null ? locations[0].VendorModel : null;
+    if (vendorModel == null) {
+      vendorService = new VendorService();
+      let vendorResponse = await vendorService.getByEmail(currentUser?.Email);
+      if (vendorResponse instanceof ErrorModel) {
+        confirmWithSingleButton(
+          "Ok",
+          "Vendor Error",
+          "Vendor Not Found?",
+          null
+        );
+        return;
       }
-    });
+      setVendorModel(vendorResponse);
+    } else {
+      setVendorModel(vendorModel);
+      setLocations(locations);
+    }
   }
   function editLocation(aLocationModel: LocationModel) {
     setOpenNewLocationDialog(true);
@@ -72,9 +75,8 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
     );
   }
   async function processDeleteConfirmation(aLocationId) {
-    locationService.deleteLocation(aLocationId).then(() => {
-      getByVendor();
-    });
+    await locationService.deleteLocation(aLocationId);
+    getByVendor();
   }
   function handleOpenNewLocationDialog(isNew) {
     if (isNew) {
@@ -87,15 +89,13 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
   }
   async function addNewLocation(aLocationModel) {
     setLocation(aLocationModel);
-    locationService.addLocation(aLocationModel).then(() => {
-      getByVendor();
-    });
+    await locationService.addLocation(aLocationModel);
+    getByVendor();
   }
   async function updateLocation(aLocationModel) {
     setLocation(aLocationModel);
-    locationService.updateLocation(aLocationModel).then(() => {
-      getByVendor();
-    });
+    await locationService.updateLocation(aLocationModel);
+    getByVendor();
   }
   return (
     <div>

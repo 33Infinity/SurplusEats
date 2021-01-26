@@ -5,12 +5,12 @@ import InventoryService from "../services/Inventory";
 import InventoryModel from "../models/Inventory";
 import LocationModel from "../models/Location";
 import SaveIcon from "@material-ui/icons/Save";
-import ImageUpload from "./ImageUpload";
+import ImageUpload from "../controls/ImageUpload";
 import firebase from "../firebase/firebase.utils";
 import VendorInventoryItem from "./VendorInventoryItem";
 import HttpHelper from "../utils/HttpHelper";
 import Header from "./Header";
-import { confirmWithTwoButtons } from "./Confirmation";
+import { confirmWithTwoButtons } from "../controls/Confirmation";
 
 type NewInventoryState = {
   description: string;

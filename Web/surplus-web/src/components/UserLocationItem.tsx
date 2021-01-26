@@ -1,7 +1,7 @@
 import React from "react";
 import DefaultImage from "../images/InventoryBlank.png";
 import LocationModel from "../models/Location";
-import MediaCard from "./MediaCard";
+import MediaCard from "../controls/MediaCard";
 import StringUtils from "../utils/StringUtils";
 
 interface Props {

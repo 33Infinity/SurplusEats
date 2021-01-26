@@ -6,7 +6,10 @@ import VendorModel from "../models/Vendor";
 import ProfileModel from "../models/Profile";
 import ErrorModel from "../models/Error";
 import VendorLocation from "./VendorLocation";
-import { confirmWithTwoButtons, confirmWithSingleButton } from "./Confirmation";
+import {
+  confirmWithTwoButtons,
+  confirmWithSingleButton,
+} from "../controls/Confirmation";
 import { connect } from "react-redux";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";

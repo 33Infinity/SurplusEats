@@ -60,4 +60,14 @@ export default class Vendor {
     await SqlHelper.insert(admin, VendorTO.TableName, tuple);
     return tuple;
   }
+
+  static async update(admin, anId, vendor) {
+    const response = await SqlHelper.update(
+      admin,
+      VendorTO.TableName,
+      vendor,
+      anId
+    );
+    return response;
+  }
 }

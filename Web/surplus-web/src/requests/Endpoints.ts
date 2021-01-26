@@ -39,5 +39,7 @@ export default class Endpoints {
   static Vendor = class {
     public static getByEmail =
       "http://localhost:6002/surplus-functions/us-central1/vendor-getByEmail";
+    public static update =
+      "http://localhost:6002/surplus-functions/us-central1/vendor-update";
   };
 }

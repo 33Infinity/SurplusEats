@@ -82,7 +82,7 @@ exports.add = inventory_functions.https.onRequest(
   async (request: any, response: any) => {
     return inventory_cors(request, response, async () => {
       const data = JSON.parse(request.body);
-      const resp = InventoryDAO.add(inventory_admin, data);
+      const resp = await InventoryDAO.add(inventory_admin, data);
       response.send(resp);
     });
   }
@@ -101,7 +101,7 @@ exports.update = inventory_functions.https.onRequest(
         data.Id,
         data.CreatedDate
       );
-      const resp = InventoryDAO.update(
+      const resp = await InventoryDAO.update(
         inventory_admin,
         data.Id,
         inventoryTO.getTuple()
@@ -116,7 +116,7 @@ exports.delete = inventory_functions.https.onRequest(
     return inventory_cors(request, response, async () => {
       const data = JSON.parse(request.body);
       const inventoryId = data.InventoryId;
-      const resp = InventoryDAO.delete(inventory_admin, inventoryId);
+      const resp = await InventoryDAO.delete(inventory_admin, inventoryId);
       response.send(resp);
     });
   }

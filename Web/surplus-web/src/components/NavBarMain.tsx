@@ -20,8 +20,8 @@ import { connect } from "react-redux";
 import ProfileModel from "../models/Profile";
 import { selectCartItemsCount } from "../redux/cart/cart.selectors";
 import { auth } from "../firebase/firebase.utils";
-import DropdownMenu from './DropdownMenu';
-import HeaderEventType from '../utils/Enum';
+import DropdownMenu from "../controls/DropdownMenu";
+import HeaderEventType from "../utils/Enum";
 
 const useStyles = makeStyles((theme: any) => ({
   grow: {
@@ -93,12 +93,12 @@ type NavInfo = {
 
 const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
   React.useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   });
- 
+
   let wrapperRef = React.useRef<HTMLDivElement>(null);
 
   const classes = useStyles();
@@ -106,7 +106,11 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [profileEl, setProfileEl] = React.useState(null);
   const [showDialog, setShowDialog] = React.useState(false);
-  const [dialogType, setDialogType] = React.useState(HeaderEventType.IsNotification | HeaderEventType.IsMail | HeaderEventType.IsCart);
+  const [dialogType, setDialogType] = React.useState(
+    HeaderEventType.IsNotification |
+      HeaderEventType.IsMail |
+      HeaderEventType.IsCart
+  );
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -133,21 +137,19 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const toggleDialog = () => {      
-    setShowDialog(!showDialog);     
-  }
+  const toggleDialog = () => {
+    setShowDialog(!showDialog);
+  };
 
-  const SetDialogType = (type: HeaderEventType) => {  
-    setDialogType(type);  
-  }
+  const SetDialogType = (type: HeaderEventType) => {
+    setDialogType(type);
+  };
 
   const handleClickOutside = (event) => {
-    if(wrapperRef.current && !wrapperRef.current.contains(event.target))
-    {
+    if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
       setShowDialog(false);
     }
-  }
-
+  };
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -239,12 +241,22 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
-                <MailIcon onClick={() => {SetDialogType(HeaderEventType.IsMail); toggleDialog()}} />
+                <MailIcon
+                  onClick={() => {
+                    SetDialogType(HeaderEventType.IsMail);
+                    toggleDialog();
+                  }}
+                />
               </Badge>
             </IconButton>
             <IconButton aria-label="show 17 new notifications" color="inherit">
               <Badge color="secondary">
-                <NotificationsIcon onClick={() => {SetDialogType(HeaderEventType.IsNotification); toggleDialog()}} />
+                <NotificationsIcon
+                  onClick={() => {
+                    SetDialogType(HeaderEventType.IsNotification);
+                    toggleDialog();
+                  }}
+                />
               </Badge>
             </IconButton>
             <IconButton
@@ -253,7 +265,12 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
               color="inherit"
             >
               <Badge badgeContent={cartItemCount} color="secondary">
-                <ShoppingCart onClick={() => {SetDialogType(HeaderEventType.IsCart); toggleDialog()}} />
+                <ShoppingCart
+                  onClick={() => {
+                    SetDialogType(HeaderEventType.IsCart);
+                    toggleDialog();
+                  }}
+                />
               </Badge>
             </IconButton>
             <IconButton
@@ -311,7 +328,11 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-      {showDialog ? <div ref={wrapperRef}><DropdownMenu dropDownType={dialogType} btnEvent={toggleDialog} /></div> : null }     
+      {showDialog ? (
+        <div ref={wrapperRef}>
+          <DropdownMenu dropDownType={dialogType} btnEvent={toggleDialog} />
+        </div>
+      ) : null}
     </div>
   );
 };

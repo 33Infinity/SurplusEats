@@ -1,5 +1,5 @@
 import React from "react";
-import MediaCard from "./MediaCard";
+import MediaCard from "../controls/MediaCard";
 import InventoryModel from "../models/Inventory";
 import DefaultImage from "../images/InventoryBlank.png";
 import StringUtils from "../utils/StringUtils";

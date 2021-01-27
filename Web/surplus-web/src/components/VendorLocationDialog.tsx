@@ -9,10 +9,10 @@ import { Grid, TextField, IconButton } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import LocationService from "../services/Location";
-import CustomMap from "./CustomMap";
+import CustomMap from "../controls/CustomMap";
 import ArrayUtils from "../utils/ArrayUtils";
 import Snackbar from "@material-ui/core/Snackbar";
-import { confirmWithTwoButtons } from "./Confirmation";
+import { confirmWithTwoButtons } from "../controls/Confirmation";
 
 interface Props {
   locationModel: LocationModel;

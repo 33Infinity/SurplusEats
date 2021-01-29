@@ -7,7 +7,8 @@ import "../css/ShoppingCart.css";
 import "../css/ConfirmAlert.css";
 import UserHome from "./UserHome";
 import VendorHome from "./VendorHome";
-import Profile from "./Profile";
+import VendorProfile from "./VendorProfile";
+import UserProfile from "./UserProfile";
 import SignIn from "./SignIn";
 import Register from "./Register";
 import VendorInventory from "./VendorInventory";
@@ -96,7 +97,15 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
               exact
               path="/Profile"
               render={() =>
-                currentUser?.IsAuthenticated ? <Profile /> : <SignIn />
+                currentUser?.IsAuthenticated ? (
+                  currentUser?.IsVendor ? (
+                    <VendorProfile />
+                  ) : (
+                    <UserProfile />
+                  )
+                ) : (
+                  <SignIn />
+                )
               }
             />
             <Route

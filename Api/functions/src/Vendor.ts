@@ -36,7 +36,7 @@ exports.update = vendor_functions.https.onRequest(
     return vendor_cors(request, response, async () => {
       const data = JSON.parse(request.body);
       const vendorTO = VendorTO.NewVendor(
-        data.Name,
+        data.UserEmail,
         data.Name,
         data.ImageUrl,
         data.Description,

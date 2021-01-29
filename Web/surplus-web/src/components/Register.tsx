@@ -110,6 +110,7 @@ const Register: React.FC = () => {
           let newVendor;
           if (profile.isVendor) {
             newVendor = VendorModel.NewVendor(
+              profile.email,
               profile.vendorName,
               null,
               null,
@@ -117,7 +118,7 @@ const Register: React.FC = () => {
               new Date()
             );
           }
-          
+
           const registeredProfile = await authenticationService.register(
             newProfile,
             newVendor

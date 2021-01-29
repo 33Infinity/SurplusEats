@@ -12,4 +12,14 @@ export default class Vendor extends BaseRequest {
     const json = await this.getJson(url, requestObject);
     return json;
   }
+
+  async update(aVendorModel) {
+    const url = Endpoints.Vendor.update;
+    const requestObject = this.buildRequestObject(
+      HttpMethods.post,
+      aVendorModel
+    );
+    const json = await this.getJson(url, requestObject);
+    return json;
+  }
 }

@@ -1,8 +1,9 @@
 import React from "react";
-import Header from "./Header";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+import { connect } from "react-redux";
+import ProfileModel from "../models/Profile";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -17,7 +18,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Profile: React.FC = () => {
+type Redux = {
+  currentUser: ProfileModel;
+};
+
+const UserProfile: React.FC = () => {
   const classes = useStyles();
   return (
     <div>
@@ -36,4 +41,8 @@ const Profile: React.FC = () => {
   );
 };
 
-export default Profile;
+const mapStateToProps = (state) => ({
+  currentUser: state.user.currentUser,
+});
+
+export default connect(mapStateToProps)(UserProfile);

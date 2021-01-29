@@ -48,6 +48,7 @@ export default class Location {
     for (let i = 0; i < someJson.length; i++) {
       const locationModel = LocationModel.NewLocation(
         VendorModel.NewVendor(
+          someJson[i].Vendor.UserEmail,
           someJson[i].Vendor.Name,
           someJson[i].Vendor.ImageUrl,
           someJson[i].Vendor.Description,

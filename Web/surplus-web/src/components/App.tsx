@@ -1,16 +1,14 @@
 import React from "react";
-import SessionContext from "../SessionContext";
-import CurrentSession from "../CurrentSession";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/App.css";
 import "../css/ShoppingCart.css";
 import "../css/ConfirmAlert.css";
-import UserHome from "./UserHome";
-import VendorHome from "./VendorHome";
-import VendorProfile from "./VendorProfile";
-import UserProfile from "./UserProfile";
-import SignIn from "./SignIn";
-import Register from "./Register";
+import UserHome from "../pages/UserHome";
+import VendorHome from "../pages/VendorHome";
+import VendorProfile from "../pages/VendorProfile";
+import UserProfile from "../pages/UserProfile";
+import SignIn from "../pages/SignIn";
+import Register from "../pages/Register";
 import VendorInventory from "./VendorInventory";
 import Footer from "./Footer";
 import {
@@ -58,92 +56,90 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
   }, []);
 
   return (
-    <SessionContext.Provider value={CurrentSession}>
-      <BrowserRouter>
-        <div>
-          <Header />
-          <Switch>
-            <Route
-              exact
-              path="/"
-              render={() =>
-                currentUser?.IsAuthenticated ? (
-                  currentUser?.IsVendor ? (
-                    <VendorHome />
-                  ) : (
-                    <UserHome />
-                  )
+    <BrowserRouter>
+      <div>
+        <Header />
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={() =>
+              currentUser?.IsAuthenticated ? (
+                currentUser?.IsVendor ? (
+                  <VendorHome />
                 ) : (
-                  <SignIn />
+                  <UserHome />
                 )
-              }
-            />
-            <Route
-              exact
-              path="/Home"
-              render={() =>
-                currentUser?.IsAuthenticated ? (
-                  currentUser?.IsVendor ? (
-                    <VendorHome />
-                  ) : (
-                    <UserHome />
-                  )
+              ) : (
+                <SignIn />
+              )
+            }
+          />
+          <Route
+            exact
+            path="/Home"
+            render={() =>
+              currentUser?.IsAuthenticated ? (
+                currentUser?.IsVendor ? (
+                  <VendorHome />
                 ) : (
-                  <SignIn />
+                  <UserHome />
                 )
-              }
-            />
-            <Route
-              exact
-              path="/Profile"
-              render={() =>
-                currentUser?.IsAuthenticated ? (
-                  currentUser?.IsVendor ? (
-                    <VendorProfile />
-                  ) : (
-                    <UserProfile />
-                  )
+              ) : (
+                <SignIn />
+              )
+            }
+          />
+          <Route
+            exact
+            path="/Profile"
+            render={() =>
+              currentUser?.IsAuthenticated ? (
+                currentUser?.IsVendor ? (
+                  <VendorProfile />
                 ) : (
-                  <SignIn />
+                  <UserProfile />
                 )
-              }
-            />
-            <Route
-              exact
-              path="/Signin"
-              render={() =>
-                currentUser?.IsAuthenticated ? (
-                  currentUser?.IsVendor ? (
-                    <VendorHome />
-                  ) : (
-                    <UserHome />
-                  )
+              ) : (
+                <SignIn />
+              )
+            }
+          />
+          <Route
+            exact
+            path="/Signin"
+            render={() =>
+              currentUser?.IsAuthenticated ? (
+                currentUser?.IsVendor ? (
+                  <VendorHome />
                 ) : (
-                  <SignIn />
+                  <UserHome />
                 )
-              }
-            />
-            <Route
-              exact
-              path="/Register"
-              render={() =>
-                currentUser?.IsAuthenticated ? (
-                  currentUser?.IsVendor ? (
-                    <VendorHome />
-                  ) : (
-                    <UserHome />
-                  )
+              ) : (
+                <SignIn />
+              )
+            }
+          />
+          <Route
+            exact
+            path="/Register"
+            render={() =>
+              currentUser?.IsAuthenticated ? (
+                currentUser?.IsVendor ? (
+                  <VendorHome />
                 ) : (
-                  <Register />
+                  <UserHome />
                 )
-              }
-            />
-            <Route exact path="/VendorInventory" component={VendorInventory} />
-          </Switch>
-          <Footer />
-        </div>
-      </BrowserRouter>
-    </SessionContext.Provider>
+              ) : (
+                <Register />
+              )
+            }
+          />
+          <Route exact path="/VendorInventory" component={VendorInventory} />
+        </Switch>
+        <Footer />
+      </div>
+    </BrowserRouter>
   );
 };
 

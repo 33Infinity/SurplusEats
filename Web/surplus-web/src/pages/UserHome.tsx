@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Filters from "./Filters";
-import UserMain from "./UserMain";
+import Filters from "../components/Filters";
+import UserMain from "../components/UserMain";
 import InventoryService from "../services/Inventory";
 import LocationService from "../services/Location";
 import LocationModel from "../models/Location";

@@ -238,19 +238,9 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount }) => {
             />
           </div>
           <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon
-                  onClick={() => {
-                    SetDialogType(HeaderEventType.IsMail);
-                    toggleDialog();
-                  }}
-                />
-              </Badge>
-            </IconButton>
+          <div className={classes.sectionDesktop}>            
             <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge color="secondary">
+              <Badge badgeContent={17} color="secondary">
                 <NotificationsIcon
                   onClick={() => {
                     SetDialogType(HeaderEventType.IsNotification);

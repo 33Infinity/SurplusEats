@@ -59,7 +59,9 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
       setVendorModel(vendorResponse);
     } else {
       setVendorModel(vendorModel);
-      setLocations(locations);
+      if (!(locations instanceof ErrorModel)) {
+        setLocations(locations);
+      }
     }
   }
   function editLocation(aLocationModel: LocationModel) {

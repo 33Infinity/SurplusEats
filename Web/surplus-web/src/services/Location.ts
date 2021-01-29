@@ -2,18 +2,25 @@ import LocationModel from "../models/Location";
 import VendorModel from "../models/Vendor";
 import LocationRequest from "../requests/Location";
 import ErrorModel from "../models/Error";
+import BaseService from "./BaseService";
 
-export default class Location {
-  async getByLatLon(aLat, aLon): Promise<LocationModel[] | null> {
+export default class Location extends BaseService {
+  async getByLatLon(aLat, aLon): Promise<LocationModel[] | null | ErrorModel> {
     const request = new LocationRequest();
     const json = await request.getByLatLon(aLat, aLon);
-    return json != null ? this.buildLocationModels(json) : null;
+    if (this.isApiError(json)) {
+      return ErrorModel.NewError(json.ErrorMessage);
+    }
+    return this.buildLocationModels(json);
   }
 
-  async getByVendor(anEmail): Promise<LocationModel[] | null> {
+  async getByVendor(anEmail): Promise<LocationModel[] | null | ErrorModel> {
     const request = new LocationRequest();
     const json = await request.getByVendor(anEmail);
-    return json != null ? this.buildLocationModels(json) : null;
+    if (this.isApiError(json)) {
+      return ErrorModel.NewError(json.ErrorMessage);
+    }
+    return this.buildLocationModels(json);
   }
 
   async getLatLonFromLocation(aLocationModel): Promise<any | ErrorModel> {
@@ -28,19 +35,19 @@ export default class Location {
   async addLocation(aLocationModel) {
     const request = new LocationRequest();
     const json = await request.addLocation(aLocationModel);
-    return !json.HasError;
+    return this.isApiError(json);
   }
 
   async updateLocation(aLocationModel) {
     const request = new LocationRequest();
     const json = await request.updateLocation(aLocationModel);
-    return !json.HasError;
+    return this.isApiError(json);
   }
 
   async deleteLocation(aLocationId) {
     const request = new LocationRequest();
     const json = await request.deleteLocation(aLocationId);
-    return !json.HasError;
+    return this.isApiError(json);
   }
 
   buildLocationModels(someJson) {

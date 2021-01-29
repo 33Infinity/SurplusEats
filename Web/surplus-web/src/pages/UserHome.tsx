@@ -16,6 +16,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import ErrorModel from "../models/Error";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -59,7 +60,12 @@ const UserHome: React.FC = () => {
           position.coords.latitude,
           position.coords.longitude
         );
-        setLocations(response);
+        if (!(response instanceof ErrorModel)) {
+          setLocations(response);
+        } else {
+          alert("Error Occurred");
+          // TODO: Have this handled appropriately
+        }
       });
     } else {
       alert("GeoLocation not enabled");

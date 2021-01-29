@@ -11,6 +11,7 @@ import VendorInventoryItem from "./VendorInventoryItem";
 import HttpHelper from "../utils/HttpHelper";
 import Header from "./Header";
 import { confirmWithTwoButtons } from "../controls/Confirmation";
+import ErrorModel from "../models/Error";
 
 type NewInventoryState = {
   description: string;
@@ -27,9 +28,7 @@ const VendorInventory: React.FC = () => {
     quantity: "",
     imageUrl: "",
   });
-  const [locationModel, setLocationModel] = useState<
-    Partial<LocationModel | null>
-  >();
+  const [locationModel, setLocationModel] = useState<Partial<LocationModel>>();
   const onNewInventoryUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewInventory({
       ...newInventory,
@@ -60,12 +59,19 @@ const VendorInventory: React.FC = () => {
       vendorId,
       locationId
     );
-    const locationModel =
-      response != null && response.length > 0
-        ? response[0].LocationModel
-        : null;
-    setLocationModel(locationModel);
-    setInventory(response);
+    if (response instanceof ErrorModel) {
+      alert("Error Occurred");
+      // TODO: Handle this appropriately
+    } else {
+      const locationModel =
+        response != null && response.length > 0
+          ? response[0].LocationModel
+          : null;
+      if (locationModel != null) {
+        setLocationModel(locationModel);
+        setInventory(response);
+      }
+    }
   }
   async function addFile(aFile) {
     const storageRef = firebase.storage().ref();

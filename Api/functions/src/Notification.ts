@@ -6,15 +6,15 @@ const notification_cors = require("cors")({
   origin: true,
 });
 
-import NotificationDAO from "./datastore/dao/Notification";
 import HttpHelper from "./utils/HttpHelper";
+import NotificationBO from "./bo/Notification";
 
 exports.getByEmail = notification_functions.https.onRequest(
   async (request: any, response: any) => {
     return notification_cors(request, response, async () => {
       const data = JSON.parse(request.body);
       const email = data.Email;
-      const notifications = await NotificationDAO.getByEmail(
+      const notifications = await NotificationBO.getByEmail(
         notification_admin,
         email
       );

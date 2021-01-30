@@ -7,37 +7,15 @@ const location_cors = require("cors")({
 });
 import LocationDAO from "./datastore/dao/Location";
 import HttpHelper from "./utils/HttpHelper";
-import SqlHelper from "./utils/SqlHelper";
-import IResponse from "./IResponse";
-import GeoLocationHelper from "./utils/GeoLocationHelper";
 import LocationTO from "./datastore/to/Location";
-import VendorDAO from "./datastore/dao/Vendor";
-import Error from "./Error";
-import Constants from "./Constants";
+import LocationBO from "./bo/Location";
 
 exports.getByVendor = location_functions.https.onRequest(
   async (request: any, response: any) => {
     return location_cors(request, response, async () => {
-      let retObj: IResponse = {};
       const data = JSON.parse(request.body);
-      const email = data.Email;
-      const vendor = await VendorDAO.getByEmail(location_admin, email);
-      if (vendor == null || vendor.length == 0) {
-        const error = Error.NewError(
-          Constants.Error.VENDOR_DOES_NOT_EXIST,
-          "500"
-        );
-        response.status(500).send(error);
-        return;
-      }
-      const locations = await LocationDAO.getLocationsByVendor(
-        location_admin,
-        vendor[0].Id
-      );
-      retObj.Locations = locations;
-      retObj.Vendors = vendor;
-      retObj = LocationDAO.Normalize(retObj);
-      response.send(HttpHelper.buildResponse(retObj));
+      const locations = LocationBO.getByVendor(location_admin, data.Email);
+      response.send(HttpHelper.buildResponse(locations));
     });
   }
 );
@@ -45,24 +23,13 @@ exports.getByVendor = location_functions.https.onRequest(
 exports.getByLatLon = location_functions.https.onRequest(
   async (request: any, response: any) => {
     return location_cors(request, response, async () => {
-      let retObj: IResponse = {};
       const data = JSON.parse(request.body);
-      const latitude = data.Latitude;
-      const longitude = data.Longitude;
-      let locations = await SqlHelper.get(location_admin, LocationTO.TableName);
-      const closestLocations = GeoLocationHelper.GetClosestNLocations(
-        latitude,
-        longitude,
-        locations,
-        10
-      );
-      retObj.Locations = closestLocations;
-      retObj.Vendors = await VendorDAO.getVendorByLocations(
+      const locations = LocationBO.getByLatLon(
         location_admin,
-        closestLocations
+        data.Latitude,
+        data.Longitude
       );
-      retObj = LocationDAO.Normalize(retObj);
-      response.send(HttpHelper.buildResponse(retObj));
+      response.send(HttpHelper.buildResponse(locations));
     });
   }
 );
@@ -71,7 +38,17 @@ exports.add = location_functions.https.onRequest(
   async (request: any, response: any) => {
     return location_cors(request, response, async () => {
       const data = JSON.parse(request.body);
-      const resp = await LocationDAO.add(location_admin, data);
+      const resp = await LocationBO.add(
+        location_admin,
+        data.VendorModel.Id,
+        data.Name,
+        data.City,
+        data.State,
+        data.Latitude,
+        data.Longitude,
+        data.Address,
+        data.PostalCode
+      );
       response.send(resp);
     });
   }

@@ -22,3 +22,52 @@ exports.getByEmail = notification_functions.https.onRequest(
     });
   }
 );
+
+exports.add = notification_functions.https.onRequest(
+  async (request: any, response: any) => {
+    return notification_cors(request, response, async () => {
+      const data = JSON.parse(request.body);
+      const resp = await NotificationBO.add(
+        notification_admin,
+        data.NotificationId,
+        data.Email,
+        data.Subject,
+        data.Message,
+        data.MarkedAsRead
+      );
+      response.send(resp);
+    });
+  }
+);
+
+exports.update = notification_functions.https.onRequest(
+  async (request: any, response: any) => {
+    return notification_cors(request, response, async () => {
+      const data = JSON.parse(request.body);
+      const resp = await NotificationBO.update(
+        notification_admin,
+        data.NotificationId,
+        data.Email,
+        data.Subject,
+        data.Message,
+        data.MarkedAsRead,
+        data.Id,
+        data.CreatedDate
+      );
+      response.send(resp);
+    });
+  }
+);
+
+exports.delete = notification_functions.https.onRequest(
+  async (request: any, response: any) => {
+    return notification_cors(request, response, async () => {
+      const data = JSON.parse(request.body);
+      const resp = await NotificationBO.delete(
+        notification_admin,
+        data.NotificationId
+      );
+      response.send(resp);
+    });
+  }
+);

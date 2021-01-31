@@ -1,6 +1,6 @@
 import React from "react";
-import LocationModel from "../models/Location";
-import InventoryModel from "../models/Inventory";
+import LocationModel from "../../models/Location";
+import InventoryModel from "../../models/Inventory";
 import UserInventoryItem from "./UserInventoryItem";
 import UserLocationItem from "./UserLocationItem";
 

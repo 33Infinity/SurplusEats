@@ -20,4 +20,32 @@ export default class Notification {
     );
     return response;
   }
+
+  static async add(admin, aNotificationTO: NotificationTO) {
+    const response = await SqlHelper.insert(
+      admin,
+      NotificationTO.TableName,
+      aNotificationTO.getTuple()
+    );
+    return response;
+  }
+
+  static async update(admin, anId, notification) {
+    const response = await SqlHelper.update(
+      admin,
+      NotificationTO.TableName,
+      notification,
+      anId
+    );
+    return response;
+  }
+
+  static async delete(admin, aNotificationId) {
+    const response = await SqlHelper.delete(
+      admin,
+      NotificationTO.TableName,
+      aNotificationId
+    );
+    return response;
+  }
 }

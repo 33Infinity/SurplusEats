@@ -24,21 +24,21 @@ export default class Inventory extends BaseService {
     return this.buildInventoryModels(json);
   }
 
-  async addInventory(anInventoryModel) {
+  async add(anInventoryModel) {
     const request = new InventoryRequest();
-    const json = await request.addInventory(anInventoryModel);
+    const json = await request.add(anInventoryModel);
     return !this.isApiError(json);
   }
 
-  async updateInventory(anInventoryModel) {
+  async update(anInventoryModel) {
     const request = new InventoryRequest();
-    const json = await request.updateInventory(anInventoryModel);
+    const json = await request.update(anInventoryModel);
     return !this.isApiError(json);
   }
 
-  async deleteInventory(anInventoryId) {
+  async delete(anInventoryId) {
     const request = new InventoryRequest();
-    const json = await request.deleteInventory(anInventoryId);
+    const json = await request.delete(anInventoryId);
     return !this.isApiError(json);
   }
 

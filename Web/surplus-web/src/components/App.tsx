@@ -9,7 +9,7 @@ import VendorProfile from "../pages/VendorProfile";
 import UserProfile from "../pages/UserProfile";
 import SignIn from "../pages/SignIn";
 import Register from "../pages/Register";
-import VendorInventory from "./VendorInventory";
+import VendorInventory from "./Vendor/VendorInventory";
 import Footer from "./Footer";
 import {
   HashRouter as Router,

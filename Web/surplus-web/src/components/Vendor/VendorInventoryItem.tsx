@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Grid, TextField, IconButton } from "@material-ui/core";
-import DefaultImage from "../images/InventoryBlank.png";
-import InventoryModel from "../models/Inventory";
+import DefaultImage from "../../images/InventoryBlank.png";
+import InventoryModel from "../../models/Inventory";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SaveIcon from "@material-ui/icons/Save";

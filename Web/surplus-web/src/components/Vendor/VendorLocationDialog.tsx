@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import LocationModel from "../models/Location";
-import VendorModel from "../models/Vendor";
-import ErrorModel from "../models/Error";
+import LocationModel from "../../models/Location";
+import VendorModel from "../../models/Vendor";
+import ErrorModel from "../../models/Error";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import { Grid, TextField, IconButton } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import LocationService from "../services/Location";
-import CustomMap from "../controls/CustomMap";
-import ArrayUtils from "../utils/ArrayUtils";
+import LocationService from "../../services/Location";
+import CustomMap from "../../controls/CustomMap";
+import ArrayUtils from "../../utils/ArrayUtils";
 import Snackbar from "@material-ui/core/Snackbar";
-import { confirmWithTwoButtons } from "../controls/Confirmation";
+import { confirmWithTwoButtons } from "../../controls/Confirmation";
 
 interface Props {
   locationModel: LocationModel;

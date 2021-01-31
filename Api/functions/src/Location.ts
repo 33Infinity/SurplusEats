@@ -5,16 +5,18 @@ const location_admin = require("firebase-admin");
 const location_cors = require("cors")({
   origin: true,
 });
-import LocationDAO from "./datastore/dao/Location";
+
 import HttpHelper from "./utils/HttpHelper";
-import LocationTO from "./datastore/to/Location";
 import LocationBO from "./bo/Location";
 
 exports.getByVendor = location_functions.https.onRequest(
   async (request: any, response: any) => {
     return location_cors(request, response, async () => {
       const data = JSON.parse(request.body);
-      const locations = LocationBO.getByVendor(location_admin, data.Email);
+      const locations = await LocationBO.getByVendor(
+        location_admin,
+        data.Email
+      );
       response.send(HttpHelper.buildResponse(locations));
     });
   }
@@ -24,7 +26,7 @@ exports.getByLatLon = location_functions.https.onRequest(
   async (request: any, response: any) => {
     return location_cors(request, response, async () => {
       const data = JSON.parse(request.body);
-      const locations = LocationBO.getByLatLon(
+      const locations = await LocationBO.getByLatLon(
         location_admin,
         data.Latitude,
         data.Longitude
@@ -58,7 +60,8 @@ exports.update = location_functions.https.onRequest(
   async (request: any, response: any) => {
     return location_cors(request, response, async () => {
       const data = JSON.parse(request.body);
-      const locationTO = LocationTO.NewLocation(
+      const resp = await LocationBO.update(
+        location_admin,
         data.VendorModel.Id,
         data.Name,
         data.City,
@@ -70,11 +73,6 @@ exports.update = location_functions.https.onRequest(
         data.Id,
         data.CreatedDate
       );
-      const resp = await LocationDAO.update(
-        location_admin,
-        data.Id,
-        locationTO.getTuple()
-      );
       response.send(resp);
     });
   }
@@ -84,8 +82,7 @@ exports.delete = location_functions.https.onRequest(
   async (request: any, response: any) => {
     return location_cors(request, response, async () => {
       const data = JSON.parse(request.body);
-      const locationId = data.LocationId;
-      const resp = await LocationDAO.delete(location_admin, locationId);
+      const resp = await LocationBO.delete(location_admin, data.LocationId);
       response.send(resp);
     });
   }

@@ -32,21 +32,21 @@ export default class Location extends BaseService {
     return json;
   }
 
-  async addLocation(aLocationModel) {
+  async add(aLocationModel) {
     const request = new LocationRequest();
-    const json = await request.addLocation(aLocationModel);
+    const json = await request.add(aLocationModel);
     return this.isApiError(json);
   }
 
-  async updateLocation(aLocationModel) {
+  async update(aLocationModel) {
     const request = new LocationRequest();
-    const json = await request.updateLocation(aLocationModel);
+    const json = await request.update(aLocationModel);
     return this.isApiError(json);
   }
 
-  async deleteLocation(aLocationId) {
+  async delete(aLocationId) {
     const request = new LocationRequest();
-    const json = await request.deleteLocation(aLocationId);
+    const json = await request.delete(aLocationId);
     return this.isApiError(json);
   }
 

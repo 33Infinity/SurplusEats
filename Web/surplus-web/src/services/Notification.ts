@@ -14,6 +14,24 @@ export default class Notification extends BaseService {
       : ErrorModel.NewError(json.ErrorMessage);
   }
 
+  async add(aNotificationModel) {
+    const request = new NotificationRequest();
+    const json = await request.add(aNotificationModel);
+    return this.isApiError(json);
+  }
+
+  async update(aNotificationModel) {
+    const request = new NotificationRequest();
+    const json = await request.update(aNotificationModel);
+    return this.isApiError(json);
+  }
+
+  async delete(aNotificationId) {
+    const request = new NotificationRequest();
+    const json = await request.delete(aNotificationId);
+    return this.isApiError(json);
+  }
+
   buildNotificationModels(someJson) {
     const notificationModels: NotificationModel[] = [];
     for (let i = 0; i < someJson.length; i++) {

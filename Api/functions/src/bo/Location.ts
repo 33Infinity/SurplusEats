@@ -66,4 +66,42 @@ export default class Location {
     const response = await LocationDAO.add(admin, locationTO);
     return response;
   }
+
+  static async update(
+    admin,
+    aVendorId,
+    aName,
+    aCity,
+    aState,
+    aLatitude,
+    aLongitude,
+    aAddress,
+    aPostalCode,
+    anId,
+    aCreatedDate
+  ) {
+    const locationTO = LocationTO.NewLocation(
+      aVendorId,
+      aName,
+      aCity,
+      aState,
+      aLatitude,
+      aLongitude,
+      aAddress,
+      aPostalCode,
+      anId,
+      aCreatedDate
+    );
+    const resp = await LocationDAO.update(
+      admin,
+      aVendorId,
+      locationTO.getTuple()
+    );
+    return resp;
+  }
+
+  static async delete(admin, aLocationId) {
+    const resp = await LocationDAO.delete(admin, aLocationId);
+    return resp;
+  }
 }

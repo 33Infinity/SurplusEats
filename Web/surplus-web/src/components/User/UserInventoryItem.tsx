@@ -1,8 +1,8 @@
 import React from "react";
-import MediaCard from "../controls/MediaCard";
-import InventoryModel from "../models/Inventory";
-import DefaultImage from "../images/InventoryBlank.png";
-import StringUtils from "../utils/StringUtils";
+import MediaCard from "../../controls/MediaCard";
+import InventoryModel from "../../models/Inventory";
+import DefaultImage from "../../images/InventoryBlank.png";
+import StringUtils from "../../utils/StringUtils";
 
 interface Props {
   inventoryItem: (InventoryModel | undefined) | null;

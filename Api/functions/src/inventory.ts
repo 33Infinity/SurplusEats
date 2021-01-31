@@ -5,45 +5,20 @@ const inventory_admin = require("firebase-admin");
 const inventory_cors = require("cors")({
   origin: true,
 });
-import SqlHelper from "./utils/SqlHelper";
-import GeoLocationHelper from "./utils/GeoLocationHelper";
+
 import HttpHelper from "./utils/HttpHelper";
-import LocationTO from "./datastore/to/Location";
-import VendorTO from "./datastore/to/Vendor";
-import InventoryTO from "./datastore/to/Inventory";
-import IResponse from "./IResponse";
-import InventoryDAO from "./datastore/dao/Inventory";
-import VendorDAO from "./datastore/dao/Vendor";
+import InventoryBO from "./bo/Inventory";
 
 exports.getByLocation = inventory_functions.https.onRequest(
   async (request: any, response: any) => {
     return inventory_cors(request, response, async () => {
-      let retObj: IResponse = {};
       const data = JSON.parse(request.body);
-      const latitude = data.Latitude;
-      const longitude = data.Longitude;
-      let locations = await SqlHelper.get(
+      const inventory = await InventoryBO.getByLocation(
         inventory_admin,
-        LocationTO.TableName
+        data.Latitude,
+        data.Longitude
       );
-      const closestLocations = GeoLocationHelper.GetClosestNLocations(
-        latitude,
-        longitude,
-        locations,
-        10
-      );
-      let inventory = await InventoryDAO.getByLocations(
-        inventory_admin,
-        closestLocations
-      );
-      retObj.Inventory = inventory;
-      retObj.Locations = closestLocations;
-      retObj.Vendors = await VendorDAO.getVendorByLocations(
-        inventory_admin,
-        closestLocations
-      );
-      retObj = InventoryDAO.Normalize(retObj);
-      response.send(HttpHelper.buildResponse(retObj));
+      response.send(HttpHelper.buildResponse(inventory));
     });
   }
 );
@@ -51,28 +26,12 @@ exports.getByLocation = inventory_functions.https.onRequest(
 exports.getByVendorLocation = inventory_functions.https.onRequest(
   async (request: any, response: any) => {
     return inventory_cors(request, response, async () => {
-      let retObj: IResponse = {};
       const data = JSON.parse(request.body);
-      const vendorId = data.VendorId;
-      const locationId = data.LocationId;
-      const vendors = await SqlHelper.getById(
+      const retObj = await InventoryBO.getByVendorLocation(
         inventory_admin,
-        VendorTO.TableName,
-        vendorId
+        data.VendorId,
+        data.LocationId
       );
-      const locations = await SqlHelper.getById(
-        inventory_admin,
-        LocationTO.TableName,
-        locationId
-      );
-      const inventory = await InventoryDAO.getByLocations(
-        inventory_admin,
-        locations
-      );
-      retObj.Inventory = inventory;
-      retObj.Locations = locations;
-      retObj.Vendors = vendors;
-      retObj = InventoryDAO.Normalize(retObj);
       response.send(HttpHelper.buildResponse(retObj));
     });
   }
@@ -82,7 +41,14 @@ exports.add = inventory_functions.https.onRequest(
   async (request: any, response: any) => {
     return inventory_cors(request, response, async () => {
       const data = JSON.parse(request.body);
-      const resp = await InventoryDAO.add(inventory_admin, data);
+      const resp = await InventoryBO.add(
+        inventory_admin,
+        data.Description,
+        data.Price,
+        data.Quantity,
+        data.ImgageUrl,
+        data.LocationModel.Id
+      );
       response.send(resp);
     });
   }
@@ -92,7 +58,8 @@ exports.update = inventory_functions.https.onRequest(
   async (request: any, response: any) => {
     return inventory_cors(request, response, async () => {
       const data = JSON.parse(request.body);
-      const inventoryTO = InventoryTO.NewInventory(
+      const resp = await InventoryBO.update(
+        inventory_admin,
         data.Description,
         data.Price,
         data.Quantity,
@@ -100,11 +67,6 @@ exports.update = inventory_functions.https.onRequest(
         data.LocationModel.Id,
         data.Id,
         data.CreatedDate
-      );
-      const resp = await InventoryDAO.update(
-        inventory_admin,
-        data.Id,
-        inventoryTO.getTuple()
       );
       response.send(resp);
     });
@@ -115,8 +77,7 @@ exports.delete = inventory_functions.https.onRequest(
   async (request: any, response: any) => {
     return inventory_cors(request, response, async () => {
       const data = JSON.parse(request.body);
-      const inventoryId = data.InventoryId;
-      const resp = await InventoryDAO.delete(inventory_admin, inventoryId);
+      const resp = await InventoryBO.delete(inventory_admin, data.InventoryId);
       response.send(resp);
     });
   }

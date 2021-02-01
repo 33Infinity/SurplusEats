@@ -33,6 +33,8 @@ type User = {
   setCurrentUser: (user: ProfileModel) => void;
 };
 
+let timeoutId;
+
 const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
   useEffect(() => {
     const unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
@@ -52,8 +54,16 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
       });
     });
 
+    const getNotifications = () => {
+      //request will go here
+      timeoutId = setTimeout(getNotifications, 20000);
+    }
+
+    getNotifications();
+
     return () => {
       unsubscribeFromAuth();
+      clearTimeout(timeoutId);
     };
   }, []);
 

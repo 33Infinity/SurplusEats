@@ -10,7 +10,7 @@ import VendorService from "../services/Vendor";
 import DefaultImage from "../images/InventoryBlank.png";
 import ImageUpload from "../controls/ImageUpload";
 import { confirmWithSingleButton } from "../controls/Confirmation";
-import Error from "./Error";
+import Error from "../components/Error";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

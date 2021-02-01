@@ -1,22 +1,25 @@
 import VendorModel from "../models/Vendor";
 import ErrorModel from "../models/Error";
 import VendorRequest from "../requests/Vendor";
+import BaseService from "./BaseService";
 
-export default class Vendor {
+export default class Vendor extends BaseService {
   async getByEmail(anEmail): Promise<VendorModel | ErrorModel> {
     const request = new VendorRequest();
     const json = await request.getByEmail(anEmail);
-    return json != null && json.length > 0
-      ? this.buildVendorModel(json[0])
-      : ErrorModel.NewError(json.ErrorMessage);
+    if (this.isApiError(json)) {
+      return ErrorModel.NewError(json.ErrorMessage);
+    }
+    return this.buildVendorModel(json[0]);
   }
 
   async update(aVendorModel): Promise<VendorModel | ErrorModel> {
     const request = new VendorRequest();
     const json = await request.update(aVendorModel);
-    return json != null && json.length > 0
-      ? this.buildVendorModel(json[0])
-      : ErrorModel.NewError(json.ErrorMessage);
+    if (this.isApiError(json)) {
+      return ErrorModel.NewError(json.ErrorMessage);
+    }
+    return this.buildVendorModel(json[0]);
   }
 
   buildVendorModel(someJson) {

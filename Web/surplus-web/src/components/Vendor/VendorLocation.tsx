@@ -1,5 +1,5 @@
 import React from "react";
-import LocationModel from "../models/Location";
+import LocationModel from "../../models/Location";
 import { Grid, TextField, IconButton } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import CallMadeIcon from "@material-ui/icons/CallMade";

@@ -25,13 +25,13 @@ export default class Inventory {
     return response;
   }
 
-  static async add(admin, inventory) {
+  static async add(admin, inventory: InventoryTO) {
     const inventoryTO = InventoryTO.NewInventory(
       inventory.Description,
       inventory.Price,
       inventory.Quantity,
       inventory.ImageUrl,
-      inventory.LocationModel.Id,
+      inventory.LocationId,
       null,
       new Date()
     );

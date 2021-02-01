@@ -5,7 +5,7 @@ import LocationModel from "../models/Location";
 import VendorModel from "../models/Vendor";
 import ProfileModel from "../models/Profile";
 import ErrorModel from "../models/Error";
-import VendorLocation from "./VendorLocation";
+import VendorLocation from "../components/Vendor/VendorLocation";
 import {
   confirmWithTwoButtons,
   confirmWithSingleButton,
@@ -13,7 +13,7 @@ import {
 import { connect } from "react-redux";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import VendorLocationDialog from "./VendorLocationDialog";
+import VendorLocationDialog from "../components/Vendor/VendorLocationDialog";
 
 type Redux = {
   currentUser: ProfileModel;
@@ -59,7 +59,9 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
       setVendorModel(vendorResponse);
     } else {
       setVendorModel(vendorModel);
-      setLocations(locations);
+      if (!(locations instanceof ErrorModel)) {
+        setLocations(locations);
+      }
     }
   }
   function editLocation(aLocationModel: LocationModel) {
@@ -78,7 +80,7 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
     );
   }
   async function processDeleteConfirmation(aLocationId) {
-    await locationService.deleteLocation(aLocationId);
+    await locationService.delete(aLocationId);
     getByVendor();
   }
   function handleOpenNewLocationDialog(isNew) {
@@ -92,12 +94,12 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
   }
   async function addNewLocation(aLocationModel) {
     setLocation(aLocationModel);
-    await locationService.addLocation(aLocationModel);
+    await locationService.add(aLocationModel);
     getByVendor();
   }
   async function updateLocation(aLocationModel) {
     setLocation(aLocationModel);
-    await locationService.updateLocation(aLocationModel);
+    await locationService.update(aLocationModel);
     getByVendor();
   }
   return (

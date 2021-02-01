@@ -33,8 +33,8 @@ export default class Location extends BaseRequest {
     return json;
   }
 
-  async addLocation(aLocationModel) {
-    let url = Endpoints.Location.addLocation;
+  async add(aLocationModel) {
+    let url = Endpoints.Location.add;
     const requestObject = this.buildRequestObject(
       HttpMethods.post,
       aLocationModel
@@ -43,8 +43,8 @@ export default class Location extends BaseRequest {
     return json;
   }
 
-  async updateLocation(aLocationModel) {
-    let url = Endpoints.Location.updateLocation;
+  async update(aLocationModel) {
+    let url = Endpoints.Location.update;
     const requestObject = this.buildRequestObject(
       HttpMethods.post,
       aLocationModel
@@ -53,8 +53,8 @@ export default class Location extends BaseRequest {
     return json;
   }
 
-  async deleteLocation(aLocationId) {
-    let url = Endpoints.Location.deleteLocation;
+  async delete(aLocationId) {
+    let url = Endpoints.Location.delete;
     const data = {
       LocationId: aLocationId,
     };

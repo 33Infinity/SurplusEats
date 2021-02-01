@@ -25,8 +25,8 @@ export default class Inventory extends BaseRequest {
     return json;
   }
 
-  async addInventory(anInventoryModel) {
-    let url = Endpoints.Inventory.addInventory;
+  async add(anInventoryModel) {
+    let url = Endpoints.Inventory.add;
     const requestObject = this.buildRequestObject(
       HttpMethods.post,
       anInventoryModel
@@ -35,8 +35,8 @@ export default class Inventory extends BaseRequest {
     return json;
   }
 
-  async updateInventory(anInventoryModel) {
-    let url = Endpoints.Inventory.updateInventory;
+  async update(anInventoryModel) {
+    let url = Endpoints.Inventory.update;
     const requestObject = this.buildRequestObject(
       HttpMethods.post,
       anInventoryModel
@@ -45,8 +45,8 @@ export default class Inventory extends BaseRequest {
     return json;
   }
 
-  async deleteInventory(anInventoryId) {
-    let url = Endpoints.Inventory.deleteInventory;
+  async delete(anInventoryId) {
+    let url = Endpoints.Inventory.delete;
     const data = {
       InventoryId: anInventoryId,
     };

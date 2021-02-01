@@ -1,8 +1,8 @@
 import React from "react";
-import DefaultImage from "../images/InventoryBlank.png";
-import LocationModel from "../models/Location";
-import MediaCard from "../controls/MediaCard";
-import StringUtils from "../utils/StringUtils";
+import DefaultImage from "../../images/InventoryBlank.png";
+import LocationModel from "../../models/Location";
+import MediaCard from "../../controls/MediaCard";
+import StringUtils from "../../utils/StringUtils";
 
 interface Props {
   locationItem: LocationModel | undefined;

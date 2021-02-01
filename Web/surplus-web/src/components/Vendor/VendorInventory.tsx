@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Grid, TextField, IconButton } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import InventoryService from "../services/Inventory";
-import InventoryModel from "../models/Inventory";
-import LocationModel from "../models/Location";
+import InventoryService from "../../services/Inventory";
+import InventoryModel from "../../models/Inventory";
+import LocationModel from "../../models/Location";
 import SaveIcon from "@material-ui/icons/Save";
-import ImageUpload from "../controls/ImageUpload";
-import firebase from "../firebase/firebase.utils";
+import ImageUpload from "../../controls/ImageUpload";
+import firebase from "../../firebase/firebase.utils";
 import VendorInventoryItem from "./VendorInventoryItem";
-import HttpHelper from "../utils/HttpHelper";
-import Header from "./Header";
-import { confirmWithTwoButtons } from "../controls/Confirmation";
+import HttpHelper from "../../utils/HttpHelper";
+import Header from "../Header";
+import { confirmWithTwoButtons } from "../../controls/Confirmation";
+import ErrorModel from "../../models/Error";
 
 type NewInventoryState = {
   description: string;
@@ -27,9 +28,7 @@ const VendorInventory: React.FC = () => {
     quantity: "",
     imageUrl: "",
   });
-  const [locationModel, setLocationModel] = useState<
-    Partial<LocationModel | null>
-  >();
+  const [locationModel, setLocationModel] = useState<Partial<LocationModel>>();
   const onNewInventoryUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewInventory({
       ...newInventory,
@@ -60,12 +59,19 @@ const VendorInventory: React.FC = () => {
       vendorId,
       locationId
     );
-    const locationModel =
-      response != null && response.length > 0
-        ? response[0].LocationModel
-        : null;
-    setLocationModel(locationModel);
-    setInventory(response);
+    if (response instanceof ErrorModel) {
+      alert("Error Occurred");
+      // TODO: Handle this appropriately
+    } else {
+      const locationModel =
+        response != null && response.length > 0
+          ? response[0].LocationModel
+          : null;
+      if (locationModel != null) {
+        setLocationModel(locationModel);
+        setInventory(response);
+      }
+    }
   }
   async function addFile(aFile) {
     const storageRef = firebase.storage().ref();
@@ -88,7 +94,7 @@ const VendorInventory: React.FC = () => {
         null,
         null
       );
-      await inventoryService.addInventory(inventoryModel);
+      await inventoryService.add(inventoryModel);
       getByVendorLocation();
       clearNewInventory();
     } else {
@@ -96,7 +102,7 @@ const VendorInventory: React.FC = () => {
     }
   }
   async function updateInventory(anInventoryModel) {
-    await inventoryService.updateInventory(anInventoryModel);
+    await inventoryService.update(anInventoryModel);
     getByVendorLocation();
   }
   async function deleteInventory(anInventoryId) {
@@ -110,7 +116,7 @@ const VendorInventory: React.FC = () => {
     );
   }
   async function processDeleteConfirmation(anInventoryId) {
-    await inventoryService.deleteInventory(anInventoryId);
+    await inventoryService.delete(anInventoryId);
     getByVendorLocation();
   }
   function validate() {

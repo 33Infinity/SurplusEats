@@ -21,23 +21,11 @@ export default class Location {
     return response;
   }
 
-  static async add(admin, location) {
-    const locationTO = LocationTO.NewLocation(
-      location.VendorModel.Id,
-      location.Name,
-      location.City,
-      location.State,
-      location.Latitude,
-      location.Longitude,
-      location.Address,
-      location.PostalCode,
-      null,
-      new Date()
-    );
+  static async add(admin, aLocationTO: LocationTO) {
     const response = await SqlHelper.insert(
       admin,
       LocationTO.TableName,
-      locationTO.getTuple()
+      aLocationTO.getTuple()
     );
     return response;
   }

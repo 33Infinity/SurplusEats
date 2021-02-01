@@ -2,7 +2,10 @@ import InventoryRequest from "../requests/Inventory";
 import InventoryModel from "../models/Inventory";
 import LocationModel from "../models/Location";
 import VendorModel from "../models/Vendor";
-export default class Inventory {
+import BaseService from "./BaseService";
+import ErrorModel from "../models/Error";
+
+export default class Inventory extends BaseService {
   async getByLocation(aLat, aLon): Promise<InventoryModel[] | null> {
     const request = new InventoryRequest();
     const json = await request.getByLocation(aLat, aLon);
@@ -12,28 +15,31 @@ export default class Inventory {
   async getByVendorLocation(
     aVendorId,
     aLocationId
-  ): Promise<InventoryModel[] | null> {
+  ): Promise<InventoryModel[] | ErrorModel> {
     const request = new InventoryRequest();
     const json = await request.getByVendorLocation(aVendorId, aLocationId);
+    if (this.isApiError(json)) {
+      return ErrorModel.NewError(json.ErrorMessage);
+    }
     return this.buildInventoryModels(json);
   }
 
-  async addInventory(anInventoryModel) {
+  async add(anInventoryModel) {
     const request = new InventoryRequest();
-    const json = await request.addInventory(anInventoryModel);
-    return !json.HasError;
+    const json = await request.add(anInventoryModel);
+    return !this.isApiError(json);
   }
 
-  async updateInventory(anInventoryModel) {
+  async update(anInventoryModel) {
     const request = new InventoryRequest();
-    const json = await request.updateInventory(anInventoryModel);
-    return !json.HasError;
+    const json = await request.update(anInventoryModel);
+    return !this.isApiError(json);
   }
 
-  async deleteInventory(anInventoryId) {
+  async delete(anInventoryId) {
     const request = new InventoryRequest();
-    const json = await request.deleteInventory(anInventoryId);
-    return !json.HasError;
+    const json = await request.delete(anInventoryId);
+    return !this.isApiError(json);
   }
 
   buildInventoryModels(someJson) {

@@ -7,7 +7,7 @@ export default class Notification extends BaseService {
   async getByEmail(anEmail): Promise<NotificationModel[] | ErrorModel> {
     const request = new NotificationRequest();
     const json = await request.getByEmail(anEmail);
-    return this.isApiError(json)
+    return !this.isApiError(json)
       ? json.length > 0
         ? this.buildNotificationModels(json)
         : []

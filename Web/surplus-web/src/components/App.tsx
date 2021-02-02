@@ -58,11 +58,14 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser, updateNotifications 
 
     const getNotifications = async () => {      
       const models = await notification.getByEmail("aaronspokane@gmail.com");
-      if(!(models instanceof Error)) {  
+      if(!(models instanceof ErrorModel) && currentUser?.IsAuthenticated) {  
         const list = models as unknown as Array<Notification>;
-        updateNotifications(list);
-        timeoutId = setTimeout(getNotifications, 20000);
-      }       
+        updateNotifications(list);        
+      } else {
+          console.log("error");
+      }   
+      
+      timeoutId = setTimeout(getNotifications, 20000);
     }
 
     getNotifications();

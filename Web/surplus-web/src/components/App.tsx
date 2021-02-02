@@ -25,15 +25,19 @@ import ErrorModel from "../models/Error";
 import { auth } from "../firebase/firebase.utils";
 import Header from "./Header";
 import AuthenticationService from "../services/Authentication";
+import Notification from '../services/Notification';
+import { updateNotifications } from "../redux/notification/notification.actions";
 
 type User = {
   currentUser: ProfileModel;
   setCurrentUser: (user: ProfileModel) => void;
+  updateNotifications: (notifications: Notification[]) => void
 };
 
 let timeoutId;
 
-const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
+const App: React.FC<User> = ({ currentUser, setCurrentUser, updateNotifications }) => {
+  const notification = new Notification();
   useEffect(() => {
     const unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
       const authenticationService = new AuthenticationService();
@@ -52,9 +56,13 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
       });
     });
 
-    const getNotifications = () => {
-      //request will go here
-      timeoutId = setTimeout(getNotifications, 20000);
+    const getNotifications = async () => {      
+      const models = await notification.getByEmail("aaronspokane@gmail.com");
+      if(!(models instanceof Error)) {  
+        const list = models as unknown as Array<Notification>;
+        updateNotifications(list);
+        timeoutId = setTimeout(getNotifications, 20000);
+      }       
     }
 
     getNotifications();
@@ -155,6 +163,7 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
 
 const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+  updateNotifications: (notifications) => dispatch(updateNotifications(notifications)),
 });
 
 const mapStateToProps = (state) => ({

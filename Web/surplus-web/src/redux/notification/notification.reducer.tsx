@@ -1,8 +1,9 @@
 import NotificationTypes from './notification.types';
 import { updateNotifications } from './notification.utils';
+import Notification from '../../models/Notification';
 
 const INITIAL_STATE = {
-    notifications: []
+    notifications: Array<Notification>() 
 };
 
 const notificationReducer = (state = INITIAL_STATE, action) => {

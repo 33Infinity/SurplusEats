@@ -6,8 +6,8 @@ const useStyles = makeStyles((theme) => ({
     cartItem: {
         width: '100%',
         display: 'flex',
-        height: '80px',
-        marginBottom: '15px',
+        height: '50px',
+        marginBottom: '5px',
     },
     img: {
         width: '30%'
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         alignItems: 'flex-start',
         justifyContent: 'center',
-        padding: '10px 20px',
+        padding: '5px 5px',
     },
     name: {
         fontSize: '16px',

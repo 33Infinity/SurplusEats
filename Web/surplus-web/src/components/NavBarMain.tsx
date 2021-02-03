@@ -324,7 +324,7 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount, notificatio
       {renderMenu}
       {showDialog ? (
         <div ref={wrapperRef}>
-          <DropdownMenu dropDownType={dialogType} btnEvent={toggleDialog} />
+          <DropdownMenu notificationItems={notifications} dropDownType={dialogType} btnEvent={toggleDialog} />
         </div>
       ) : null}
     </div>

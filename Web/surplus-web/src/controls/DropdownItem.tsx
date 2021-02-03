@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from "@material-ui/core";
+import NotificationModel from "../models/Notification";
 
 const useStyles = makeStyles((theme) => ({
     cartItem: {
@@ -24,14 +25,17 @@ const useStyles = makeStyles((theme) => ({
       },
 }));
 
-const DropdownItem = () => {
+type MenuItemType = {    
+    notificationItem: NotificationModel
+  };
+
+const DropdownItem: React.FC<MenuItemType> = ({ notificationItem }) => {
     const classes = useStyles();
     return (
-        <div className={classes.cartItem}>
-           <img src="arrow.svg" alt='item' />
+        <div className={classes.cartItem}>         
            <div className={classes.itemDetails}>
-               <span className='name'>name</span>
-               <span className='name'>price</span>
+               <span className='name'>{notificationItem.Email}</span>
+               <span className='name'>{notificationItem.Subject}</span>
            </div>
         </div>
     )

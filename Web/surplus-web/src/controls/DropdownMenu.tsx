@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles, Button } from "@material-ui/core";
 import DropdownItem from "./DropdownItem";
 import HeaderEventType from "../utils/Enum";
+import NotificationModel from "../models/Notification";
 
 const useStyles = makeStyles((theme) => ({
   menuDropdown: {
@@ -28,23 +29,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type MyType = {
+type MenuType = {
   dropDownType: HeaderEventType;
   btnEvent: () => void;
+  notificationItems: Array<NotificationModel>
 };
 
-const DropdownMenu: React.FC<MyType> = ({ dropDownType, btnEvent }) => {
+const DropdownMenu: React.FC<MenuType> = ({ dropDownType, btnEvent, notificationItems }) => {
   const classes = useStyles();
-  const btnText =
-    dropDownType === HeaderEventType.IsMail ||
+  const btnText =    
     dropDownType === HeaderEventType.IsNotification
       ? "CLOSE"
       : "CHECKOOUT";
   return (
     <div className={classes.menuDropdown}>
       <div className={classes.listItems}>
-        <DropdownItem />
-        <DropdownItem />
+        {
+          notificationItems.map(notification => <DropdownItem notificationItem={notification} />)
+        }
       </div>
       <Button
         fullWidth

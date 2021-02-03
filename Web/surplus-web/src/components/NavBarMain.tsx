@@ -19,10 +19,11 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import ProfileModel from "../models/Profile";
 import { selectCartItemsCount } from "../redux/cart/cart.selectors";
-import { newNotificationCount } from "../redux/notification/notification.selectors";
+import { newNotificationCount, notificationsItems } from "../redux/notification/notification.selectors";
 import { auth } from "../firebase/firebase.utils";
 import DropdownMenu from "../controls/DropdownMenu";
 import HeaderEventType from "../utils/Enum";
+import NotificationModel from "../models/Notification";
 
 const useStyles = makeStyles((theme: any) => ({
   grow: {
@@ -90,10 +91,11 @@ const useStyles = makeStyles((theme: any) => ({
 type NavInfo = {
   currentUser: ProfileModel;
   cartItemCount: number;
-  notificationCount: number
+  notifications: Array<NotificationModel>;
+  notificationCount: number; 
 };
 
-const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount, notificationCount = 0 }) => {
+const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount, notifications, notificationCount = 0 }) => {
   React.useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -333,6 +335,7 @@ const mapStateToProps = (state) => ({
   currentUser: state.user.currentUser,
   cartItemCount: selectCartItemsCount(state),
   notificationCount: newNotificationCount(state),
+  notifications: notificationsItems(state),
 });
 
 export default connect(mapStateToProps)(NavBarMain);

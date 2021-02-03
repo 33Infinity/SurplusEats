@@ -22,22 +22,23 @@ import { setCurrentUser } from "../redux/user/user.actions";
 import { useEffect } from "react";
 import ProfileModel from "../models/Profile";
 import ErrorModel from "../models/Error";
+import NotificationModel from "../models/Notification";
 import { auth } from "../firebase/firebase.utils";
 import Header from "./Header";
 import AuthenticationService from "../services/Authentication";
-import Notification from '../services/Notification';
+import NotificationService from '../services/Notification';
 import { updateNotifications } from "../redux/notification/notification.actions";
 
 type User = {
   currentUser: ProfileModel;
   setCurrentUser: (user: ProfileModel) => void;
-  updateNotifications: (notifications: Notification[]) => void
+  updateNotifications: (notifications: Array<NotificationModel>) => void
 };
 
 let timeoutId;
 
 const App: React.FC<User> = ({ currentUser, setCurrentUser, updateNotifications }) => {
-  const notification = new Notification();
+  const notificationService = new NotificationService();
   useEffect(() => {
     const unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
       const authenticationService = new AuthenticationService();
@@ -57,12 +58,11 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser, updateNotifications 
     });
 
     const getNotifications = async () => {      
-      const models = await notification.getByEmail("aaronspokane@gmail.com");
-      if(!(models instanceof ErrorModel) && currentUser?.IsAuthenticated) {  
-        const list = models as unknown as Array<Notification>;
-        updateNotifications(list);        
-      } else {
-          console.log("error");
+      const notifications = await notificationService.getByEmail("aaronspokane@gmail.com");
+      if (notifications instanceof ErrorModel) { 
+               // handle error
+      } else {        
+        updateNotifications(notifications); 
       }   
       
       timeoutId = setTimeout(getNotifications, 20000);

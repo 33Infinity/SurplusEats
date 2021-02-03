@@ -3,7 +3,7 @@ import { updateNotifications } from './notification.utils';
 import Notification from '../../models/Notification';
 
 const INITIAL_STATE = {
-    notifications: Array<Notification>() 
+    notifications: new Array<Notification>() 
 };
 
 const notificationReducer = (state = INITIAL_STATE, action) => {
@@ -11,7 +11,7 @@ const notificationReducer = (state = INITIAL_STATE, action) => {
         case NotificationTypes.UPDATE_NOTIFICATIONS: 
         return {
             ...state,
-            notifications: updateNotifications(state.notifications, action.payload)
+            notifications: action.payload
         }
         default:
             return state

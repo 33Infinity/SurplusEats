@@ -10,6 +10,7 @@ export const notificationsItems = createSelector(
 export const newNotificationCount = createSelector(
     [notificationsItems],
     (notificationsItems) => {
-        return notificationsItems?.find(x => x.isMarkedAsRead === false)?.length ?? 0
+        const count = notificationsItems?.filter(x => x.MarkedAsRead === false).length ?? 0;
+        return count;
     }
 )

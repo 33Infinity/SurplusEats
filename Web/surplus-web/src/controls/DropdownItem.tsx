@@ -1,14 +1,14 @@
 import React from 'react';
 import { makeStyles } from "@material-ui/core";
 import NotificationModel from "../models/Notification";
-import '../fonts/fonts.css';
+import '../fonts/fonts.scss';
 
 const useStyles = makeStyles((theme) => ({
     cartItem: {
         width: '100%',
         display: 'flex',
         height: '50px',
-        marginBottom: '5px',
+        marginBottom: '6px',
     },
     img: {
         width: '30%'

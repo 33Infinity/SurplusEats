@@ -21,7 +21,10 @@ const useStyles = makeStyles((theme) => ({
         textOverflow: 'ellipsis',
         overflow: 'hidden', 
         whiteSpace: 'nowrap',        
-    }    
+    },
+    icon: {
+        minWidth: '40px',
+    }   
 }));
 
 type MenuItemType = {    
@@ -32,10 +35,10 @@ const DropdownItem: React.FC<MenuItemType> = ({ notificationItem }) => {
     const classes = useStyles();
     return (
         <ListItem button className={classes.cartItem}>
-            <ListItemIcon>
+            <ListItemIcon className={classes.icon}>
                 <AlarmOnOutlined />
             </ListItemIcon>
-               <span className={classes.itemDetails}>{notificationItem.Subject}</span>                       
+            <span className={classes.itemDetails}>{notificationItem.Subject}</span>                       
         </ListItem>
     )
 };

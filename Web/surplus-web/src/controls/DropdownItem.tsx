@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from "@material-ui/core";
 import NotificationModel from "../models/Notification";
+import '../fonts/fonts.css';
 
 const useStyles = makeStyles((theme) => ({
     cartItem: {
@@ -19,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'flex-start',
         justifyContent: 'center',
         padding: '5px 5px',
+        fontFamily: 'RobotoRegular',
     },
     name: {
         fontSize: '16px',

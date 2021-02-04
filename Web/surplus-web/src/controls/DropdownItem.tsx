@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from "@material-ui/core";
 import NotificationModel from "../models/Notification";
 import '../fonts/fonts.scss';
+import '../fonts/font-main.scss';
 
 const useStyles = makeStyles((theme) => ({
     cartItem: {
@@ -36,8 +37,8 @@ const DropdownItem: React.FC<MenuItemType> = ({ notificationItem }) => {
     return (
         <div className={classes.cartItem}>         
            <div className={classes.itemDetails}>
-               <span className='name'>{notificationItem.Email}</span>
-               <span className='name'>{notificationItem.Subject}</span>
+               <span className='main'>{notificationItem.Email}</span>
+               <span className='main'>{notificationItem.Subject}</span>
            </div>
         </div>
     )

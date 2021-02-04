@@ -3,29 +3,25 @@ import { makeStyles } from "@material-ui/core";
 import NotificationModel from "../models/Notification";
 import '../fonts/fonts.scss';
 import '../fonts/font-main.scss';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import { AlarmOnOutlined } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
     cartItem: {
         width: '100%',
         display: 'flex',
         height: '50px',
-        marginBottom: '6px',
-    },
-    img: {
-        width: '30%'
-    },
+        marginBottom: '2px',               
+    },    
     itemDetails: {
-        width: '70%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        justifyContent: 'center',
-        padding: '5px 5px',
-        fontFamily: 'RobotoRegular',
-    },
-    name: {
-        fontSize: '16px',
-      },
+        width: '170px',        
+        fontFamily: 'RobotoRegular serif',   
+        textOverflow: 'ellipsis',
+        overflow: 'hidden', 
+        whiteSpace: 'nowrap',        
+    }    
 }));
 
 type MenuItemType = {    
@@ -35,12 +31,12 @@ type MenuItemType = {
 const DropdownItem: React.FC<MenuItemType> = ({ notificationItem }) => {
     const classes = useStyles();
     return (
-        <div className={classes.cartItem}>         
-           <div className={classes.itemDetails}>
-               <span className='main'>{notificationItem.Email}</span>
-               <span className='main'>{notificationItem.Subject}</span>
-           </div>
-        </div>
+        <ListItem button className={classes.cartItem}>
+            <ListItemIcon>
+                <AlarmOnOutlined />
+            </ListItemIcon>
+               <span className={classes.itemDetails}>{notificationItem.Subject}</span>                       
+        </ListItem>
     )
 };
 

@@ -3,6 +3,7 @@ import { makeStyles, Button } from "@material-ui/core";
 import DropdownItem from "./DropdownItem";
 import HeaderEventType from "../utils/Enum";
 import NotificationModel from "../models/Notification";
+import List from '@material-ui/core/List';
 
 const useStyles = makeStyles((theme) => ({
   menuDropdown: {
@@ -11,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     height: "340px",
     display: "flex",
     flexDirection: "column",
-    padding: "20px",
+    padding: "10px",
     border: "1px solid black",
     backgroundColor: "white",
     top: " 90px",
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     height: "240px",
     display: "flex",
     flexDirection: "column",
-    overflow: "hidden",
+    overflow: "auto",
   },
   button: {
     marginTop: "auto",
@@ -44,9 +45,11 @@ const DropdownMenu: React.FC<MenuType> = ({ dropDownType, btnEvent, notification
   return (
     <div className={classes.menuDropdown}>
       <div className={classes.listItems}>
-        {
-          notificationItems.map(notification => <DropdownItem notificationItem={notification} />)
-        }
+        <List component="nav">
+          {
+            notificationItems.map(notification => <DropdownItem notificationItem={notification} />)
+          }
+        </List>
       </div>
       <Button
         fullWidth

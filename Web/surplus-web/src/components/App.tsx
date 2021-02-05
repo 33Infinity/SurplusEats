@@ -18,27 +18,20 @@ import {
   BrowserRouter,
 } from "react-router-dom";
 import { connect } from "react-redux";
-import { setCurrentUser } from "../redux/user/user.actions";
+import { setCurrentUserAsync } from "../redux/user/user.actions";
 import { useEffect } from "react";
 import ProfileModel from "../models/Profile";
 import ErrorModel from "../models/Error";
-import NotificationModel from "../models/Notification";
 import { auth } from "../firebase/firebase.utils";
 import Header from "./Header";
 import AuthenticationService from "../services/Authentication";
-import NotificationService from '../services/Notification';
-import { updateNotifications } from "../redux/notification/notification.actions";
 
 type User = {
   currentUser: ProfileModel;
-  setCurrentUser: (user: ProfileModel) => void;
-  updateNotifications: (notifications: Array<NotificationModel>) => void
+  setCurrentUser: (user: ProfileModel) => void; 
 };
 
-let timeoutId;
-
-const App: React.FC<User> = ({ currentUser, setCurrentUser, updateNotifications }) => {
-  const notificationService = new NotificationService();
+const App: React.FC<User> = ({ currentUser, setCurrentUser }) => { 
   useEffect(() => {
     const unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
       const authenticationService = new AuthenticationService();
@@ -55,24 +48,10 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser, updateNotifications 
           setCurrentUser(profile);
         }
       });
-    });
-
-    const getNotifications = async () => {      
-      const notifications = await notificationService.getByEmail("aaronspokane@gmail.com");
-      if (notifications instanceof ErrorModel) { 
-               // handle error
-      } else {        
-        updateNotifications(notifications); 
-      }   
-      
-      timeoutId = setTimeout(getNotifications, 20000);
-    }
-
-    getNotifications();
+    }); 
 
     return () => {
-      unsubscribeFromAuth();
-      clearTimeout(timeoutId);
+      unsubscribeFromAuth();     
     };
   }, []);
 
@@ -165,8 +144,7 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser, updateNotifications 
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
-  updateNotifications: (notifications) => dispatch(updateNotifications(notifications)),
+  setCurrentUser: (user) => dispatch(setCurrentUserAsync(user)),  
 });
 
 const mapStateToProps = (state) => ({

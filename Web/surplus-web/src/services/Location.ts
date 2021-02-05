@@ -5,52 +5,53 @@ import ErrorModel from "../models/Error";
 import BaseService from "./BaseService";
 
 export default class Location extends BaseService {
-  async getByLatLon(aLat, aLon): Promise<LocationModel[] | null | ErrorModel> {
-    const request = new LocationRequest();
-    const json = await request.getByLatLon(aLat, aLon);
+  static async getByLatLon(
+    aLat,
+    aLon
+  ): Promise<LocationModel[] | null | ErrorModel> {
+    const json = await LocationRequest.getByLatLon(aLat, aLon);
     if (this.isApiError(json)) {
       return ErrorModel.NewError(json.ErrorMessage);
     }
     return this.buildLocationModels(json);
   }
 
-  async getByVendor(anEmail): Promise<LocationModel[] | null | ErrorModel> {
-    const request = new LocationRequest();
-    const json = await request.getByVendor(anEmail);
+  static async getByVendor(
+    anEmail
+  ): Promise<LocationModel[] | null | ErrorModel> {
+    const json = await LocationRequest.getByVendor(anEmail);
     if (this.isApiError(json)) {
       return ErrorModel.NewError(json.ErrorMessage);
     }
     return this.buildLocationModels(json);
   }
 
-  async getLatLonFromLocation(aLocationModel): Promise<any | ErrorModel> {
-    const request = new LocationRequest();
-    const json = await request.getLatLonFromLocation(aLocationModel);
+  static async getLatLonFromLocation(
+    aLocationModel
+  ): Promise<any | ErrorModel> {
+    const json = await LocationRequest.getLatLonFromLocation(aLocationModel);
     if (json == null || json.length == 0) {
       return ErrorModel.NewError("Invalid Address");
     }
     return json;
   }
 
-  async add(aLocationModel) {
-    const request = new LocationRequest();
-    const json = await request.add(aLocationModel);
+  static async add(aLocationModel) {
+    const json = await LocationRequest.add(aLocationModel);
     return this.isApiError(json);
   }
 
-  async update(aLocationModel) {
-    const request = new LocationRequest();
-    const json = await request.update(aLocationModel);
+  static async update(aLocationModel) {
+    const json = await LocationRequest.update(aLocationModel);
     return this.isApiError(json);
   }
 
-  async delete(aLocationId) {
-    const request = new LocationRequest();
-    const json = await request.delete(aLocationId);
+  static async delete(aLocationId) {
+    const json = await LocationRequest.delete(aLocationId);
     return this.isApiError(json);
   }
 
-  buildLocationModels(someJson) {
+  static buildLocationModels(someJson) {
     let locationModels: LocationModel[] = [];
     for (let i = 0; i < someJson.length; i++) {
       const locationModel = LocationModel.NewLocation(

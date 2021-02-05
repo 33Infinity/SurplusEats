@@ -45,7 +45,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const VendorLocationDialog: React.FC<Props> = (props) => {
   const CONFIRMATION_BUTTON_TEXT_SAVE = "Save";
-  let locationService = new LocationService();
   let locationModelToSave;
   const classes = useStyles();
   const [errorMessage, setErrorMessage] = useState("");
@@ -70,7 +69,7 @@ const VendorLocationDialog: React.FC<Props> = (props) => {
       props.locationModel.Id,
       props.locationModel.CreatedDate
     );
-    const response = await locationService.getLatLonFromLocation(
+    const response = await LocationService.getLatLonFromLocation(
       locationModelToSave
     );
     if (response instanceof ErrorModel) {

@@ -3,7 +3,7 @@ import Endpoints from "./Endpoints";
 import HttpMethods from "./HttpMethods";
 
 export default class Vendor extends BaseRequest {
-  async getByEmail(anEmail) {
+  static async getByEmail(anEmail) {
     const url = Endpoints.Vendor.getByEmail;
     const data = {
       Email: anEmail,
@@ -13,7 +13,7 @@ export default class Vendor extends BaseRequest {
     return json;
   }
 
-  async update(aVendorModel) {
+  static async update(aVendorModel) {
     const url = Endpoints.Vendor.update;
     const requestObject = this.buildRequestObject(
       HttpMethods.post,

@@ -3,7 +3,7 @@ import Endpoints from "./Endpoints";
 import HttpMethods from "./HttpMethods";
 
 export default class Inventory extends BaseRequest {
-  async getByLocation(aLat, aLon) {
+  static async getByLocation(aLat, aLon) {
     const url = Endpoints.Inventory.getByLocation;
     const data = {
       Latitude: aLat,
@@ -14,7 +14,7 @@ export default class Inventory extends BaseRequest {
     return json;
   }
 
-  async getByVendorLocation(aVendorId, aLocationId) {
+  static async getByVendorLocation(aVendorId, aLocationId) {
     let url = Endpoints.Inventory.getByVendorLocation;
     const data = {
       VendorId: aVendorId,
@@ -25,7 +25,7 @@ export default class Inventory extends BaseRequest {
     return json;
   }
 
-  async add(anInventoryModel) {
+  static async add(anInventoryModel) {
     let url = Endpoints.Inventory.add;
     const requestObject = this.buildRequestObject(
       HttpMethods.post,
@@ -35,7 +35,7 @@ export default class Inventory extends BaseRequest {
     return json;
   }
 
-  async update(anInventoryModel) {
+  static async update(anInventoryModel) {
     let url = Endpoints.Inventory.update;
     const requestObject = this.buildRequestObject(
       HttpMethods.post,
@@ -45,7 +45,7 @@ export default class Inventory extends BaseRequest {
     return json;
   }
 
-  async delete(anInventoryId) {
+  static async delete(anInventoryId) {
     let url = Endpoints.Inventory.delete;
     const data = {
       InventoryId: anInventoryId,

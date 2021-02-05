@@ -55,7 +55,6 @@ const useStyles = makeStyles((theme) =>
 );
 
 const SignIn: React.FC = () => {
-  const authenticationService = new AuthenticationService();
   const [profile, setProfile] = useState<Partial<RegisterState>>({
     email: "",
     password: "",
@@ -73,13 +72,13 @@ const SignIn: React.FC = () => {
   };
 
   const onSignIn = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();   
+    event.preventDefault();
     let valid = true;
     validationForm.current.isFormValid(false).then(async (isValid) => {
-      if (isValid) {        
+      if (isValid) {
         try {
           setLoading(true);
-          let signedInProfile = await authenticationService.signIn(
+          let signedInProfile = await AuthenticationService.signIn(
             profile.email,
             profile.password
           );
@@ -113,7 +112,7 @@ const SignIn: React.FC = () => {
       } else {
         valid = false;
       }
-    });    
+    });
     return valid;
   };
 
@@ -172,7 +171,7 @@ const SignIn: React.FC = () => {
                   variant="contained"
                   color="primary"
                   className={classes.submit}
-                  onClick={(event) => {                    
+                  onClick={(event) => {
                     onSignIn(event);
                   }}
                 >

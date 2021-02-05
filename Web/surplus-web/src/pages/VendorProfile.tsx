@@ -51,7 +51,6 @@ type Redux = {
 
 const VendorProfile: React.FC<Redux> = ({ currentUser }) => {
   let validationForm: ValidatorForm = React.createRef();
-  let vendorService = new VendorService();
   useEffect(() => {
     getByEmail();
   }, []);
@@ -74,7 +73,7 @@ const VendorProfile: React.FC<Redux> = ({ currentUser }) => {
     });
   }
   async function getByEmail() {
-    const response = await vendorService.getByEmail(currentUser?.Email);
+    const response = await VendorService.getByEmail(currentUser?.Email);
     if (response instanceof ErrorModel) {
       setError(response);
       return;
@@ -82,7 +81,7 @@ const VendorProfile: React.FC<Redux> = ({ currentUser }) => {
     setVendor(response);
   }
   async function updateProfile() {
-    const response = await vendorService.update(vendor);
+    const response = await VendorService.update(vendor);
     if (response instanceof VendorModel) {
       setVendor(response);
       setSaveProfile(true);

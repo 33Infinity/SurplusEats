@@ -6,43 +6,41 @@ import BaseService from "./BaseService";
 import ErrorModel from "../models/Error";
 
 export default class Inventory extends BaseService {
-  async getByLocation(aLat, aLon): Promise<InventoryModel[] | null> {
-    const request = new InventoryRequest();
-    const json = await request.getByLocation(aLat, aLon);
+  static async getByLocation(aLat, aLon): Promise<InventoryModel[] | null> {
+    const json = await InventoryRequest.getByLocation(aLat, aLon);
     return this.buildInventoryModels(json);
   }
 
-  async getByVendorLocation(
+  static async getByVendorLocation(
     aVendorId,
     aLocationId
   ): Promise<InventoryModel[] | ErrorModel> {
-    const request = new InventoryRequest();
-    const json = await request.getByVendorLocation(aVendorId, aLocationId);
+    const json = await InventoryRequest.getByVendorLocation(
+      aVendorId,
+      aLocationId
+    );
     if (this.isApiError(json)) {
       return ErrorModel.NewError(json.ErrorMessage);
     }
     return this.buildInventoryModels(json);
   }
 
-  async add(anInventoryModel) {
-    const request = new InventoryRequest();
-    const json = await request.add(anInventoryModel);
+  static async add(anInventoryModel) {
+    const json = await InventoryRequest.add(anInventoryModel);
     return !this.isApiError(json);
   }
 
-  async update(anInventoryModel) {
-    const request = new InventoryRequest();
-    const json = await request.update(anInventoryModel);
+  static async update(anInventoryModel) {
+    const json = await InventoryRequest.update(anInventoryModel);
     return !this.isApiError(json);
   }
 
-  async delete(anInventoryId) {
-    const request = new InventoryRequest();
-    const json = await request.delete(anInventoryId);
+  static async delete(anInventoryId) {
+    const json = await InventoryRequest.delete(anInventoryId);
     return !this.isApiError(json);
   }
 
-  buildInventoryModels(someJson) {
+  static buildInventoryModels(someJson) {
     const inventoryModels: InventoryModel[] = [];
     for (let i = 0; i < someJson.length; i++) {
       const vendorModel = VendorModel.NewVendor(

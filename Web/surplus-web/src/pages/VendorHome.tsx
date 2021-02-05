@@ -20,8 +20,6 @@ type Redux = {
 };
 
 const VendorHome: React.FC<Redux> = ({ currentUser }) => {
-  let locationService = new LocationService();
-  let vendorService = new VendorService();
   useEffect(() => {
     getByVendor();
   }, []);
@@ -41,12 +39,10 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
     });
   }
   async function getByVendor() {
-    locationService = new LocationService();
-    let locations = await locationService.getByVendor(currentUser?.Email);
+    let locations = await LocationService.getByVendor(currentUser?.Email);
     const vendorModel = locations != null ? locations[0].VendorModel : null;
     if (vendorModel == null) {
-      vendorService = new VendorService();
-      let vendorResponse = await vendorService.getByEmail(currentUser?.Email);
+      let vendorResponse = await VendorService.getByEmail(currentUser?.Email);
       if (vendorResponse instanceof ErrorModel) {
         confirmWithSingleButton(
           "Ok",
@@ -80,7 +76,7 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
     );
   }
   async function processDeleteConfirmation(aLocationId) {
-    await locationService.delete(aLocationId);
+    await LocationService.delete(aLocationId);
     getByVendor();
   }
   function handleOpenNewLocationDialog(isNew) {
@@ -94,12 +90,12 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
   }
   async function addNewLocation(aLocationModel) {
     setLocation(aLocationModel);
-    await locationService.add(aLocationModel);
+    await LocationService.add(aLocationModel);
     getByVendor();
   }
   async function updateLocation(aLocationModel) {
     setLocation(aLocationModel);
-    await locationService.update(aLocationModel);
+    await LocationService.update(aLocationModel);
     getByVendor();
   }
   return (

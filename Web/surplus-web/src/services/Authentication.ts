@@ -4,34 +4,37 @@ import Error from "../models/Error";
 import BaseService from "./BaseService";
 
 export default class Authentication extends BaseService {
-  async register(aProfileModel, aVendorModel): Promise<ProfileModel | Error> {
-    const request = new AuthenticationRequest();
-    const json = await request.register(aProfileModel, aVendorModel);
+  static async register(
+    aProfileModel,
+    aVendorModel
+  ): Promise<ProfileModel | Error> {
+    const json = await AuthenticationRequest.register(
+      aProfileModel,
+      aVendorModel
+    );
     if (this.isApiError(json)) {
       return Error.NewError(json.ErrorMessage);
     }
     return this.buildProfileModel(json);
   }
 
-  async signIn(anEmail, aPassword): Promise<ProfileModel | Error> {
-    const request = new AuthenticationRequest();
-    const json = await request.signIn(anEmail, aPassword);
+  static async signIn(anEmail, aPassword): Promise<ProfileModel | Error> {
+    const json = await AuthenticationRequest.signIn(anEmail, aPassword);
     if (this.isApiError(json)) {
       return Error.NewError(json.ErrorMessage);
     }
     return this.buildProfileModel(json);
   }
 
-  async getProfile(anEmail): Promise<ProfileModel | Error> {
-    const request = new AuthenticationRequest();
-    const json = await request.getProfile(anEmail);
+  static async getProfile(anEmail): Promise<ProfileModel | Error> {
+    const json = await AuthenticationRequest.getProfile(anEmail);
     if (this.isApiError(json)) {
       return Error.NewError(json.ErrorMessage);
     }
     return this.buildProfileModel(json);
   }
 
-  buildProfileModel(someJson) {
+  static buildProfileModel(someJson) {
     return ProfileModel.NewProfile(
       someJson.Email,
       someJson.Password,

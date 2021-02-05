@@ -4,25 +4,23 @@ import VendorRequest from "../requests/Vendor";
 import BaseService from "./BaseService";
 
 export default class Vendor extends BaseService {
-  async getByEmail(anEmail): Promise<VendorModel | ErrorModel> {
-    const request = new VendorRequest();
-    const json = await request.getByEmail(anEmail);
+  static async getByEmail(anEmail): Promise<VendorModel | ErrorModel> {
+    const json = await VendorRequest.getByEmail(anEmail);
     if (this.isApiError(json)) {
       return ErrorModel.NewError(json.ErrorMessage);
     }
     return this.buildVendorModel(json[0]);
   }
 
-  async update(aVendorModel): Promise<VendorModel | ErrorModel> {
-    const request = new VendorRequest();
-    const json = await request.update(aVendorModel);
+  static async update(aVendorModel): Promise<VendorModel | ErrorModel> {
+    const json = await VendorRequest.update(aVendorModel);
     if (this.isApiError(json)) {
       return ErrorModel.NewError(json.ErrorMessage);
     }
     return this.buildVendorModel(json[0]);
   }
 
-  buildVendorModel(someJson) {
+  static buildVendorModel(someJson) {
     return VendorModel.NewVendor(
       someJson.UserEmail,
       someJson.Name,

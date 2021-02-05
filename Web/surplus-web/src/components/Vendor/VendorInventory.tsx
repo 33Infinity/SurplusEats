@@ -21,7 +21,6 @@ type NewInventoryState = {
 };
 
 const VendorInventory: React.FC = () => {
-  let inventoryService = new InventoryService();
   const [newInventory, setNewInventory] = useState<Partial<NewInventoryState>>({
     description: "",
     price: "",
@@ -54,8 +53,7 @@ const VendorInventory: React.FC = () => {
   async function getByVendorLocation() {
     const vendorId = HttpHelper.getUrlParamValue("VendorId");
     const locationId = HttpHelper.getUrlParamValue("LocationId");
-    inventoryService = new InventoryService();
-    const response = await inventoryService.getByVendorLocation(
+    const response = await InventoryService.getByVendorLocation(
       vendorId,
       locationId
     );
@@ -94,7 +92,7 @@ const VendorInventory: React.FC = () => {
         null,
         null
       );
-      await inventoryService.add(inventoryModel);
+      await InventoryService.add(inventoryModel);
       getByVendorLocation();
       clearNewInventory();
     } else {
@@ -102,7 +100,7 @@ const VendorInventory: React.FC = () => {
     }
   }
   async function updateInventory(anInventoryModel) {
-    await inventoryService.update(anInventoryModel);
+    await InventoryService.update(anInventoryModel);
     getByVendorLocation();
   }
   async function deleteInventory(anInventoryId) {
@@ -116,7 +114,7 @@ const VendorInventory: React.FC = () => {
     );
   }
   async function processDeleteConfirmation(anInventoryId) {
-    await inventoryService.delete(anInventoryId);
+    await InventoryService.delete(anInventoryId);
     getByVendorLocation();
   }
   function validate() {

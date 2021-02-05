@@ -55,8 +55,7 @@ const UserHome: React.FC = () => {
   async function getLocationsByLatLon() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(async (position) => {
-        const locationService = new LocationService();
-        const response = await locationService.getByLatLon(
+        const response = await LocationService.getByLatLon(
           position.coords.latitude,
           position.coords.longitude
         );
@@ -74,8 +73,7 @@ const UserHome: React.FC = () => {
   async function getInventoryByLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(async (position) => {
-        const inventoryService = new InventoryService();
-        const response = await inventoryService.getByLocation(
+        const response = await InventoryService.getByLocation(
           position.coords.latitude,
           position.coords.longitude
         );

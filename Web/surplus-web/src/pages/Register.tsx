@@ -54,7 +54,6 @@ const useStyles = makeStyles((theme) =>
 );
 
 const Register: React.FC = () => {
-  const authenticationService = new AuthenticationService();
   const [profile, setProfile] = useState<Partial<RegisterState>>({
     email: "",
     firstName: "",
@@ -114,7 +113,7 @@ const Register: React.FC = () => {
             );
           }
 
-          const registeredProfile = await authenticationService.register(
+          const registeredProfile = await AuthenticationService.register(
             newProfile,
             newVendor
           );

@@ -34,12 +34,11 @@ type User = {
 const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
   useEffect(() => {
     const unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
-      const authenticationService = new AuthenticationService();
       if (user == null) {
         setCurrentUser(ProfileModel.EmptyProfile());
         return;
       }
-      authenticationService.getProfile(user?.email).then((profile) => {
+      AuthenticationService.getProfile(user?.email).then((profile) => {
         if (profile instanceof ErrorModel) {
           setCurrentUser(ProfileModel.EmptyProfile());
           return;

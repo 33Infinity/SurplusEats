@@ -1,7 +1,7 @@
 import Error from "../models/Error";
 
 export default class BaseRequest {
-  async getJson(aUrl, aRequesObject) {
+  static async getJson(aUrl, aRequesObject) {
     try {
       const response = await fetch(aUrl, aRequesObject);
       const json = await response.json();
@@ -11,14 +11,14 @@ export default class BaseRequest {
     }
   }
 
-  buildRequestObject(anHttpMethod, someData) {
+  static buildRequestObject(anHttpMethod, someData) {
     return {
       method: anHttpMethod,
       body: JSON.stringify(someData),
     };
   }
 
-  buildFileRequestObject(anHttpMethod, aFile) {
+  static buildFileRequestObject(anHttpMethod, aFile) {
     const formData = new FormData();
     formData.append("myFile", aFile);
     return {

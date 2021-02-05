@@ -3,7 +3,7 @@ import Endpoints from "./Endpoints";
 import HttpMethods from "./HttpMethods";
 
 export default class Notification extends BaseRequest {
-  async getByEmail(anEmail) {
+  static async getByEmail(anEmail) {
     const url = Endpoints.Notification.getByEmail;
     const data = {
       Email: anEmail,
@@ -13,7 +13,7 @@ export default class Notification extends BaseRequest {
     return json;
   }
 
-  async add(aNotificationModel) {
+  static async add(aNotificationModel) {
     let url = Endpoints.Notification.add;
     const requestObject = this.buildRequestObject(
       HttpMethods.post,
@@ -23,7 +23,7 @@ export default class Notification extends BaseRequest {
     return json;
   }
 
-  async update(aNotificationModel) {
+  static async update(aNotificationModel) {
     let url = Endpoints.Notification.update;
     const requestObject = this.buildRequestObject(
       HttpMethods.post,
@@ -33,7 +33,7 @@ export default class Notification extends BaseRequest {
     return json;
   }
 
-  async delete(aNotificationId) {
+  static async delete(aNotificationId) {
     let url = Endpoints.Notification.delete;
     const data = {
       Notification: aNotificationId,

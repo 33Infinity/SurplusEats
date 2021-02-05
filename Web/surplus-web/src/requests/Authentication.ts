@@ -3,7 +3,7 @@ import Endpoints from "./Endpoints";
 import HttpMethods from "./HttpMethods";
 
 export default class Authentication extends BaseRequest {
-  async register(aProfileModel, aVendorModel) {
+  static async register(aProfileModel, aVendorModel) {
     let url = Endpoints.Authentication.register;
     const data = {
       Profile: aProfileModel,
@@ -14,7 +14,7 @@ export default class Authentication extends BaseRequest {
     return json;
   }
 
-  async signIn(anEmail, aPassword) {
+  static async signIn(anEmail, aPassword) {
     let url = Endpoints.Authentication.signIn;
     const data = {
       Email: anEmail,
@@ -25,7 +25,7 @@ export default class Authentication extends BaseRequest {
     return json;
   }
 
-  async getProfile(anEmail) {
+  static async getProfile(anEmail) {
     let url = Endpoints.Authentication.getProfile;
     const data = {
       Email: anEmail,

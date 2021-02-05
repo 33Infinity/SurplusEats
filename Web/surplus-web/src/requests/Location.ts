@@ -3,7 +3,7 @@ import Endpoints from "./Endpoints";
 import HttpMethods from "./HttpMethods";
 
 export default class Location extends BaseRequest {
-  async getByLatLon(aLat, aLon) {
+  static async getByLatLon(aLat, aLon) {
     const url = Endpoints.Location.getByLatLon;
     const data = {
       Latitude: aLat,
@@ -14,7 +14,7 @@ export default class Location extends BaseRequest {
     return json;
   }
 
-  async getByVendor(anEmail) {
+  static async getByVendor(anEmail) {
     const url = Endpoints.Location.getByVendor;
     const data = {
       Email: anEmail,
@@ -24,7 +24,7 @@ export default class Location extends BaseRequest {
     return json;
   }
 
-  async getLatLonFromLocation(aLocationModel) {
+  static async getLatLonFromLocation(aLocationModel) {
     const url = `https://nominatim.openstreetmap.org/search?q=${aLocationModel.Address},+${aLocationModel.City}+${aLocationModel.State}+${aLocationModel.PostalCode}&format=json&polygon=1&addressdetails=1`.replaceAll(
       " ",
       "+"
@@ -33,7 +33,7 @@ export default class Location extends BaseRequest {
     return json;
   }
 
-  async add(aLocationModel) {
+  static async add(aLocationModel) {
     let url = Endpoints.Location.add;
     const requestObject = this.buildRequestObject(
       HttpMethods.post,
@@ -43,7 +43,7 @@ export default class Location extends BaseRequest {
     return json;
   }
 
-  async update(aLocationModel) {
+  static async update(aLocationModel) {
     let url = Endpoints.Location.update;
     const requestObject = this.buildRequestObject(
       HttpMethods.post,
@@ -53,7 +53,7 @@ export default class Location extends BaseRequest {
     return json;
   }
 
-  async delete(aLocationId) {
+  static async delete(aLocationId) {
     let url = Endpoints.Location.delete;
     const data = {
       LocationId: aLocationId,

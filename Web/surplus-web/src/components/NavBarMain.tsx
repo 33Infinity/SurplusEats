@@ -242,8 +242,19 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount, notificatio
             />
           </div>
           <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>            
-            <IconButton aria-label="show 17 new notifications" color="inherit">
+          <div className={classes.sectionDesktop}> 
+           { currentUser?.IsAuthenticated ?
+            <>
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="primary-search-account-menu"
+              aria-haspopup="true"
+              color="inherit"
+              onClick={handleProfileClick}
+            >
+              <AccountCircle />
+              </IconButton>
+            <IconButton color="inherit">
               <Badge badgeContent={notificationCount} color="secondary">
                 <NotificationsIcon
                   onClick={() => {
@@ -253,6 +264,9 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount, notificatio
                 />
               </Badge>
             </IconButton>
+            </>
+            : null
+            }            
             <IconButton
               aria-label="checkout"
               aria-haspopup="false"
@@ -266,16 +280,7 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount, notificatio
                   }}
                 />
               </Badge>
-            </IconButton>
-            <IconButton
-              aria-label="account of current user"
-              aria-controls="primary-search-account-menu"
-              aria-haspopup="true"
-              color="inherit"
-              onClick={handleProfileClick}
-            >
-              <AccountCircle />
-            </IconButton>
+            </IconButton>            
             <Menu
               id="fade-menu"
               anchorEl={profileEl}

@@ -9,19 +9,17 @@ import {
   Button,
   Avatar,
   Link,
-  IconButton,
 } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import FormTextField from "../controls/FormTextField";
 import { signInWithGoogle } from "../firebase/firebase.utils";
 import { auth } from "../firebase/firebase.utils";
-import Snackbar from "@material-ui/core/Snackbar";
 import BackDrop from "../controls/Backdrop";
 import AuthenticationService from "../services/Authentication";
 import Error from "../models/Error";
 import Profile from "../models/Profile";
+import ToastError from "../controls/ToastError";
 
 type RegisterState = {
   email: string;
@@ -52,9 +50,6 @@ const useStyles = makeStyles((theme) =>
     },
     submitGrid: {
       marginTop: "20px",
-    },
-    error: {
-      backgroundColor: theme.palette.error.dark,
     },
   })
 );
@@ -124,29 +119,10 @@ const SignIn: React.FC = () => {
   return (
     <div>
       <BackDrop isLoading={isLoading} />
-      <Snackbar
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-        ContentProps={{
-          classes: {
-            root: classes.error,
-          },
-        }}
-        open={showError}
-        onClose={() => setShowError(false)}
-        message={errorMessage}
-        action={[
-          <IconButton
-            key="close"
-            aria-label="Close"
-            color="inherit"
-            onClick={() => setShowError(false)}
-          >
-            <CloseIcon />
-          </IconButton>,
-        ]}
+      <ToastError
+        showError={showError}
+        setShowError={setShowError}
+        errorMessage={errorMessage}
       />
       <div className="center">
         <Container component="main" maxWidth="xs">

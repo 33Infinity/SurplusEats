@@ -142,7 +142,7 @@ const VendorInventory: React.FC = () => {
       <div>
         <Grid container spacing={2}>
           <Grid item xs={6} sm={1}>
-            <ImageUpload onSelectedFile={addFile} />
+            <ImageUpload onSelectedFile={addFile} buttonText="Save" />
           </Grid>
           <Grid item xs={6} sm={8}>
             <TextField

@@ -24,10 +24,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface Props {
   onSelectedFile(name: any): any;
+  buttonText: string;
 }
 
 export const ImageUpload: React.FunctionComponent<Props> = ({
   onSelectedFile,
+  buttonText,
 }) => {
   const classes = useStyles();
   const [selectedFile, setSelectedFile] = React.useState("");
@@ -49,6 +51,9 @@ export const ImageUpload: React.FunctionComponent<Props> = ({
         onChange={handleCapture}
       />
       <img src={selectedFile != null ? selectedFile : ""} />
+      <Button onClick={() => handleSubmit()} color="primary">
+        {buttonText}
+      </Button>
       <Tooltip title="Select Image">
         <label htmlFor="faceImage">
           <IconButton
@@ -61,9 +66,6 @@ export const ImageUpload: React.FunctionComponent<Props> = ({
           </IconButton>
         </label>
       </Tooltip>
-      <Button onClick={() => handleSubmit()} color="primary">
-        Save
-      </Button>
     </>
   );
 };

@@ -1,6 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import { Grid, TextField, Button } from "@material-ui/core";
+import {
+  makeStyles,
+  createStyles,
+  Container,
+  Typography,
+  Grid,
+  Checkbox,
+  FormControlLabel,
+  Button,
+  Avatar,
+  IconButton,
+  Theme,
+} from "@material-ui/core";
 import { connect } from "react-redux";
 import ProfileModel from "../models/Profile";
 import VendorModel from "../models/Vendor";
@@ -11,6 +22,7 @@ import DefaultImage from "../images/InventoryBlank.png";
 import ImageUpload from "../controls/ImageUpload";
 import { confirmWithSingleButton } from "../controls/Confirmation";
 import Error from "../components/Error";
+import { ValidatorForm } from "react-material-ui-form-validator";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,6 +32,16 @@ const useStyles = makeStyles((theme: Theme) =>
     submit: {
       margin: theme.spacing(3, 0, 2),
     },
+    paper: {
+      marginTop: theme.spacing(8),
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+    },
+    form: {
+      width: "100%",
+      marginTop: theme.spacing(3),
+    },
   })
 );
 
@@ -28,6 +50,7 @@ type Redux = {
 };
 
 const VendorProfile: React.FC<Redux> = ({ currentUser }) => {
+  let validationForm: ValidatorForm = React.createRef();
   let vendorService = new VendorService();
   useEffect(() => {
     getByEmail();
@@ -78,10 +101,22 @@ const VendorProfile: React.FC<Redux> = ({ currentUser }) => {
   }
   return (
     <div>
-      <div className={classes.root}>
-        <Grid container spacing={3}>
-          <h1>Profile Page</h1>
-          <Grid item xs={6} sm={3}>
+      <div className="center">
+        <Container component="main" maxWidth="xs">
+          <div className={classes.paper}>
+            <Typography component="h1" variant="h5">
+              Edit Profile
+            </Typography>
+            <ValidatorForm
+              ref={validationForm}
+              className={classes.form}
+              debounceTime={1000}
+            ></ValidatorForm>
+          </div>
+        </Container>
+        {/* <h1>Profile Page</h1>
+        <Grid container justify-xs-center spacing={2} direction={"column"}>
+          <Grid item xs={12} sm={2}>
             <img
               src={
                 vendor instanceof VendorModel
@@ -92,39 +127,42 @@ const VendorProfile: React.FC<Redux> = ({ currentUser }) => {
               }
             ></img>
           </Grid>
-          <Grid item xs={6} sm={3}>
-            <ImageUpload onSelectedFile={setImageUrl} />
+          <Grid item xs={12} sm={2}>
+            <ImageUpload
+              onSelectedFile={setImageUrl}
+              buttonText="Edit Vendor Profile Image"
+            />
           </Grid>
-          <Grid item xs={6} sm={2}>
+          <Grid item xs={12} sm={2}>
             <TextField
               variant="outlined"
               fullWidth
               name="Name"
               label="Name"
-              value={vendor?.Name}
+              value={vendor?.Name != null ? vendor.Name : ""}
               onChange={onVendorUpdate}
             />
           </Grid>
-          <Grid item xs={6} sm={4}>
+          <Grid item xs={12} sm={4}>
             <TextField
               variant="outlined"
               fullWidth
               name="Description"
               label="Description"
-              value={vendor?.Description}
+              value={vendor?.Description != null ? vendor.Description : ""}
               onChange={onVendorUpdate}
             />
           </Grid>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={updateProfile}
-            disabled={saveProfile}
-          >
-            Save Profile
-          </Button>
         </Grid>
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+          onClick={updateProfile}
+          disabled={saveProfile}
+        >
+          Save Profile
+        </Button> */}
       </div>
     </div>
   );

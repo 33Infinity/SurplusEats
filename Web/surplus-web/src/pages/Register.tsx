@@ -10,14 +10,12 @@ import {
   FormControlLabel,
   Button,
   Avatar,
-  IconButton,
 } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import FormTextField from "../controls/FormTextField";
 import { auth } from "../firebase/firebase.utils";
-import Snackbar from "@material-ui/core/Snackbar";
+import ToastError from "../controls/ToastError";
 import ProfileModel from "../models/Profile";
 import VendorModel from "../models/Vendor";
 import ErrorModel from "../models/Error";
@@ -51,9 +49,6 @@ const useStyles = makeStyles((theme) =>
     },
     submit: {
       margin: theme.spacing(3, 0, 2),
-    },
-    error: {
-      backgroundColor: theme.palette.error.dark,
     },
   })
 );
@@ -152,29 +147,10 @@ const Register: React.FC = () => {
   const classes = useStyles();
   return (
     <div>
-      <Snackbar
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-        ContentProps={{
-          classes: {
-            root: classes.error,
-          },
-        }}
-        open={showError}
-        onClose={() => setShowError(false)}
-        message={errorMessage}
-        action={[
-          <IconButton
-            key="close"
-            aria-label="Close"
-            color="inherit"
-            onClick={() => setShowError(false)}
-          >
-            <CloseIcon />
-          </IconButton>,
-        ]}
+      <ToastError
+        showError={showError}
+        setShowError={setShowError}
+        errorMessage={errorMessage}
       />
       <div className="center">
         <Container component="main" maxWidth="xs">

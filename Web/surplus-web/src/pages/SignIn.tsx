@@ -73,11 +73,12 @@ const SignIn: React.FC = () => {
   };
 
   const onSignIn = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+    event.preventDefault();   
     let valid = true;
     validationForm.current.isFormValid(false).then(async (isValid) => {
-      if (isValid) {
+      if (isValid) {        
         try {
+          setLoading(true);
           let signedInProfile = await authenticationService.signIn(
             profile.email,
             profile.password
@@ -85,7 +86,8 @@ const SignIn: React.FC = () => {
           if (signedInProfile instanceof Error) {
             const err = signedInProfile as Error;
             setErrorMessage(err.ErrorMessage);
-            setShowError(true);
+            setLoading(false);
+            setShowError(false);
             valid = false;
           } else {
             signedInProfile = signedInProfile as Profile;
@@ -98,20 +100,20 @@ const SignIn: React.FC = () => {
             } else {
               setErrorMessage("Unable to authenticate");
               setShowError(true);
+              setLoading(false);
               valid = false;
             }
           }
         } catch (error) {
           setErrorMessage(error.message);
           setShowError(true);
+          setLoading(false);
           valid = false;
         }
       } else {
         valid = false;
       }
-    });
-
-    setLoading(false);
+    });    
     return valid;
   };
 
@@ -170,8 +172,7 @@ const SignIn: React.FC = () => {
                   variant="contained"
                   color="primary"
                   className={classes.submit}
-                  onClick={(event) => {
-                    setLoading(true);
+                  onClick={(event) => {                    
                     onSignIn(event);
                   }}
                 >

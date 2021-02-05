@@ -4,7 +4,6 @@ import NotificationModel from "../models/Notification";
 import '../fonts/fonts.scss';
 import '../fonts/font-main.scss';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { AlarmOnOutlined } from '@material-ui/icons';
 

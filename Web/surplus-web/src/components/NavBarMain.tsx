@@ -18,7 +18,7 @@ import { ShoppingCart } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import ProfileModel from "../models/Profile";
-import { selectCartItemsCount } from "../redux/cart/cart.selectors";
+import { selectCartItemsCount, selectCartItems } from "../redux/cart/cart.selectors";
 import { newNotificationCount, notificationsItems } from "../redux/notification/notification.selectors";
 import { auth } from "../firebase/firebase.utils";
 import DropdownMenu from "../controls/DropdownMenu";
@@ -111,9 +111,8 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount, notificatio
   const [profileEl, setProfileEl] = React.useState(null);
   const [showDialog, setShowDialog] = React.useState(false);
   const [dialogType, setDialogType] = React.useState(
-    HeaderEventType.IsNotification |
-      HeaderEventType.IsMail |
-      HeaderEventType.IsCart
+    HeaderEventType.IsNotification |     
+    HeaderEventType.IsCart
   );
 
   const isMenuOpen = Boolean(anchorEl);
@@ -338,7 +337,7 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount, notificatio
 
 const mapStateToProps = (state) => ({
   currentUser: state.user.currentUser,
-  cartItemCount: selectCartItemsCount(state),
+  cartItemCount: selectCartItemsCount(state),  
   notificationCount: newNotificationCount(state),
   notifications: notificationsItems(state),
 });

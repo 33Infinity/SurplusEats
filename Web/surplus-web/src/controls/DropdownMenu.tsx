@@ -4,6 +4,7 @@ import DropdownItem from "./DropdownItem";
 import HeaderEventType from "../utils/Enum";
 import NotificationModel from "../models/Notification";
 import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 
 const useStyles = makeStyles((theme) => ({
   menuDropdown: {
@@ -47,7 +48,10 @@ const DropdownMenu: React.FC<MenuType> = ({ dropDownType, btnEvent, notification
       <div className={classes.listItems}>
         <List component="nav">
           {
-            notificationItems.map(notification => <DropdownItem notificationItem={notification} />)
+            dropDownType === HeaderEventType.IsNotification ? 
+              notificationItems.map(notification => <DropdownItem notificationItem={notification} />)
+            : 
+            <ListItem>Empty...</ListItem>
           }
         </List>
       </div>

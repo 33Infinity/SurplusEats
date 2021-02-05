@@ -5,7 +5,7 @@ import LocationModel from "../models/Location";
 import VendorModel from "../models/Vendor";
 import ProfileModel from "../models/Profile";
 import ErrorModel from "../models/Error";
-import VendorLocation from "../components/Vendor/VendorLocation";
+import VendorLocation from "../components/vendor/VendorLocation";
 import {
   confirmWithTwoButtons,
   confirmWithSingleButton,
@@ -13,7 +13,7 @@ import {
 import { connect } from "react-redux";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import VendorLocationDialog from "../components/Vendor/VendorLocationDialog";
+import VendorLocationDialog from "../components/vendor/VendorLocationDialog";
 
 type Redux = {
   currentUser: ProfileModel;

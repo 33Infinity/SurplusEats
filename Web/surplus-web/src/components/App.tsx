@@ -9,7 +9,7 @@ import VendorProfile from "../pages/VendorProfile";
 import UserProfile from "../pages/UserProfile";
 import SignIn from "../pages/SignIn";
 import Register from "../pages/Register";
-import VendorInventory from "./Vendor/VendorInventory";
+import VendorInventory from "./vendor/VendorInventory";
 import Footer from "./Footer";
 import {
   HashRouter as Router,
@@ -28,10 +28,10 @@ import AuthenticationService from "../services/Authentication";
 
 type User = {
   currentUser: ProfileModel;
-  setCurrentUser: (user: ProfileModel) => void; 
+  setCurrentUser: (user: ProfileModel) => void;
 };
 
-const App: React.FC<User> = ({ currentUser, setCurrentUser }) => { 
+const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
   useEffect(() => {
     const unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
       const authenticationService = new AuthenticationService();
@@ -48,10 +48,10 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
           setCurrentUser(profile);
         }
       });
-    }); 
+    });
 
     return () => {
-      unsubscribeFromAuth();     
+      unsubscribeFromAuth();
     };
   }, []);
 
@@ -144,7 +144,7 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrentUserAsync(user)),  
+  setCurrentUser: (user) => dispatch(setCurrentUserAsync(user)),
 });
 
 const mapStateToProps = (state) => ({

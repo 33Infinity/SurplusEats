@@ -8,6 +8,11 @@ export default class Endpoints {
       "http://localhost:6002/surplus-functions/us-central1/auth-signIn";
   };
 
+  static Cart = class {
+    public static getByEmail =
+      "http://localhost:6002/surplus-functions/us-central1/cart-getByEmail";
+  };
+
   static Inventory = class {
     public static add =
       "http://localhost:6002/surplus-functions/us-central1/inventory-add";

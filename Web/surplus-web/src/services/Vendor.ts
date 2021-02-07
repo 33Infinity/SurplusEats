@@ -17,7 +17,7 @@ export default class Vendor extends BaseService {
     if (this.isApiError(json)) {
       return ErrorModel.NewError(json.ErrorMessage);
     }
-    return this.buildVendorModel(json[0]);
+    return this.buildVendorModel(json);
   }
 
   static buildVendorModel(someJson) {

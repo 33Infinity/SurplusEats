@@ -5,11 +5,7 @@ import {
   Container,
   Typography,
   Grid,
-  Checkbox,
-  FormControlLabel,
   Button,
-  Avatar,
-  IconButton,
   Theme,
 } from "@material-ui/core";
 import { connect } from "react-redux";
@@ -24,6 +20,7 @@ import { confirmWithSingleButton } from "../controls/Confirmation";
 import Error from "../components/Error";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import FormTextField from "../controls/FormTextField";
+import BackDrop from "../controls/Backdrop";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -59,6 +56,7 @@ const VendorProfile: React.FC<Redux> = ({ currentUser }) => {
   const [vendor, setVendor] = useState<Partial<VendorModel>>();
   const [error, setError] = useState<ErrorModel | null>(null);
   const [saveProfile, setSaveProfile] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const onVendorUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSaveProfile(false);
     setVendor({
@@ -82,10 +80,12 @@ const VendorProfile: React.FC<Redux> = ({ currentUser }) => {
     setVendor(response);
   }
   async function updateProfile() {
+    setIsLoading(true);
     const response = await VendorService.update(vendor);
     if (response instanceof VendorModel) {
-      setVendor(response);
-      setSaveProfile(true);
+      confirmWithSingleButton("Ok", "Vendor Update", "Successful Update!", () =>
+        processSuccessfulUpdate(response)
+      );
     } else {
       confirmWithSingleButton(
         "Ok",
@@ -94,6 +94,12 @@ const VendorProfile: React.FC<Redux> = ({ currentUser }) => {
         null
       );
     }
+    setIsLoading(false);
+  }
+
+  function processSuccessfulUpdate(aResponse) {
+    setVendor(aResponse);
+    setSaveProfile(true);
   }
 
   if (error != null) {
@@ -102,6 +108,7 @@ const VendorProfile: React.FC<Redux> = ({ currentUser }) => {
   return (
     <div>
       <div className="center">
+        <BackDrop isLoading={isLoading} />
         <Container component="main" maxWidth="xs">
           <div className={classes.paper}>
             <Typography component="h1" variant="h5">

@@ -34,6 +34,9 @@ export default class Vendor {
       aCreatedDate
     );
     const response = await VendorDAO.update(admin, anId, vendorTO.getTuple());
-    return response;
+    if (response) {
+      return vendorTO;
+    }
+    return null;
   }
 }

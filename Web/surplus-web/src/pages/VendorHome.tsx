@@ -40,23 +40,36 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
   }
   async function getByVendor() {
     let locations = await LocationService.getByVendor(currentUser?.Email);
-    const vendorModel = locations != null ? locations[0].VendorModel : null;
-    if (vendorModel == null) {
-      let vendorResponse = await VendorService.getByEmail(currentUser?.Email);
-      if (vendorResponse instanceof ErrorModel) {
-        confirmWithSingleButton(
-          "Ok",
-          "Vendor Error",
-          "Vendor Not Found?",
-          null
-        );
-        return;
-      }
-      setVendorModel(vendorResponse);
+    if (locations instanceof ErrorModel) {
+      confirmWithSingleButton(
+        "Ok",
+        "Error",
+        "Failed to retrieve locations?",
+        null
+      );
+      return;
     } else {
-      setVendorModel(vendorModel);
-      if (!(locations instanceof ErrorModel)) {
-        setLocations(locations);
+      const vendorModel =
+        locations != null && locations.length > 0
+          ? locations[0].VendorModel
+          : null;
+      if (vendorModel == null) {
+        let vendorResponse = await VendorService.getByEmail(currentUser?.Email);
+        if (vendorResponse instanceof ErrorModel) {
+          confirmWithSingleButton(
+            "Ok",
+            "Vendor Error",
+            "Vendor Not Found?",
+            null
+          );
+          return;
+        }
+        setVendorModel(vendorResponse);
+      } else {
+        setVendorModel(vendorModel);
+        if (!(locations instanceof ErrorModel)) {
+          setLocations(locations);
+        }
       }
     }
   }

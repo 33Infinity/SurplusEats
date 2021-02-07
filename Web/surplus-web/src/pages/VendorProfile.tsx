@@ -112,7 +112,6 @@ const VendorProfile: React.FC<Redux> = ({ currentUser }) => {
               className={classes.form}
               debounceTime={1000}
             >
-              <h1>Profile Page</h1>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <img

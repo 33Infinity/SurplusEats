@@ -29,7 +29,11 @@ export default class Profile {
   static async getByUserNamePassword(admin, anEmail, aPassword) {
     const clauses: Clause[] = [];
     clauses.push(
-      Clause.NewClause(ProfileTO.ColumnNames.Email, Operators.equals, anEmail)
+      Clause.NewClause(
+        ProfileTO.ColumnNames.Email,
+        Operators.equals,
+        anEmail.toLowerCase()
+      )
     );
     clauses.push(
       Clause.NewClause(

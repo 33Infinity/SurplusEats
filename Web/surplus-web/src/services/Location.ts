@@ -10,6 +10,7 @@ export default class Location extends BaseService {
     aLon
   ): Promise<LocationModel[] | null | ErrorModel> {
     const json = await LocationRequest.getByLatLon(aLat, aLon);
+    if (json == null) return [];
     if (this.isApiError(json)) {
       return ErrorModel.NewError(json.ErrorMessage);
     }
@@ -20,6 +21,7 @@ export default class Location extends BaseService {
     anEmail
   ): Promise<LocationModel[] | null | ErrorModel> {
     const json = await LocationRequest.getByVendor(anEmail);
+    if (json == null) return [];
     if (this.isApiError(json)) {
       return ErrorModel.NewError(json.ErrorMessage);
     }

@@ -23,6 +23,7 @@ import ImageUpload from "../controls/ImageUpload";
 import { confirmWithSingleButton } from "../controls/Confirmation";
 import Error from "../components/Error";
 import { ValidatorForm } from "react-material-ui-form-validator";
+import FormTextField from "../controls/FormTextField";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -110,58 +111,65 @@ const VendorProfile: React.FC<Redux> = ({ currentUser }) => {
               ref={validationForm}
               className={classes.form}
               debounceTime={1000}
-            ></ValidatorForm>
+            >
+              <h1>Profile Page</h1>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <img
+                    src={
+                      vendor instanceof VendorModel
+                        ? StringUtil.nullOrEmpty(vendor?.ImageUrl)
+                          ? DefaultImage
+                          : vendor.ImageUrl
+                        : DefaultImage
+                    }
+                  ></img>
+                </Grid>
+                <Grid item xs={12}>
+                  <ImageUpload
+                    onSelectedFile={setImageUrl}
+                    buttonText="Edit Vendor Profile Image"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <FormTextField
+                    variant="outlined"
+                    fullWidth
+                    name="Name"
+                    label="Name"
+                    value={vendor?.Name != null ? vendor.Name : ""}
+                    onChange={onVendorUpdate}
+                    validators={["required"]}
+                    errorMessages={["this field is required"]}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <FormTextField
+                    variant="outlined"
+                    fullWidth
+                    name="Description"
+                    label="Description"
+                    value={
+                      vendor?.Description != null ? vendor.Description : ""
+                    }
+                    onChange={onVendorUpdate}
+                    validators={["required"]}
+                    errorMessages={["this field is required"]}
+                  />
+                </Grid>
+              </Grid>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={updateProfile}
+                disabled={saveProfile}
+              >
+                Save Profile
+              </Button>
+            </ValidatorForm>
           </div>
         </Container>
-        {/* <h1>Profile Page</h1>
-        <Grid container justify-xs-center spacing={2} direction={"column"}>
-          <Grid item xs={12} sm={2}>
-            <img
-              src={
-                vendor instanceof VendorModel
-                  ? StringUtil.nullOrEmpty(vendor?.ImageUrl)
-                    ? DefaultImage
-                    : vendor.ImageUrl
-                  : DefaultImage
-              }
-            ></img>
-          </Grid>
-          <Grid item xs={12} sm={2}>
-            <ImageUpload
-              onSelectedFile={setImageUrl}
-              buttonText="Edit Vendor Profile Image"
-            />
-          </Grid>
-          <Grid item xs={12} sm={2}>
-            <TextField
-              variant="outlined"
-              fullWidth
-              name="Name"
-              label="Name"
-              value={vendor?.Name != null ? vendor.Name : ""}
-              onChange={onVendorUpdate}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <TextField
-              variant="outlined"
-              fullWidth
-              name="Description"
-              label="Description"
-              value={vendor?.Description != null ? vendor.Description : ""}
-              onChange={onVendorUpdate}
-            />
-          </Grid>
-        </Grid>
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-          onClick={updateProfile}
-          disabled={saveProfile}
-        >
-          Save Profile
-        </Button> */}
       </div>
     </div>
   );

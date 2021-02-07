@@ -6,6 +6,7 @@ import BaseService from "./BaseService";
 export default class Notification extends BaseService {
   static async getByEmail(anEmail): Promise<NotificationModel[] | ErrorModel> {
     const json = await NotificationRequest.getByEmail(anEmail);
+    if (json == null) return [];
     return !this.isApiError(json)
       ? json.length > 0
         ? this.buildNotificationModels(json)

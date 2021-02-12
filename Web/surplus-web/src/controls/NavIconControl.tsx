@@ -5,6 +5,7 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import HeaderEventType from "../utils/Enum";
 import DropdownMenu from "../controls/DropdownMenu";
 import NotificationModel from "../models/Notification";
+import { ShoppingCart } from "@material-ui/icons";
 
 type IconType = {
     count: number;
@@ -34,15 +35,25 @@ const NavIcon: React.FC<IconType> = ({count, dialogType, items}) => {
         setShowDialog(!showDialog);
     };
 
+    let cntrl;
+    switch (dialogType) {
+        case HeaderEventType.IsNotification: {           
+            cntrl = <NotificationsIcon onClick={() => {toggleDialog();}} />;
+            break;
+        }
+        case HeaderEventType.IsCart: {
+            cntrl = <ShoppingCart onClick={() => {toggleDialog();}} />;
+            break;
+        }       
+        default: 
+            break;
+    }    
+
     return (
         <>
             <IconButton color="inherit">
                 <Badge badgeContent={count} color="secondary">
-                    <NotificationsIcon
-                    onClick={() => {                        
-                        toggleDialog();
-                    }}
-                    />
+                    {cntrl} 
                 </Badge>
             </IconButton>    
             {showDialog ? (

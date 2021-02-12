@@ -34,10 +34,10 @@ const useStyles = makeStyles((theme) => ({
 type MenuType = {
   dropDownType: HeaderEventType;
   btnEvent: () => void;
-  notificationItems: Array<NotificationModel>
-};
+  items: Array<NotificationModel | string>;
+}
 
-const DropdownMenu: React.FC<MenuType> = ({ dropDownType, btnEvent, notificationItems }) => {
+const DropdownMenu: React.FC<MenuType> = ({ dropDownType, btnEvent, items }) => {
   const classes = useStyles();
   const btnText =    
     dropDownType === HeaderEventType.IsNotification
@@ -49,7 +49,7 @@ const DropdownMenu: React.FC<MenuType> = ({ dropDownType, btnEvent, notification
         <List component="nav">
           {
             dropDownType === HeaderEventType.IsNotification ? 
-              notificationItems.map(notification => <DropdownItem notificationItem={notification} />)
+              items.map(item => <DropdownItem item={item} />)
             : 
             <ListItem>Empty...</ListItem>
           }

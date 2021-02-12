@@ -24,6 +24,7 @@ import { auth } from "../firebase/firebase.utils";
 import DropdownMenu from "../controls/DropdownMenu";
 import HeaderEventType from "../utils/Enum";
 import NotificationModel from "../models/Notification";
+import NavIconControl from "../controls/NavIconControl";
 
 const useStyles = makeStyles((theme: any) => ({
   grow: {
@@ -253,6 +254,7 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount, notificatio
             >
               <AccountCircle />
               </IconButton>
+            <NavIconControl count={notificationCount} dialogType={HeaderEventType.IsNotification} items={notifications} />
             <IconButton color="inherit">
               <Badge badgeContent={notificationCount} color="secondary">
                 <NotificationsIcon
@@ -328,7 +330,7 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount, notificatio
       {renderMenu}
       {showDialog ? (
         <div ref={wrapperRef}>
-          <DropdownMenu notificationItems={notifications} dropDownType={dialogType} btnEvent={toggleDialog} />
+          <DropdownMenu items={notifications} dropDownType={dialogType} btnEvent={toggleDialog} />
         </div>
       ) : null}
     </div>

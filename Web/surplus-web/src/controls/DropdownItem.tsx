@@ -16,10 +16,11 @@ const useStyles = makeStyles((theme) => ({
     },    
     itemDetails: {
         width: '170px',        
-        fontFamily: 'RobotoRegular serif',   
+        fontFamily: 'RobotoRegular',   
         textOverflow: 'ellipsis',
         overflow: 'hidden', 
-        whiteSpace: 'nowrap',        
+        whiteSpace: 'nowrap',
+        color: 'black'        
     },
     icon: {
         minWidth: '40px',
@@ -27,17 +28,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type MenuItemType = {    
-    notificationItem: NotificationModel
-  };
+    item: NotificationModel | string
+};
 
-const DropdownItem: React.FC<MenuItemType> = ({ notificationItem }) => {
+const DropdownItem: React.FC<MenuItemType> = ({ item }) => {
     const classes = useStyles();
+    const subject = item instanceof NotificationModel ? item.Subject : "";
     return (
         <ListItem button className={classes.cartItem}>
             <ListItemIcon className={classes.icon}>
                 <AlarmOnOutlined />
             </ListItemIcon>
-            <span className={classes.itemDetails}>{notificationItem.Subject}</span>                       
+            <span className={classes.itemDetails}>{subject}</span>                       
         </ListItem>
     )
 };

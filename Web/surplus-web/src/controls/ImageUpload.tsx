@@ -35,10 +35,7 @@ export const ImageUpload: React.FunctionComponent<Props> = ({
   const [selectedFile, setSelectedFile] = React.useState("");
   const handleCapture = ({ target }: any) => {
     setSelectedFile(target.files[0]);
-  };
-
-  const handleSubmit = () => {
-    onSelectedFile(selectedFile);
+    onSelectedFile(target.files[0]);
   };
 
   return (
@@ -51,9 +48,6 @@ export const ImageUpload: React.FunctionComponent<Props> = ({
         onChange={handleCapture}
       />
       <img src={selectedFile != null ? selectedFile : ""} />
-      <Button onClick={() => handleSubmit()} color="primary">
-        {buttonText}
-      </Button>
       <Tooltip title="Select Image">
         <label htmlFor="faceImage">
           <IconButton

@@ -21,6 +21,7 @@ import Error from "../components/Error";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import FormTextField from "../controls/FormTextField";
 import BackDrop from "../controls/Backdrop";
+import FileService from "../services/File";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,6 +41,10 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
       marginTop: theme.spacing(3),
     },
+    image: {
+      height: "80px",
+      width: "80px",
+    },
   })
 );
 
@@ -55,7 +60,8 @@ const VendorProfile: React.FC<Redux> = ({ currentUser }) => {
   const classes = useStyles();
   const [vendor, setVendor] = useState<Partial<VendorModel>>();
   const [error, setError] = useState<ErrorModel | null>(null);
-  const [saveProfile, setSaveProfile] = useState(false);
+  const [saveProfile, setSaveProfile] = useState(true);
+  const [selectedFile, setSelectedFile] = React.useState("");
   const [isLoading, setIsLoading] = useState(false);
   const onVendorUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSaveProfile(false);
@@ -64,12 +70,9 @@ const VendorProfile: React.FC<Redux> = ({ currentUser }) => {
       [event.target.name]: event.target.value,
     });
   };
-  function setImageUrl(anImageUrl) {
+  function onFileSelect(aFile) {
     setSaveProfile(false);
-    setVendor({
-      ...vendor,
-      ["ImageUrl"]: anImageUrl,
-    });
+    setSelectedFile(aFile);
   }
   async function getByEmail() {
     const response = await VendorService.getByEmail(currentUser?.Email);
@@ -81,6 +84,13 @@ const VendorProfile: React.FC<Redux> = ({ currentUser }) => {
   }
   async function updateProfile() {
     setIsLoading(true);
+    if (vendor?.ImageUrl !== "") {
+      await FileService.delete(vendor?.ImageUrl);
+    }
+    const imageUrl = await FileService.add(selectedFile, vendor?.Id);
+    if (vendor != null) {
+      vendor.ImageUrl = imageUrl.toString();
+    }
     const response = await VendorService.update(vendor);
     if (response instanceof VendorModel) {
       confirmWithSingleButton("Ok", "Vendor Update", "Successful Update!", () =>
@@ -122,6 +132,7 @@ const VendorProfile: React.FC<Redux> = ({ currentUser }) => {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <img
+                    className={classes.image}
                     src={
                       vendor instanceof VendorModel
                         ? StringUtil.nullOrEmpty(vendor?.ImageUrl)
@@ -133,7 +144,7 @@ const VendorProfile: React.FC<Redux> = ({ currentUser }) => {
                 </Grid>
                 <Grid item xs={12}>
                   <ImageUpload
-                    onSelectedFile={setImageUrl}
+                    onSelectedFile={onFileSelect}
                     buttonText="Edit Vendor Profile Image"
                   />
                 </Grid>

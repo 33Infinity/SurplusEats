@@ -6,7 +6,7 @@ import InventoryModel from "../../models/Inventory";
 import LocationModel from "../../models/Location";
 import SaveIcon from "@material-ui/icons/Save";
 import ImageUpload from "../../controls/ImageUpload";
-import firebase from "../../firebase/firebase.utils";
+import FileService from "../../services/File";
 import VendorInventoryItem from "./VendorInventoryItem";
 import HttpHelper from "../../utils/HttpHelper";
 import Header from "../Header";
@@ -72,10 +72,10 @@ const VendorInventory: React.FC = () => {
     }
   }
   async function addFile(aFile) {
-    const storageRef = firebase.storage().ref();
-    const fileRef = storageRef.child(aFile.name);
-    await fileRef.put(aFile);
-    const fileUrl = await fileRef.getDownloadURL();
+    const fileUrl = await FileService.add(
+      aFile,
+      locationModel?.VendorModel?.Id
+    );
     setNewInventory({
       ...newInventory,
       imageUrl: fileUrl,

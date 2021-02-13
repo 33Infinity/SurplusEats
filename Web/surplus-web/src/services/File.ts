@@ -1,4 +1,4 @@
-import firebase from "../firebase/firebase.utils";
+import firebase from "../utils/Firebase";
 
 export default class File {
   static async add(aFile, aStringToAppend): Promise<string> {

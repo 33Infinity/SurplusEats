@@ -13,8 +13,7 @@ import {
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import FormTextField from "../controls/FormTextField";
-import { signInWithGoogle } from "../firebase/firebase.utils";
-import { auth } from "../firebase/firebase.utils";
+import { auth, signInWithGoogle } from "../utils/Firebase";
 import BackDrop from "../controls/Backdrop";
 import AuthenticationService from "../services/Authentication";
 import Error from "../models/Error";

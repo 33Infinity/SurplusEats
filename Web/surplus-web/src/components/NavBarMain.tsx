@@ -18,9 +18,15 @@ import { ShoppingCart } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import ProfileModel from "../models/Profile";
-import { selectCartItemsCount, selectCartItems } from "../redux/cart/cart.selectors";
-import { newNotificationCount, notificationsItems } from "../redux/notification/notification.selectors";
-import { auth } from "../firebase/firebase.utils";
+import {
+  selectCartItemsCount,
+  selectCartItems,
+} from "../redux/cart/cart.selectors";
+import {
+  newNotificationCount,
+  notificationsItems,
+} from "../redux/notification/notification.selectors";
+import { auth } from "../utils/Firebase";
 import DropdownMenu from "../controls/DropdownMenu";
 import HeaderEventType from "../utils/Enum";
 import NotificationModel from "../models/Notification";
@@ -93,10 +99,15 @@ type NavInfo = {
   currentUser: ProfileModel;
   cartItemCount: number;
   notifications: Array<NotificationModel>;
-  notificationCount: number; 
+  notificationCount: number;
 };
 
-const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount, notifications, notificationCount = 0 }) => {
+const NavBarMain: React.FC<NavInfo> = ({
+  currentUser,
+  cartItemCount,
+  notifications,
+  notificationCount = 0,
+}) => {
   React.useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -112,8 +123,7 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount, notificatio
   const [profileEl, setProfileEl] = React.useState(null);
   const [showDialog, setShowDialog] = React.useState(false);
   const [dialogType, setDialogType] = React.useState(
-    HeaderEventType.IsNotification |     
-    HeaderEventType.IsCart
+    HeaderEventType.IsNotification | HeaderEventType.IsCart
   );
 
   const isMenuOpen = Boolean(anchorEl);
@@ -242,32 +252,35 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount, notificatio
             />
           </div>
           <div className={classes.grow} />
-          <div className={classes.sectionDesktop}> 
-           { currentUser?.IsAuthenticated ?
-            <>
-            <IconButton
-              aria-label="account of current user"
-              aria-controls="primary-search-account-menu"
-              aria-haspopup="true"
-              color="inherit"
-              onClick={handleProfileClick}
-            >
-              <AccountCircle />
-              </IconButton>
-            <NavIconControl count={notificationCount} dialogType={HeaderEventType.IsNotification} items={notifications} />
-            <IconButton color="inherit">
-              <Badge badgeContent={notificationCount} color="secondary">
-                <NotificationsIcon
-                  onClick={() => {
-                    SetDialogType(HeaderEventType.IsNotification);
-                    toggleDialog();
-                  }}
+          <div className={classes.sectionDesktop}>
+            {currentUser?.IsAuthenticated ? (
+              <>
+                <IconButton
+                  aria-label="account of current user"
+                  aria-controls="primary-search-account-menu"
+                  aria-haspopup="true"
+                  color="inherit"
+                  onClick={handleProfileClick}
+                >
+                  <AccountCircle />
+                </IconButton>
+                <NavIconControl
+                  count={notificationCount}
+                  dialogType={HeaderEventType.IsNotification}
+                  items={notifications}
                 />
-              </Badge>
-            </IconButton>
-            </>
-            : null
-            }            
+                <IconButton color="inherit">
+                  <Badge badgeContent={notificationCount} color="secondary">
+                    <NotificationsIcon
+                      onClick={() => {
+                        SetDialogType(HeaderEventType.IsNotification);
+                        toggleDialog();
+                      }}
+                    />
+                  </Badge>
+                </IconButton>
+              </>
+            ) : null}
             <IconButton
               aria-label="checkout"
               aria-haspopup="false"
@@ -281,7 +294,7 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount, notificatio
                   }}
                 />
               </Badge>
-            </IconButton>            
+            </IconButton>
             <Menu
               id="fade-menu"
               anchorEl={profileEl}
@@ -330,7 +343,11 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount, notificatio
       {renderMenu}
       {showDialog ? (
         <div ref={wrapperRef}>
-          <DropdownMenu items={notifications} dropDownType={dialogType} btnEvent={toggleDialog} />
+          <DropdownMenu
+            items={notifications}
+            dropDownType={dialogType}
+            btnEvent={toggleDialog}
+          />
         </div>
       ) : null}
     </div>
@@ -339,7 +356,7 @@ const NavBarMain: React.FC<NavInfo> = ({ currentUser, cartItemCount, notificatio
 
 const mapStateToProps = (state) => ({
   currentUser: state.user.currentUser,
-  cartItemCount: selectCartItemsCount(state),  
+  cartItemCount: selectCartItemsCount(state),
   notificationCount: newNotificationCount(state),
   notifications: notificationsItems(state),
 });

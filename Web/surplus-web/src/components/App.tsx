@@ -22,7 +22,7 @@ import { setCurrentUserAsync } from "../redux/user/user.actions";
 import { useEffect } from "react";
 import ProfileModel from "../models/Profile";
 import ErrorModel from "../models/Error";
-import { auth } from "../firebase/firebase.utils";
+import { auth } from "../utils/Firebase";
 import Header from "./Header";
 import AuthenticationService from "../services/Authentication";
 

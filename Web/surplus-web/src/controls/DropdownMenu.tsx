@@ -3,8 +3,8 @@ import { makeStyles, Button } from "@material-ui/core";
 import DropdownItem from "./DropdownItem";
 import HeaderEventType from "../utils/Enum";
 import NotificationModel from "../models/Notification";
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
 
 const useStyles = makeStyles((theme) => ({
   menuDropdown: {
@@ -35,24 +35,25 @@ type MenuType = {
   dropDownType: HeaderEventType;
   btnEvent: () => void;
   items: Array<NotificationModel | string>;
-}
+};
 
-const DropdownMenu: React.FC<MenuType> = ({ dropDownType, btnEvent, items }) => {
+const DropdownMenu: React.FC<MenuType> = ({
+  dropDownType,
+  btnEvent,
+  items,
+}) => {
   const classes = useStyles();
-  const btnText =    
-    dropDownType === HeaderEventType.IsNotification
-      ? "CLOSE"
-      : "CHECKOOUT";
+  const btnText =
+    dropDownType === HeaderEventType.IsNotification ? "CLOSE" : "CHECKOUT";
   return (
     <div className={classes.menuDropdown}>
       <div className={classes.listItems}>
         <List component="nav">
-          {
-            dropDownType === HeaderEventType.IsNotification ? 
-              items.map(item => <DropdownItem item={item} />)
-            : 
+          {dropDownType === HeaderEventType.IsNotification ? (
+            items.map((item) => <DropdownItem item={item} />)
+          ) : (
             <ListItem>Empty...</ListItem>
-          }
+          )}
         </List>
       </div>
       <Button

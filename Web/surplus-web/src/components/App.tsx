@@ -10,6 +10,7 @@ import UserProfile from "../pages/UserProfile";
 import SignIn from "../pages/SignIn";
 import Register from "../pages/Register";
 import VendorInventory from "./vendor/VendorInventory";
+import Cart from "../pages/Cart";
 import Footer from "./Footer";
 import {
   HashRouter as Router,
@@ -76,6 +77,13 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
           />
           <Route
             exact
+            path="/Cart"
+            render={() =>
+              currentUser?.IsAuthenticated ? <Cart /> : <SignIn />
+            }
+          />
+          <Route
+            exact
             path="/Home"
             render={() =>
               currentUser?.IsAuthenticated ? (
@@ -106,21 +114,6 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
           />
           <Route
             exact
-            path="/Signin"
-            render={() =>
-              currentUser?.IsAuthenticated ? (
-                currentUser?.IsVendor ? (
-                  <VendorHome />
-                ) : (
-                  <UserHome />
-                )
-              ) : (
-                <SignIn />
-              )
-            }
-          />
-          <Route
-            exact
             path="/Register"
             render={() =>
               currentUser?.IsAuthenticated ? (
@@ -131,6 +124,21 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
                 )
               ) : (
                 <Register />
+              )
+            }
+          />
+          <Route
+            exact
+            path="/Signin"
+            render={() =>
+              currentUser?.IsAuthenticated ? (
+                currentUser?.IsVendor ? (
+                  <VendorHome />
+                ) : (
+                  <UserHome />
+                )
+              ) : (
+                <SignIn />
               )
             }
           />

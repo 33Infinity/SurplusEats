@@ -152,6 +152,9 @@ const NavBarMain: React.FC<NavInfo> = ({
   };
 
   const toggleDialog = () => {
+    if (dialogType === HeaderEventType.IsCart) {
+      navigateToCheckout();
+    }
     setShowDialog(!showDialog);
   };
 
@@ -163,6 +166,10 @@ const NavBarMain: React.FC<NavInfo> = ({
     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
       setShowDialog(false);
     }
+  };
+
+  const navigateToCheckout = () => {
+    window.location.href = "/cart";
   };
 
   const menuId = "primary-search-account-menu";

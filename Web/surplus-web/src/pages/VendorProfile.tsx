@@ -53,11 +53,11 @@ type Redux = {
 };
 
 const VendorProfile: React.FC<Redux> = ({ currentUser }) => {
+  const classes = useStyles();
   let validationForm: ValidatorForm = React.createRef();
   useEffect(() => {
     getByEmail();
   }, []);
-  const classes = useStyles();
   const [vendor, setVendor] = useState<Partial<VendorModel>>();
   const [error, setError] = useState<ErrorModel | null>(null);
   const [saveProfile, setSaveProfile] = useState(true);

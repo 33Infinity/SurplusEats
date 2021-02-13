@@ -14,12 +14,27 @@ import { connect } from "react-redux";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import VendorLocationDialog from "../components/vendor/VendorLocationDialog";
+import { makeStyles, createStyles, Theme } from "@material-ui/core";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    image: {
+      height: "200px",
+      width: "200px",
+    },
+    center: {
+      textAlign: "center",
+      margin: "auto",
+    },
+  })
+);
 
 type Redux = {
   currentUser: ProfileModel;
 };
 
 const VendorHome: React.FC<Redux> = ({ currentUser }) => {
+  const classes = useStyles();
   useEffect(() => {
     getByVendor();
   }, []);
@@ -113,8 +128,11 @@ const VendorHome: React.FC<Redux> = ({ currentUser }) => {
   }
   return (
     <div>
-      <h1>Locations</h1>
-      <img src={vendorModel?.ImageUrl}></img>
+      <div className={classes.center}>
+        <h1>Locations</h1>
+        <img src={vendorModel?.ImageUrl} className={classes.image}></img>
+      </div>
+      <br></br>
       {locations &&
         locations.length > 0 &&
         locations.map(function (locationModel) {

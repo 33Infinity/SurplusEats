@@ -81,7 +81,9 @@ const UserHome: React.FC = () => {
           position.coords.latitude,
           position.coords.longitude
         );
-        setInventory(response);
+        if (!(response == null || response instanceof ErrorModel)) {
+          setInventory(response);
+        }
       });
     } else {
       alert("GeoLocation not enabled");

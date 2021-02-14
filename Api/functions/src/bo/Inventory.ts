@@ -17,6 +17,7 @@ export default class Inventory {
       locations,
       10
     );
+    if (closestLocations == null) return null;
     let inventory = await InventoryDAO.getByLocations(admin, closestLocations);
     retObj.Inventory = inventory;
     retObj.Locations = closestLocations;

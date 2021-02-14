@@ -6,8 +6,15 @@ import BaseService from "./BaseService";
 import ErrorModel from "../models/Error";
 
 export default class Inventory extends BaseService {
-  static async getByLocation(aLat, aLon): Promise<InventoryModel[] | null> {
+  static async getByLocation(
+    aLat,
+    aLon
+  ): Promise<InventoryModel[] | null | ErrorModel> {
     const json = await InventoryRequest.getByLocation(aLat, aLon);
+    if (json == null) return null;
+    if (this.isApiError(json)) {
+      return ErrorModel.NewError(json.ErrorMessage);
+    }
     return this.buildInventoryModels(json);
   }
 

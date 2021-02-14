@@ -44,6 +44,8 @@ const UserHome: React.FC = () => {
   const [inventory, setInventory] = useState<Partial<InventoryModel[] | null>>(
     []
   );
+  const [currentLatitude, setCurrentLatitude] = useState(0);
+  const [currentLongitude, setCurrentLongitude] = useState(0);
   const [sortBy, setSortBy] = React.useState(DISTANCE);
   const handleSortByChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setSortBy(event.target.value as string);
@@ -55,6 +57,8 @@ const UserHome: React.FC = () => {
   async function getLocationsByLatLon() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(async (position) => {
+        setCurrentLatitude(position.coords.latitude);
+        setCurrentLongitude(position.coords.longitude);
         const response = await LocationService.getByLatLon(
           position.coords.latitude,
           position.coords.longitude
@@ -158,17 +162,18 @@ const UserHome: React.FC = () => {
         <Grid item xs={12} sm={5}>
           <div className="leaflet-container">
             {locations != null &&
-              ArrayUtils.firstOrDefault(locations, "Latitude", 0) > 0 && (
+              currentLatitude !== 0 &&
+              currentLongitude !== 0 && (
                 <CustomMap
                   centerLatitude={ArrayUtils.firstOrDefault(
                     locations,
                     "Latitude",
-                    0
+                    currentLatitude
                   )}
                   centerLongitude={ArrayUtils.firstOrDefault(
                     locations,
                     "Longitude",
-                    0
+                    currentLongitude
                   )}
                   zoom={11}
                   locationModels={

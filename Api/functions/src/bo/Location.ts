@@ -32,12 +32,14 @@ export default class Location {
       locations,
       10
     );
+    if (closestLocations == null) return null;
     retObj.Locations = closestLocations;
     retObj.Vendors = await VendorDAO.getVendorByLocations(
       admin,
       closestLocations
     );
     retObj = LocationDAO.Normalize(retObj);
+    return retObj;
   }
 
   static async add(

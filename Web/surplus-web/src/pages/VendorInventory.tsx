@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Grid, TextField, IconButton } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import InventoryService from "../services/Inventory";
+import LocationService from "../services/Location";
 import InventoryModel from "../models/Inventory";
 import LocationModel from "../models/Location";
 import SaveIcon from "@material-ui/icons/Save";
@@ -54,7 +55,7 @@ const VendorInventory: React.FC = () => {
   const [inventory, setInventory] = useState<Partial<InventoryModel[] | null>>(
     []
   );
-
+  const [currentlySelectedFile, setCurrentlySelectedFile] = useState(null);
   function clearNewInventory() {
     setNewInventory({
       ...newInventory,
@@ -63,6 +64,7 @@ const VendorInventory: React.FC = () => {
       quantity: "",
       imageUrl: "",
     });
+    setCurrentlySelectedFile(null);
   }
   async function getByVendorLocation() {
     const vendorId = HttpHelper.getUrlParamValue("VendorId");
@@ -75,33 +77,35 @@ const VendorInventory: React.FC = () => {
       alert("Error Occurred");
       // TODO: Handle this appropriately
     } else {
-      const locationModel =
+      let locationModel =
         response != null && response.length > 0
           ? response[0].LocationModel
           : null;
       if (locationModel != null) {
         setLocationModel(locationModel);
         setInventory(response);
+      } else {
+        locationModel = await LocationService.getById(locationId);
+        if (locationModel instanceof LocationModel) {
+          setLocationModel(locationModel);
+        }
       }
     }
   }
-  async function addFile(aFile) {
-    const fileUrl = await FileService.add(
-      aFile,
-      locationModel?.VendorModel?.Id
-    );
-    setNewInventory({
-      ...newInventory,
-      imageUrl: fileUrl,
-    });
+  async function selectedFileCallBack(aFile) {
+    setCurrentlySelectedFile(aFile);
   }
   async function addNewInventory() {
     if (validate()) {
+      const imageUrl = await FileService.add(
+        currentlySelectedFile,
+        HttpHelper.getUrlParamValue("VendorId")
+      );
       const inventoryModel = InventoryModel.NewInventory(
         newInventory.description,
         newInventory.price,
         newInventory.quantity,
-        newInventory.imageUrl,
+        imageUrl,
         locationModel,
         null,
         null
@@ -115,6 +119,7 @@ const VendorInventory: React.FC = () => {
   }
   async function updateInventory(anInventoryModel) {
     await InventoryService.update(anInventoryModel);
+    setCurrentlySelectedFile(null);
     getByVendorLocation();
   }
   async function deleteInventory(anInventoryId) {
@@ -139,9 +144,9 @@ const VendorInventory: React.FC = () => {
     <div>
       {inventory &&
         inventory.length > 0 &&
-        inventory instanceof InventoryModel && (
+        inventory[0] instanceof InventoryModel && (
           <div className={classes.center}>
-            <h1>Locations</h1>
+            <h1>Inventory</h1>
             <img
               src={inventory[0]?.LocationModel?.VendorModel?.ImageUrl}
               className={classes.image}
@@ -167,7 +172,10 @@ const VendorInventory: React.FC = () => {
       <div>
         <Grid container spacing={2}>
           <Grid item xs={6} sm={1}>
-            <ImageUpload onSelectedFile={addFile} buttonText="Save" />
+            <ImageUpload
+              onSelectedFile={selectedFileCallBack}
+              buttonText="Save"
+            />
           </Grid>
           <Grid item xs={6} sm={8}>
             <TextField

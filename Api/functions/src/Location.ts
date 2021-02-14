@@ -9,15 +9,12 @@ const location_cors = require("cors")({
 import HttpHelper from "./utils/HttpHelper";
 import LocationBO from "./bo/Location";
 
-exports.getByVendor = location_functions.https.onRequest(
+exports.getById = location_functions.https.onRequest(
   async (request: any, response: any) => {
     return location_cors(request, response, async () => {
       const data = JSON.parse(request.body);
-      const locations = await LocationBO.getByVendor(
-        location_admin,
-        data.Email
-      );
-      response.send(HttpHelper.buildResponse(locations));
+      const location = await LocationBO.getById(location_admin, data.Id);
+      response.send(HttpHelper.buildResponse(location));
     });
   }
 );
@@ -30,6 +27,19 @@ exports.getByLatLon = location_functions.https.onRequest(
         location_admin,
         data.Latitude,
         data.Longitude
+      );
+      response.send(HttpHelper.buildResponse(locations));
+    });
+  }
+);
+
+exports.getByVendor = location_functions.https.onRequest(
+  async (request: any, response: any) => {
+    return location_cors(request, response, async () => {
+      const data = JSON.parse(request.body);
+      const locations = await LocationBO.getByVendor(
+        location_admin,
+        data.Email
       );
       response.send(HttpHelper.buildResponse(locations));
     });

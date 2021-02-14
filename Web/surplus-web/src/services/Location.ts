@@ -5,6 +5,14 @@ import ErrorModel from "../models/Error";
 import BaseService from "./BaseService";
 
 export default class Location extends BaseService {
+  static async getById(anId): Promise<LocationModel | null> {
+    const json = await LocationRequest.getById(anId);
+    if (this.isApiError(json)) {
+      return null;
+    }
+    return this.buildLocationModel(json[0]);
+  }
+
   static async getByLatLon(
     aLat,
     aLon
@@ -56,27 +64,30 @@ export default class Location extends BaseService {
   static buildLocationModels(someJson) {
     let locationModels: LocationModel[] = [];
     for (let i = 0; i < someJson.length; i++) {
-      const locationModel = LocationModel.NewLocation(
-        VendorModel.NewVendor(
-          someJson[i].Vendor.UserEmail,
-          someJson[i].Vendor.Name,
-          someJson[i].Vendor.ImageUrl,
-          someJson[i].Vendor.Description,
-          someJson[i].Vendor.Id,
-          someJson[i].Vendor.CreatedDate
-        ),
-        someJson[i].Name,
-        someJson[i].City,
-        someJson[i].State,
-        someJson[i].Latitude,
-        someJson[i].Longitude,
-        someJson[i].Address,
-        someJson[i].PostalCode,
-        someJson[i].Id,
-        someJson[i].CreatedDate
-      );
-      locationModels.push(locationModel);
+      locationModels.push(this.buildLocationModel(someJson[i]));
     }
     return locationModels;
+  }
+
+  static buildLocationModel(someJson) {
+    return LocationModel.NewLocation(
+      VendorModel.NewVendor(
+        someJson.Vendor?.UserEmail,
+        someJson.Vendor?.Name,
+        someJson.Vendor?.ImageUrl,
+        someJson.Vendor?.Description,
+        someJson.Vendor?.Id,
+        someJson.Vendor?.CreatedDate
+      ),
+      someJson.Name,
+      someJson.City,
+      someJson.State,
+      someJson.Latitude,
+      someJson.Longitude,
+      someJson.Address,
+      someJson.PostalCode,
+      someJson.Id,
+      someJson.CreatedDate
+    );
   }
 }

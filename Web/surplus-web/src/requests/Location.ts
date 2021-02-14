@@ -3,6 +3,16 @@ import Endpoints from "./Endpoints";
 import HttpMethods from "./HttpMethods";
 
 export default class Location extends BaseRequest {
+  static async getById(anId) {
+    const url = Endpoints.Location.getById;
+    const data = {
+      Id: anId,
+    };
+    const requestObject = this.buildRequestObject(HttpMethods.post, data);
+    const json = await this.getJson(url, requestObject);
+    return json;
+  }
+
   static async getByLatLon(aLat, aLon) {
     const url = Endpoints.Location.getByLatLon;
     const data = {

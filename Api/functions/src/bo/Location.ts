@@ -8,19 +8,9 @@ import GeoLocationHelper from "../utils/GeoLocationHelper";
 import LocationTO from "../datastore/to/Location";
 
 export default class Location {
-  static async getByVendor(admin, anEmail) {
-    let retObj: IResponse = {};
-    const vendor = await VendorDAO.getByEmail(admin, anEmail);
-    if (vendor == null || vendor.length == 0) {
-      return Error.NewError(Constants.Error.VENDOR_DOES_NOT_EXIST, "500");
-    }
-    const locations = await LocationDAO.getLocationsByVendor(
-      admin,
-      vendor[0].Id
-    );
-    retObj.Locations = locations;
-    retObj.Vendors = vendor;
-    return LocationDAO.Normalize(retObj);
+  static async getById(admin, anId) {
+    const location = await SqlHelper.getById(admin, LocationTO.TableName, anId);
+    return location;
   }
 
   static async getByLatLon(admin, aLatitude, aLongitude) {
@@ -40,6 +30,21 @@ export default class Location {
     );
     retObj = LocationDAO.Normalize(retObj);
     return retObj;
+  }
+
+  static async getByVendor(admin, anEmail) {
+    let retObj: IResponse = {};
+    const vendor = await VendorDAO.getByEmail(admin, anEmail);
+    if (vendor == null || vendor.length == 0) {
+      return Error.NewError(Constants.Error.VENDOR_DOES_NOT_EXIST, "500");
+    }
+    const locations = await LocationDAO.getLocationsByVendor(
+      admin,
+      vendor[0].Id
+    );
+    retObj.Locations = locations;
+    retObj.Vendors = vendor;
+    return LocationDAO.Normalize(retObj);
   }
 
   static async add(

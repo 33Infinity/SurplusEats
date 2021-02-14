@@ -33,6 +33,8 @@ export default class Endpoints {
       "http://localhost:6002/surplus-functions/us-central1/location-add";
     public static delete =
       "http://localhost:6002/surplus-functions/us-central1/location-delete";
+    public static getById =
+      "http://localhost:6002/surplus-functions/us-central1/location-getById";
     public static getByLatLon =
       "http://localhost:6002/surplus-functions/us-central1/location-getByLatLon";
     public static getByVendor =

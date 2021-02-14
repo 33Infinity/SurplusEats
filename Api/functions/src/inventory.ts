@@ -46,7 +46,7 @@ exports.add = inventory_functions.https.onRequest(
         data.Description,
         data.Price,
         data.Quantity,
-        data.ImgageUrl,
+        data.ImageUrl,
         data.LocationModel.Id
       );
       response.send(resp);

@@ -1,17 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { Grid, TextField, IconButton } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import InventoryService from "../../services/Inventory";
-import InventoryModel from "../../models/Inventory";
-import LocationModel from "../../models/Location";
+import InventoryService from "../services/Inventory";
+import InventoryModel from "../models/Inventory";
+import LocationModel from "../models/Location";
 import SaveIcon from "@material-ui/icons/Save";
-import ImageUpload from "../../controls/ImageUpload";
-import FileService from "../../services/File";
-import VendorInventoryItem from "./VendorInventoryItem";
-import HttpHelper from "../../utils/HttpHelper";
-import Header from "../Header";
-import { confirmWithTwoButtons } from "../../controls/Confirmation";
-import ErrorModel from "../../models/Error";
+import ImageUpload from "../controls/ImageUpload";
+import FileService from "../services/File";
+import VendorInventoryItem from "../components/vendor/VendorInventoryItem";
+import HttpHelper from "../utils/HttpHelper";
+import { confirmWithTwoButtons } from "../controls/Confirmation";
+import ErrorModel from "../models/Error";
+import { makeStyles, createStyles, Theme } from "@material-ui/core";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    image: {
+      height: "200px",
+      width: "200px",
+    },
+    center: {
+      textAlign: "center",
+      margin: "auto",
+    },
+  })
+);
 
 type NewInventoryState = {
   description: string;
@@ -21,6 +34,7 @@ type NewInventoryState = {
 };
 
 const VendorInventory: React.FC = () => {
+  const classes = useStyles();
   const [newInventory, setNewInventory] = useState<Partial<NewInventoryState>>({
     description: "",
     price: "",
@@ -125,6 +139,18 @@ const VendorInventory: React.FC = () => {
     <div>
       {inventory &&
         inventory.length > 0 &&
+        inventory instanceof InventoryModel && (
+          <div className={classes.center}>
+            <h1>Locations</h1>
+            <img
+              src={inventory[0]?.LocationModel?.VendorModel?.ImageUrl}
+              className={classes.image}
+            ></img>
+            <br></br>
+          </div>
+        )}
+      {inventory &&
+        inventory.length > 0 &&
         inventory.map(function (inventoryItem) {
           return (
             <div>
@@ -136,6 +162,8 @@ const VendorInventory: React.FC = () => {
             </div>
           );
         })}
+      {inventory == null ||
+        (inventory.length === 0 && <h1>No Inventory Found</h1>)}
       <div>
         <Grid container spacing={2}>
           <Grid item xs={6} sm={1}>
@@ -178,7 +206,7 @@ const VendorInventory: React.FC = () => {
           </Grid>
         </Grid>
       </div>
-      <Link to="/Home">Back To Locations</Link>
+      )<Link to="/Home">Back To Locations</Link>
     </div>
   );
 };

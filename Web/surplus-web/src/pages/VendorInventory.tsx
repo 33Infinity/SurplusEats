@@ -160,7 +160,7 @@ const VendorInventory: React.FC = () => {
           return (
             <div>
               <VendorInventoryItem
-                InventoryModel={inventoryItem}
+                inventoryModel={inventoryItem}
                 updateInventory={updateInventory}
                 deleteInventory={deleteInventory}
               />

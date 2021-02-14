@@ -8,7 +8,7 @@ import SaveIcon from "@material-ui/icons/Save";
 import BlockIcon from "@material-ui/icons/Block";
 
 interface Props {
-  InventoryModel: InventoryModel | undefined;
+  inventoryModel: InventoryModel | undefined;
   deleteInventory(anInventoryId: string): any;
   updateInventory(anInventoryModel: InventoryModel): any;
 }
@@ -23,9 +23,9 @@ const VendorInventoryItem: React.FC<Props> = (props) => {
   const [updatedInventory, setUpdatedInventory] = useState<
     Partial<UpdatedInventoryState>
   >({
-    description: props.InventoryModel && props.InventoryModel.Description,
-    price: props.InventoryModel && props.InventoryModel.Price,
-    quantity: props.InventoryModel && props.InventoryModel.Quantity,
+    description: props.inventoryModel && props.inventoryModel.Description,
+    price: props.inventoryModel && props.inventoryModel.Price,
+    quantity: props.inventoryModel && props.inventoryModel.Quantity,
   });
   const onNewInventoryUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUpdatedInventory({
@@ -42,10 +42,10 @@ const VendorInventoryItem: React.FC<Props> = (props) => {
         updatedInventory.description,
         updatedInventory.price,
         updatedInventory.quantity,
-        props.InventoryModel?.ImageUrl,
-        props.InventoryModel?.LocationModel,
-        props.InventoryModel?.Id,
-        props.InventoryModel?.CreatedDate
+        props.inventoryModel?.ImageUrl,
+        props.inventoryModel?.LocationModel,
+        props.inventoryModel?.Id,
+        props.inventoryModel?.CreatedDate
       );
       props.updateInventory(inventoryModel);
     } else {
@@ -65,9 +65,9 @@ const VendorInventoryItem: React.FC<Props> = (props) => {
     disableEditMode();
     setUpdatedInventory({
       ...updatedInventory,
-      description: props.InventoryModel && props.InventoryModel.Description,
-      price: props.InventoryModel && props.InventoryModel.Price,
-      quantity: props.InventoryModel && props.InventoryModel.Quantity,
+      description: props.inventoryModel && props.inventoryModel.Description,
+      price: props.inventoryModel && props.inventoryModel.Price,
+      quantity: props.inventoryModel && props.inventoryModel.Quantity,
     });
   }
   function validate() {
@@ -81,8 +81,8 @@ const VendorInventoryItem: React.FC<Props> = (props) => {
           <img
             className="thumbnail"
             src={
-              props.InventoryModel && props.InventoryModel.ImageUrl != ""
-                ? props.InventoryModel.ImageUrl
+              props.inventoryModel && props.inventoryModel.ImageUrl != ""
+                ? props.inventoryModel.ImageUrl
                 : DefaultImage
             }
           />
@@ -133,7 +133,7 @@ const VendorInventoryItem: React.FC<Props> = (props) => {
           <IconButton
             disabled={editMode}
             onClick={() =>
-              deleteInventory(props.InventoryModel && props.InventoryModel.Id)
+              deleteInventory(props.inventoryModel && props.inventoryModel.Id)
             }
           >
             <DeleteIcon />

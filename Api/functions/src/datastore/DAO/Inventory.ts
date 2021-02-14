@@ -66,6 +66,7 @@ export default class Inventory {
     const inventory = someJson.Inventory;
     const locations = someJson.Locations;
     const vendors = someJson.Vendors;
+    if (inventory == null) return inventory;
     return inventory.map((inventoryItem) => {
       const location = locations.find(
         (eachLocation) => eachLocation.Id === inventoryItem.LocationId

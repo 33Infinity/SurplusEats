@@ -184,7 +184,7 @@ const VendorLocationDialog: React.FC<Props> = (props) => {
                 variant="outlined"
                 fullWidth
                 name="Address"
-                label="123 N Street"
+                label="Address"
                 onChange={onLocationUpdate}
                 value={props.locationModel.Address}
               />
@@ -194,7 +194,7 @@ const VendorLocationDialog: React.FC<Props> = (props) => {
                 variant="outlined"
                 fullWidth
                 name="PostalCode"
-                label="12345"
+                label="Postal Code"
                 onChange={onLocationUpdate}
                 value={props.locationModel.PostalCode}
               />

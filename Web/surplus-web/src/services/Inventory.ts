@@ -26,6 +26,7 @@ export default class Inventory extends BaseService {
       aVendorId,
       aLocationId
     );
+    if (json == null) return [];
     if (this.isApiError(json)) {
       return ErrorModel.NewError(json.ErrorMessage);
     }

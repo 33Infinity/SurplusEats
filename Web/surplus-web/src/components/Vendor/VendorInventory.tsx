@@ -123,7 +123,6 @@ const VendorInventory: React.FC = () => {
 
   return (
     <div>
-      <Header />
       {inventory &&
         inventory.length > 0 &&
         inventory.map(function (inventoryItem) {

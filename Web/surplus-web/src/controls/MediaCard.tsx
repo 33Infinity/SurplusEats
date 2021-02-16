@@ -26,6 +26,10 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: theme.spacing(1),
       paddingBottom: theme.spacing(1),
     },
+    image: {
+      height: "200px",
+      width: "200px",
+    },
   })
 );
 
@@ -56,7 +60,7 @@ const MediaCard: React.FC<Props> = (props) => {
               <Typography>Address Goes Here</Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <img src={props.imageUrl}></img>
+              <img src={props.imageUrl} className={classes.image}></img>
             </Grid>
           </Grid>
         </CardContent>

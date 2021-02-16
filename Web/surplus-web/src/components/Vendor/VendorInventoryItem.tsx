@@ -14,6 +14,7 @@ interface Props {
 }
 
 type UpdatedInventoryState = {
+  name: string;
   description: string;
   price: number;
   quantity: number;
@@ -39,6 +40,7 @@ const VendorInventoryItem: React.FC<Props> = (props) => {
     if (validate()) {
       disableEditMode();
       const inventoryModel = InventoryModel.NewInventory(
+        updatedInventory.name,
         updatedInventory.description,
         updatedInventory.price,
         updatedInventory.quantity,
@@ -87,7 +89,18 @@ const VendorInventoryItem: React.FC<Props> = (props) => {
             }
           />
         </Grid>
-        <Grid item xs={6} sm={8}>
+        <Grid item xs={6} sm={2}>
+          <TextField
+            variant="outlined"
+            fullWidth
+            name="name"
+            label="Name"
+            value={updatedInventory.name}
+            disabled={!editMode}
+            onChange={onNewInventoryUpdate}
+          />
+        </Grid>
+        <Grid item xs={6} sm={6}>
           <TextField
             variant="outlined"
             fullWidth

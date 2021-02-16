@@ -49,6 +49,7 @@ export default class Inventory {
 
   static async add(
     admin,
+    aName,
     aDescription,
     aPrice,
     aQuantity,
@@ -56,6 +57,7 @@ export default class Inventory {
     aLocationId
   ) {
     const inventoryTO = InventoryTO.NewInventory(
+      aName,
       aDescription,
       aPrice,
       aQuantity,
@@ -70,6 +72,7 @@ export default class Inventory {
 
   static async update(
     admin,
+    aName,
     aDescription,
     aPrice,
     aQuantity,
@@ -79,6 +82,7 @@ export default class Inventory {
     aCreatedDate
   ) {
     const inventoryTO = InventoryTO.NewInventory(
+      aName,
       aDescription,
       aPrice,
       aQuantity,

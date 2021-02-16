@@ -72,6 +72,7 @@ export default class Inventory extends BaseService {
         someJson[i].Location.CreatedDate
       );
       const inventoryModel = InventoryModel.NewInventory(
+        someJson[i].Name,
         someJson[i].Description,
         someJson[i].Price,
         someJson[i].Quantity,

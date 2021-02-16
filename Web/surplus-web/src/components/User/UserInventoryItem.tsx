@@ -12,16 +12,13 @@ const UserInventoryItem: React.FC<Props> = (props) => {
   return (
     <div>
       <MediaCard
-        title={"Name Of Inventory Item"}
+        title={StringUtils.valueOrDefault(props.inventoryItem?.Name, "")}
         text={StringUtils.valueOrDefault(
           props.inventoryItem && props.inventoryItem.Description,
           "No description provided"
         )}
         imageUrl={StringUtils.valueOrDefault(
-          props.inventoryItem &&
-            props.inventoryItem.LocationModel &&
-            props.inventoryItem.LocationModel.VendorModel &&
-            props.inventoryItem.LocationModel.VendorModel.ImageUrl,
+          props.inventoryItem?.ImageUrl,
           DefaultImage
         )}
       />

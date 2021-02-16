@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type NewInventoryState = {
+  name: string;
   description: string;
   price: string;
   quantity: string;
@@ -37,6 +38,7 @@ type NewInventoryState = {
 const VendorInventory: React.FC = () => {
   const classes = useStyles();
   const [newInventory, setNewInventory] = useState<Partial<NewInventoryState>>({
+    name: "",
     description: "",
     price: "",
     quantity: "",
@@ -102,6 +104,7 @@ const VendorInventory: React.FC = () => {
         HttpHelper.getUrlParamValue("VendorId")
       );
       const inventoryModel = InventoryModel.NewInventory(
+        newInventory.name,
         newInventory.description,
         newInventory.price,
         newInventory.quantity,

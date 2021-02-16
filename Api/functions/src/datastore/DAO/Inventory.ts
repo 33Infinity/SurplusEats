@@ -27,6 +27,7 @@ export default class Inventory {
 
   static async add(admin, inventory: InventoryTO) {
     const inventoryTO = InventoryTO.NewInventory(
+      inventory.Name,
       inventory.Description,
       inventory.Price,
       inventory.Quantity,

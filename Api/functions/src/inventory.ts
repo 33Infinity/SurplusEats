@@ -43,6 +43,7 @@ exports.add = inventory_functions.https.onRequest(
       const data = JSON.parse(request.body);
       const resp = await InventoryBO.add(
         inventory_admin,
+        data.Name,
         data.Description,
         data.Price,
         data.Quantity,
@@ -60,6 +61,7 @@ exports.update = inventory_functions.https.onRequest(
       const data = JSON.parse(request.body);
       const resp = await InventoryBO.update(
         inventory_admin,
+        data.Name,
         data.Description,
         data.Price,
         data.Quantity,

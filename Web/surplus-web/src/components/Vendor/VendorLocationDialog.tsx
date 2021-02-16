@@ -13,6 +13,10 @@ import CustomMap from "../../controls/CustomMap";
 import ArrayUtils from "../../utils/ArrayUtils";
 import Snackbar from "@material-ui/core/Snackbar";
 import { confirmWithTwoButtons } from "../../controls/Confirmation";
+import States from "../../data/States";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import StringUtil from "../../utils/StringUtils";
 
 interface Props {
   locationModel: LocationModel;
@@ -52,6 +56,9 @@ const VendorLocationDialog: React.FC<Props> = (props) => {
   const onLocationUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
     props.setLocation(event.target.name, event.target.value);
   };
+  function onStateSelected(aValue) {
+    props.setLocation("State", aValue.target.value);
+  }
   async function handleCancel() {
     props.onCloseDialog();
   }
@@ -170,14 +177,21 @@ const VendorLocationDialog: React.FC<Props> = (props) => {
               />
             </Grid>
             <Grid item xs={12} sm={12}>
-              <TextField
-                variant="outlined"
-                fullWidth
-                name="State"
-                label="State"
-                onChange={onLocationUpdate}
-                value={props.locationModel.State}
-              />
+              Select a state:{" "}
+              <Select
+                value={
+                  StringUtil.nullOrEmpty(props.locationModel.State)
+                    ? "AL"
+                    : props.locationModel.State
+                }
+                onChange={onStateSelected}
+              >
+                {States.map((item) => (
+                  <MenuItem key={item.abbreviation} value={item.abbreviation}>
+                    {item.name}
+                  </MenuItem>
+                ))}
+              </Select>
             </Grid>
             <Grid item xs={12} sm={12}>
               <TextField

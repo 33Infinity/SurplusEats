@@ -1,11 +1,10 @@
 import React from "react";
 import { makeStyles, Button } from "@material-ui/core";
-import DropdownItem from "./MenuItem";
+import MenuItem from "./MenuItem";
 import HeaderEventType from "../utils/Enum";
 import NotificationModel from "../models/Notification";
 import CartModel from "../models/Cart";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
 
 const useStyles = makeStyles((theme) => ({
   menuDropdown: {
@@ -50,11 +49,9 @@ const DropdownMenu: React.FC<MenuType> = ({
     <div className={classes.menuDropdown}>
       <div className={classes.listItems}>
         <List component="nav">
-          {dropDownType === HeaderEventType.IsNotification ? (
-            items.map((item) => <DropdownItem item={item} />)
-          ) : (
-            <ListItem>Empty...</ListItem>
-          )}
+          {
+            items.map((item) => <MenuItem item={item} />)
+          }
         </List>
       </div>
       <Button

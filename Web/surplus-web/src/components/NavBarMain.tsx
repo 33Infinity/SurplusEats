@@ -30,6 +30,7 @@ import { auth } from "../utils/Firebase";
 import DropdownMenu from "../controls/Menu";
 import HeaderEventType from "../utils/Enum";
 import NotificationModel from "../models/Notification";
+import CartModel from "../models/Cart";
 import NavIconControl from "../controls/NavIconControl";
 
 const useStyles = makeStyles((theme: any) => ({
@@ -100,6 +101,7 @@ type NavInfo = {
   cartItemCount: number;
   notifications: Array<NotificationModel>;
   notificationCount: number;
+  cartItems: Array<CartModel>;
 };
 
 const NavBarMain: React.FC<NavInfo> = ({
@@ -107,6 +109,7 @@ const NavBarMain: React.FC<NavInfo> = ({
   cartItemCount,
   notifications,
   notificationCount = 0,
+  cartItems,
 }) => {
   React.useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -275,19 +278,14 @@ const NavBarMain: React.FC<NavInfo> = ({
                   count={notificationCount}
                   dialogType={HeaderEventType.IsNotification}
                   items={notifications}
-                />
-                <IconButton color="inherit">
-                  <Badge badgeContent={notificationCount} color="secondary">
-                    <NotificationsIcon
-                      onClick={() => {
-                        SetDialogType(HeaderEventType.IsNotification);
-                        toggleDialog();
-                      }}
-                    />
-                  </Badge>
-                </IconButton>
+                />               
               </>
             ) : null}
+            <NavIconControl
+                  count={cartItemCount}
+                  dialogType={HeaderEventType.IsCart}
+                  items={cartItems}
+                />
             <IconButton
               aria-label="checkout"
               aria-haspopup="false"
@@ -366,6 +364,7 @@ const mapStateToProps = (state) => ({
   cartItemCount: selectCartItemsCount(state),
   notificationCount: newNotificationCount(state),
   notifications: notificationsItems(state),
+  cartItems: selectCartItems(state),
 });
 
 export default connect(mapStateToProps)(NavBarMain);

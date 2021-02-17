@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles } from "@material-ui/core";
-import NotificationModel from "../models/Notification";
 import CartModel from "../models/Cart";
 import '../fonts/fonts.scss';
 import '../fonts/font-main.scss';
@@ -9,7 +8,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { AlarmOnOutlined } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
-    cartItem: {
+    Item: {
         width: '100%',
         display: 'flex',
         height: '50px',
@@ -28,21 +27,16 @@ const useStyles = makeStyles((theme) => ({
     }   
 }));
 
-type MenuItemType = {    
-    item: NotificationModel | CartModel
-};
-
-const DropdownItem: React.FC<MenuItemType> = ({ item }) => {
-    const classes = useStyles();
-    const subject = item instanceof NotificationModel ? item.Subject : "";
+const CartMenuItem = (props) => {
+    const classes = useStyles();   
     return (
-        <ListItem button className={classes.cartItem}>
+        <ListItem button className={classes.Item}>
             <ListItemIcon className={classes.icon}>
-                <AlarmOnOutlined />
+               {props.MenuIcon}
             </ListItemIcon>
-            <span className={classes.itemDetails}>{subject}</span>                       
+            <span className={classes.itemDetails}>{props.displayText}</span>                       
         </ListItem>
     )
 };
 
-export default DropdownItem;
+export default CartMenuItem;

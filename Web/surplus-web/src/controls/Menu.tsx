@@ -1,10 +1,12 @@
 import React from "react";
 import { makeStyles, Button } from "@material-ui/core";
-import MenuItem from "./MenuItem";
+import NavMenuItem from "./NavMenuItem";
+import CartMenuItem from "./CartMenuItem";
 import HeaderEventType from "../utils/Enum";
 import NotificationModel from "../models/Notification";
 import CartModel from "../models/Cart";
 import List from "@material-ui/core/List";
+import HOC from '../components/HocMenuItem';
 
 const useStyles = makeStyles((theme) => ({
   menuDropdown: {
@@ -43,14 +45,17 @@ const DropdownMenu: React.FC<MenuType> = ({
   items,
 }) => {
   const classes = useStyles();
-  const btnText =
-    dropDownType === HeaderEventType.IsNotification ? "CLOSE" : "CHECKOUT";
+  const btnText = dropDownType === HeaderEventType.IsNotification ? "CLOSE" : "CHECKOUT";
+  const HocNavMenuItem = HOC(NavMenuItem);
+  const HocCartMenuItem = HOC(CartMenuItem);
+
   return (
     <div className={classes.menuDropdown}>
       <div className={classes.listItems}>
         <List component="nav">
           {
-            items.map((item) => <MenuItem item={item} />)
+            items.map((item) => dropDownType === HeaderEventType.IsNotification 
+                ? <HocNavMenuItem item={item} /> : <HocCartMenuItem item={item} />)
           }
         </List>
       </div>

@@ -1,8 +1,9 @@
 import React from "react";
 import { makeStyles, Button } from "@material-ui/core";
-import DropdownItem from "./DropdownItem";
+import DropdownItem from "./MenuItem";
 import HeaderEventType from "../utils/Enum";
 import NotificationModel from "../models/Notification";
+import CartModel from "../models/Cart";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 type MenuType = {
   dropDownType: HeaderEventType;
   btnEvent: () => void;
-  items: Array<NotificationModel | string>;
+  items: Array<NotificationModel | CartModel>;
 };
 
 const DropdownMenu: React.FC<MenuType> = ({

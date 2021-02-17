@@ -3,14 +3,15 @@ import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import HeaderEventType from "../utils/Enum";
-import DropdownMenu from "../controls/DropdownMenu";
+import Menu from "./Menu";
 import NotificationModel from "../models/Notification";
+import CartModel from "../models/Cart";
 import { ShoppingCart } from "@material-ui/icons";
 
 type IconType = {
     count: number;
     dialogType:  HeaderEventType.IsNotification | HeaderEventType.IsCart;
-    items: Array<NotificationModel | string>;
+    items: Array<NotificationModel | CartModel>;
 };
 
 const NavIcon: React.FC<IconType> = ({count, dialogType, items}) => {
@@ -58,7 +59,7 @@ const NavIcon: React.FC<IconType> = ({count, dialogType, items}) => {
             </IconButton>    
             {showDialog ? (
                 <div ref={wrapperRef}>
-                    <DropdownMenu items={items} dropDownType={dialogType} btnEvent={toggleDialog} />
+                    <Menu items={items} dropDownType={dialogType} btnEvent={toggleDialog} />
                 </div>
             ) : null}
         </>

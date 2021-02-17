@@ -27,7 +27,7 @@ import {
   notificationsItems,
 } from "../redux/notification/notification.selectors";
 import { auth } from "../utils/Firebase";
-import DropdownMenu from "../controls/DropdownMenu";
+import DropdownMenu from "../controls/Menu";
 import HeaderEventType from "../utils/Enum";
 import NotificationModel from "../models/Notification";
 import NavIconControl from "../controls/NavIconControl";

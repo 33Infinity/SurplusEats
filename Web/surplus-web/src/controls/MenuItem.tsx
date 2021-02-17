@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from "@material-ui/core";
 import NotificationModel from "../models/Notification";
+import CartModel from "../models/Cart";
 import '../fonts/fonts.scss';
 import '../fonts/font-main.scss';
 import ListItem from '@material-ui/core/ListItem';
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type MenuItemType = {    
-    item: NotificationModel | string
+    item: NotificationModel | CartModel
 };
 
 const DropdownItem: React.FC<MenuItemType> = ({ item }) => {

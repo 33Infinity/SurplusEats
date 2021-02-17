@@ -9,6 +9,8 @@ export default class Endpoints {
   };
 
   static Cart = class {
+    public static add =
+      "http://localhost:6002/surplus-functions/us-central1/cart-add";
     public static getByEmail =
       "http://localhost:6002/surplus-functions/us-central1/cart-getByEmail";
   };

@@ -11,15 +11,19 @@ export default class Notfication {
     admin,
     anInventoryId,
     anEmail,
-    aQuantity,
     aPrice,
     anImageUrl,
     isMarkedAsRead
   ) {
+    const currentQuantity = await CartDAO.getCurrentQuantiyByEmailAndInventoryId(
+      admin,
+      anEmail,
+      anInventoryId
+    );
     const cartTO = CartTO.NewCart(
       anInventoryId,
       anEmail,
-      aQuantity,
+      currentQuantity + 1,
       aPrice,
       anImageUrl,
       isMarkedAsRead,

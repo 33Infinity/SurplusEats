@@ -37,6 +37,7 @@ interface Props {
   imageUrl: string | undefined;
   title: string | undefined;
   text: string | undefined;
+  price: number | undefined;
 }
 
 const MediaCard: React.FC<Props> = (props) => {
@@ -50,12 +51,21 @@ const MediaCard: React.FC<Props> = (props) => {
         <CardContent className={classes.content}>
           <Grid container spacing={2} direction="row">
             <Grid item xs={12} sm={6}>
+              {props.price && (
+                <Typography component="h6" variant="h6">
+                  {"$" + props.price}
+                </Typography>
+              )}
               <Typography component="h5" variant="h5">
                 {props.title}
               </Typography>
               <Typography variant="subtitle1" color="textSecondary">
                 {props.text}
               </Typography>
+              <br></br>
+              <br></br>
+              <br></br>
+              <br></br>
               <Typography>(888)-888-9999</Typography>
               <Typography>Address Goes Here</Typography>
             </Grid>

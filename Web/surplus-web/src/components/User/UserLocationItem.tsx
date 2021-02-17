@@ -25,6 +25,7 @@ const UserLocationItem: React.FC<Props> = (props) => {
             props.locationItem.VendorModel.ImageUrl,
           DefaultImage
         )}
+        price={undefined}
       />
     </div>
   );

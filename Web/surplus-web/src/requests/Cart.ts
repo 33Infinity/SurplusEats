@@ -12,4 +12,11 @@ export default class Cart extends BaseRequest {
     const json = await this.getJson(url, requestObject);
     return json;
   }
+
+  static async add(aCartModel) {
+    let url = Endpoints.Cart.add;
+    const requestObject = this.buildRequestObject(HttpMethods.post, aCartModel);
+    const json = await this.getJson(url, requestObject);
+    return json;
+  }
 }

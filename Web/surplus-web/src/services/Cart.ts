@@ -6,11 +6,15 @@ import CartRequest from "../requests/Cart";
 export default class Cart extends BaseService {
   static async getByEmail(anEmail): Promise<CartModel[] | ErrorModel> {
     const json = await CartRequest.getByEmail(anEmail);
+    if (json == null) return [];
     return !this.isApiError(json)
-      ? json.length > 0
-        ? this.buildCartModels(json)
-        : []
+      ? this.buildCartModels(json)
       : ErrorModel.NewError(json.ErrorMessage);
+  }
+
+  static async add(aCartModel) {
+    const json = await CartRequest.add(aCartModel);
+    return this.isApiError(json);
   }
 
   static buildCartModels(someJson) {

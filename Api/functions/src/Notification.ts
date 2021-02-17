@@ -9,20 +9,6 @@ const notification_cors = require("cors")({
 import HttpHelper from "./utils/HttpHelper";
 import NotificationBO from "./bo/Notification";
 
-exports.getByEmail = notification_functions.https.onRequest(
-  async (request: any, response: any) => {
-    return notification_cors(request, response, async () => {
-      const data = JSON.parse(request.body);
-      const email = data.Email;
-      const notifications = await NotificationBO.getByEmail(
-        notification_admin,
-        email
-      );
-      response.send(HttpHelper.buildResponse(notifications));
-    });
-  }
-);
-
 exports.add = notification_functions.https.onRequest(
   async (request: any, response: any) => {
     return notification_cors(request, response, async () => {
@@ -36,6 +22,20 @@ exports.add = notification_functions.https.onRequest(
         data.MarkedAsRead
       );
       response.send(resp);
+    });
+  }
+);
+
+exports.getByEmail = notification_functions.https.onRequest(
+  async (request: any, response: any) => {
+    return notification_cors(request, response, async () => {
+      const data = JSON.parse(request.body);
+      const email = data.Email;
+      const notifications = await NotificationBO.getByEmail(
+        notification_admin,
+        email
+      );
+      response.send(HttpHelper.buildResponse(notifications));
     });
   }
 );

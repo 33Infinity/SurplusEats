@@ -62,7 +62,7 @@ export default class Cart extends BaseTable {
 
   getTuple() {
     return {
-      NotificationId: this.InventoryId,
+      InventoryId: this.InventoryId,
       Email: this.Email,
       Quantity: this.Quantity,
       Price: this.Price,

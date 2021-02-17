@@ -16,7 +16,7 @@ const UserMain: React.FC<Props> = (props) => {
       {props.inventory &&
         props.inventory.length > 0 &&
         props.inventory.map(function (inventoryItem) {
-          return <UserInventoryItem inventoryItem={inventoryItem} />;
+          return <UserInventoryItem inventory={inventoryItem} />;
         })}
     </div>
   );
@@ -25,7 +25,9 @@ const UserMain: React.FC<Props> = (props) => {
       {props.locations &&
         props.locations.length > 0 &&
         props.locations.map(function (locationItem) {
-          return <UserLocationItem locationItem={locationItem} />;
+          if (locationItem != null) {
+            return <UserLocationItem location={locationItem} />;
+          }
         })}
     </div>
   );

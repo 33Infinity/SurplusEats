@@ -56,7 +56,9 @@ export default class Location {
     aLatitude,
     aLongitude,
     aAddress,
-    aPostalCode
+    aPostalCode,
+    aPhoneArea,
+    aPhoneNumber
   ) {
     const locationTO = LocationTO.NewLocation(
       aVendorId,
@@ -67,6 +69,8 @@ export default class Location {
       aLongitude,
       aAddress,
       aPostalCode,
+      aPhoneArea,
+      aPhoneNumber,
       null,
       new Date()
     );
@@ -84,6 +88,8 @@ export default class Location {
     aLongitude,
     aAddress,
     aPostalCode,
+    aPhoneArea,
+    aPhoneNumber,
     anId,
     aCreatedDate
   ) {
@@ -96,14 +102,12 @@ export default class Location {
       aLongitude,
       aAddress,
       aPostalCode,
+      aPhoneArea,
+      aPhoneNumber,
       anId,
       aCreatedDate
     );
-    const resp = await LocationDAO.update(
-      admin,
-      aVendorId,
-      locationTO.getTuple()
-    );
+    const resp = await LocationDAO.update(admin, anId, locationTO.getTuple());
     return resp;
   }
 

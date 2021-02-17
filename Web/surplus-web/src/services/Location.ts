@@ -86,6 +86,8 @@ export default class Location extends BaseService {
       someJson.Longitude,
       someJson.Address,
       someJson.PostalCode,
+      someJson.PhoneArea,
+      someJson.PhoneNumber,
       someJson.Id,
       someJson.CreatedDate
     );

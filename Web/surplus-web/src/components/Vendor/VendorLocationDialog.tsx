@@ -73,6 +73,8 @@ const VendorLocationDialog: React.FC<Props> = (props) => {
       props.locationModel.Longitude,
       props.locationModel.Address,
       props.locationModel.PostalCode,
+      props.locationModel.PhoneArea,
+      props.locationModel.PhoneNumber,
       props.locationModel.Id,
       props.locationModel.CreatedDate
     );
@@ -212,6 +214,28 @@ const VendorLocationDialog: React.FC<Props> = (props) => {
                 onChange={onLocationUpdate}
                 value={props.locationModel.PostalCode}
               />
+            </Grid>
+            <Grid container item xs={12} sm={12}>
+              <Grid item xs={12} sm={3}>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  name="PhoneArea"
+                  label="Phone Area"
+                  onChange={onLocationUpdate}
+                  value={props.locationModel.PhoneArea}
+                />
+              </Grid>
+              <Grid item xs={12} sm={9}>
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  name="PhoneNumber"
+                  label="Phone Number"
+                  onChange={onLocationUpdate}
+                  value={props.locationModel.PhoneNumber}
+                />
+              </Grid>
             </Grid>
             <Grid container justify="flex-end">
               <DialogActions>

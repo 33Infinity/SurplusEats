@@ -10,6 +10,8 @@ export default class Location extends BaseModel {
   Longitude: number;
   Address: string;
   PostalCode: string;
+  PhoneArea: string;
+  PhoneNumber: string;
   private constructor(
     aVendorModel,
     aName,
@@ -19,6 +21,8 @@ export default class Location extends BaseModel {
     aLongitude,
     anAddress,
     aPostalCode,
+    aPhoneArea,
+    aPhoneNumber,
     anId,
     aCreatedDate
   ) {
@@ -31,6 +35,8 @@ export default class Location extends BaseModel {
     this.Longitude = aLongitude;
     this.Address = anAddress;
     this.PostalCode = aPostalCode;
+    this.PhoneArea = aPhoneArea;
+    this.PhoneNumber = aPhoneNumber;
   }
   public static NewLocation(
     aVendorModel,
@@ -41,6 +47,8 @@ export default class Location extends BaseModel {
     aLongitude,
     anAddress,
     aPostalCode,
+    aPhoneArea,
+    aPhoneNumber,
     anId,
     aCreatedDate
   ): Location {
@@ -53,11 +61,26 @@ export default class Location extends BaseModel {
       aLongitude,
       anAddress,
       aPostalCode,
+      aPhoneArea,
+      aPhoneNumber,
       anId,
       aCreatedDate
     );
   }
   public static NewBlankLocation(aVendorModel): Location {
-    return new Location(aVendorModel, "", "", "", "", "", "", "", "", "");
+    return new Location(
+      aVendorModel,
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    );
   }
 }

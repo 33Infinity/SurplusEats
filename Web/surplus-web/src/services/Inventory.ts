@@ -68,6 +68,8 @@ export default class Inventory extends BaseService {
         someJson[i].Location.Longitude,
         someJson[i].Location.Address,
         someJson[i].Location.PostalCode,
+        someJson[i].Location.PhoneArea,
+        someJson[i].Location.PhoneNumber,
         someJson[i].Location.Id,
         someJson[i].Location.CreatedDate
       );

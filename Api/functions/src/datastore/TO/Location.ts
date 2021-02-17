@@ -12,6 +12,8 @@ export default class Location extends BaseTable {
     public static Longitude = "Longitude";
     public static Address = "Address";
     public static PostalCode = "PostalCode";
+    public static PhoneArea = "PhoneArea";
+    public static PhoneNumber = "PhoneNumber";
   };
 
   VendorId: string;
@@ -22,6 +24,8 @@ export default class Location extends BaseTable {
   Longitude: number;
   Address: string;
   PostalCode: string;
+  PhoneArea: string;
+  PhoneNumber: string;
   private constructor(
     aVendorId,
     aName,
@@ -31,6 +35,8 @@ export default class Location extends BaseTable {
     aLongitude,
     anAddress,
     aPostalCode,
+    aPhoneArea,
+    aPhoneNumber,
     anId,
     aCreatedDate
   ) {
@@ -43,6 +49,8 @@ export default class Location extends BaseTable {
     this.Longitude = aLongitude;
     this.Address = anAddress;
     this.PostalCode = aPostalCode;
+    this.PhoneArea = aPhoneArea;
+    this.PhoneNumber = aPhoneNumber;
   }
   public static NewLocation(
     aVendorId,
@@ -53,6 +61,8 @@ export default class Location extends BaseTable {
     aLongitude,
     anAddress,
     aPostalCode,
+    aPhoneArea,
+    aPhoneNumber,
     anId,
     aCreatedDate
   ): Location {
@@ -65,6 +75,8 @@ export default class Location extends BaseTable {
       aLongitude,
       anAddress,
       aPostalCode,
+      aPhoneArea,
+      aPhoneNumber,
       anId,
       aCreatedDate
     );
@@ -78,6 +90,8 @@ export default class Location extends BaseTable {
       Longitude: this.Longitude,
       Address: this.Address,
       PostalCode: this.PostalCode,
+      PhoneArea: this.PhoneArea,
+      PhoneNumber: this.PhoneNumber,
       VendorId: this.VendorId,
       CreatedDate: this.CreatedDate,
     };

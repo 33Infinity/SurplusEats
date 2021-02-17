@@ -59,7 +59,9 @@ exports.add = location_functions.https.onRequest(
         data.Latitude,
         data.Longitude,
         data.Address,
-        data.PostalCode
+        data.PostalCode,
+        data.PhoneArea,
+        data.PhoneNumber
       );
       response.send(resp);
     });
@@ -80,6 +82,8 @@ exports.update = location_functions.https.onRequest(
         data.Longitude,
         data.Address,
         data.PostalCode,
+        data.PhoneArea,
+        data.PhoneNumber,
         data.Id,
         data.CreatedDate
       );

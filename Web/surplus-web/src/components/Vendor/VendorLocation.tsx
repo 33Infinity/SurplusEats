@@ -32,7 +32,7 @@ const VendorLocation: React.FC<Props> = (props) => {
             <CallMadeIcon />
           </Link>
         </Grid>
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={6} sm={2}>
           <TextField
             variant="outlined"
             fullWidth
@@ -42,7 +42,7 @@ const VendorLocation: React.FC<Props> = (props) => {
             disabled
           />
         </Grid>
-        <Grid item xs={6} sm={4}>
+        <Grid item xs={6} sm={3}>
           <TextField
             variant="outlined"
             fullWidth
@@ -79,6 +79,26 @@ const VendorLocation: React.FC<Props> = (props) => {
             name="state"
             label="State"
             value={props.location?.State}
+            disabled
+          />
+        </Grid>
+        <Grid item xs={6} sm={1}>
+          <TextField
+            variant="outlined"
+            fullWidth
+            name="phoneArea"
+            label="Phone Area"
+            value={props.location?.PhoneArea || ""}
+            disabled
+          />
+        </Grid>
+        <Grid item xs={6} sm={1}>
+          <TextField
+            variant="outlined"
+            fullWidth
+            name="phoneNumber"
+            label="Phone Number"
+            value={props.location?.PhoneNumber || ""}
             disabled
           />
         </Grid>

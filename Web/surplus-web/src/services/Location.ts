@@ -5,6 +5,16 @@ import ErrorModel from "../models/Error";
 import BaseService from "./BaseService";
 
 export default class Location extends BaseService {
+  static async add(aLocationModel) {
+    const json = await LocationRequest.add(aLocationModel);
+    return this.isApiError(json);
+  }
+
+  static async delete(aLocationId) {
+    const json = await LocationRequest.delete(aLocationId);
+    return this.isApiError(json);
+  }
+
   static async getById(anId): Promise<LocationModel | null> {
     const json = await LocationRequest.getById(anId);
     if (this.isApiError(json)) {
@@ -46,18 +56,8 @@ export default class Location extends BaseService {
     return json;
   }
 
-  static async add(aLocationModel) {
-    const json = await LocationRequest.add(aLocationModel);
-    return this.isApiError(json);
-  }
-
   static async update(aLocationModel) {
     const json = await LocationRequest.update(aLocationModel);
-    return this.isApiError(json);
-  }
-
-  static async delete(aLocationId) {
-    const json = await LocationRequest.delete(aLocationId);
     return this.isApiError(json);
   }
 

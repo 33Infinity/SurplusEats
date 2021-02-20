@@ -4,6 +4,43 @@ import SqlHelper from "../../utils/SqlHelper";
 import InventoryTO from "../to/Inventory";
 
 export default class Inventory {
+  static async add(admin, inventory: InventoryTO) {
+    const inventoryTO = InventoryTO.NewInventory(
+      inventory.Name,
+      inventory.Description,
+      inventory.Price,
+      inventory.Quantity,
+      inventory.ImageUrl,
+      inventory.LocationId,
+      null,
+      new Date()
+    );
+    const response = await SqlHelper.insert(
+      admin,
+      InventoryTO.TableName,
+      inventoryTO.getTuple()
+    );
+    return response;
+  }
+
+  static async delete(admin, anInventoryId) {
+    const response = await SqlHelper.delete(
+      admin,
+      InventoryTO.TableName,
+      anInventoryId
+    );
+    return response;
+  }
+
+  static async getById(admin, anInventoryId) {
+    const response = await SqlHelper.getById(
+      admin,
+      InventoryTO.TableName,
+      anInventoryId
+    );
+    return response;
+  }
+
   static async getByLocations(admin, someLocations): Promise<any> {
     const locationArray: string[] = [];
     someLocations.forEach((location) => {
@@ -25,40 +62,12 @@ export default class Inventory {
     return response;
   }
 
-  static async add(admin, inventory: InventoryTO) {
-    const inventoryTO = InventoryTO.NewInventory(
-      inventory.Name,
-      inventory.Description,
-      inventory.Price,
-      inventory.Quantity,
-      inventory.ImageUrl,
-      inventory.LocationId,
-      null,
-      new Date()
-    );
-    const response = await SqlHelper.insert(
-      admin,
-      InventoryTO.TableName,
-      inventoryTO.getTuple()
-    );
-    return response;
-  }
-
   static async update(admin, anId, inventory) {
     const response = await SqlHelper.update(
       admin,
       InventoryTO.TableName,
       inventory,
       anId
-    );
-    return response;
-  }
-
-  static async delete(admin, anInventoryId) {
-    const response = await SqlHelper.delete(
-      admin,
-      InventoryTO.TableName,
-      anInventoryId
     );
     return response;
   }

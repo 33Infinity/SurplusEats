@@ -10,6 +10,7 @@ import UserProfile from "../pages/UserProfile";
 import SignIn from "../pages/SignIn";
 import Register from "../pages/Register";
 import VendorInventory from "../pages/VendorInventory";
+import InventoryDetail from "../pages/InventoryDetail";
 import Cart from "../pages/Cart";
 import Footer from "./Footer";
 import {
@@ -97,6 +98,7 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
               )
             }
           />
+          <Route exact path="/InventoryDetail" component={InventoryDetail} />
           <Route
             exact
             path="/Profile"

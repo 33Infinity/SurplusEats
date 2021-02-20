@@ -8,6 +8,53 @@ import InventoryDAO from "../datastore/dao/Inventory";
 import VendorDAO from "../datastore/dao/Vendor";
 
 export default class Inventory {
+  static async add(
+    admin,
+    aName,
+    aDescription,
+    aPrice,
+    aQuantity,
+    anImageUrl,
+    aLocationId
+  ) {
+    const inventoryTO = InventoryTO.NewInventory(
+      aName,
+      aDescription,
+      aPrice,
+      aQuantity,
+      anImageUrl,
+      aLocationId,
+      null,
+      new Date()
+    );
+    const response = await InventoryDAO.add(admin, inventoryTO);
+    return response;
+  }
+
+  static async delete(admin, anInventoryId) {
+    const response = await InventoryDAO.delete(admin, anInventoryId);
+    return response;
+  }
+
+  static async getById(admin, anInventoryId) {
+    let retObj: IResponse = {};
+    const inventory = await InventoryDAO.getById(admin, anInventoryId);
+    const location = await SqlHelper.getById(
+      admin,
+      LocationTO.TableName,
+      inventory[0].LocationId
+    );
+    const vendor = await SqlHelper.getById(
+      admin,
+      VendorTO.TableName,
+      location[0].VendorId
+    );
+    retObj.Inventory = inventory;
+    retObj.Locations = location;
+    retObj.Vendors = vendor;
+    return InventoryDAO.Normalize(retObj);
+  }
+
   static async getByLocation(admin, aLatitude, aLongitude) {
     let retObj: IResponse = {};
     let locations = await SqlHelper.get(admin, LocationTO.TableName);
@@ -47,29 +94,6 @@ export default class Inventory {
     return InventoryDAO.Normalize(retObj);
   }
 
-  static async add(
-    admin,
-    aName,
-    aDescription,
-    aPrice,
-    aQuantity,
-    anImageUrl,
-    aLocationId
-  ) {
-    const inventoryTO = InventoryTO.NewInventory(
-      aName,
-      aDescription,
-      aPrice,
-      aQuantity,
-      anImageUrl,
-      aLocationId,
-      null,
-      new Date()
-    );
-    const response = await InventoryDAO.add(admin, inventoryTO);
-    return response;
-  }
-
   static async update(
     admin,
     aName,
@@ -93,10 +117,5 @@ export default class Inventory {
     );
     const resp = await InventoryDAO.update(admin, anId, inventoryTO.getTuple());
     return resp;
-  }
-
-  static async delete(admin, anInventoryId) {
-    const response = await InventoryDAO.delete(admin, anInventoryId);
-    return response;
   }
 }

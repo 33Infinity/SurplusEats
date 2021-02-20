@@ -20,6 +20,8 @@ export default class Endpoints {
       "http://localhost:6002/surplus-functions/us-central1/inventory-add";
     public static delete =
       "http://localhost:6002/surplus-functions/us-central1/inventory-delete";
+    public static getById =
+      "http://localhost:6002/surplus-functions/us-central1/inventory-getById";
     public static getByLocation =
       "http://localhost:6002/surplus-functions/us-central1/inventory-getByLocation";
     //"https://us-central1-surplus-functions.cloudfunctions.net/inventory-getByLocation";

@@ -53,8 +53,8 @@ const UserInventoryItem: React.FC<Props> = ({
   currentUser,
 }) => {
   const classes = useStyles();
-  function onClick() {
-    alert("clicked");
+  function navigateToInventoryDetail() {
+    window.location.href = `InventoryDetail?InventoryId=${inventory?.Id}`;
   }
   async function cartAdd(anAmount) {
     if (inventory instanceof InventoryModel) {
@@ -72,7 +72,11 @@ const UserInventoryItem: React.FC<Props> = ({
     }
   }
   return (
-    <Card className={classes.root} variant="outlined" onClick={onClick}>
+    <Card
+      className={classes.root}
+      variant="outlined"
+      onClick={navigateToInventoryDetail}
+    >
       <div className={classes.details}>
         <CardContent className={classes.content}>
           <Grid container spacing={2} direction="row">

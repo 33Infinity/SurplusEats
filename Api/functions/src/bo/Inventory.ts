@@ -82,14 +82,14 @@ export default class Inventory {
       VendorTO.TableName,
       aVendorId
     );
-    const locations = await SqlHelper.getById(
+    const location = await SqlHelper.getById(
       admin,
       LocationTO.TableName,
       aLocationId
     );
-    const inventory = await InventoryDAO.getByLocations(admin, locations);
+    const inventory = await InventoryDAO.getByLocations(admin, location);
     retObj.Inventory = inventory;
-    retObj.Locations = locations;
+    retObj.Locations = location;
     retObj.Vendors = vendors;
     return InventoryDAO.Normalize(retObj);
   }

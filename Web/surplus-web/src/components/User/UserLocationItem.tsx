@@ -44,11 +44,15 @@ interface Props {
 
 const UserLocationItem: React.FC<Props> = ({ location }) => {
   const classes = useStyles();
-  function onClick() {
-    alert("clicked");
+  function navigateToLocationDetail() {
+    window.location.href = `LocationDetail?LocationId=${location?.Id}&VendorId=${location.VendorModel.Id}`;
   }
   return (
-    <Card className={classes.root} variant="outlined" onClick={onClick}>
+    <Card
+      className={classes.root}
+      variant="outlined"
+      onClick={navigateToLocationDetail}
+    >
       <div className={classes.details}>
         <CardContent className={classes.content}>
           <Grid container spacing={2} direction="row">

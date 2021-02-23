@@ -1,12 +1,9 @@
 import React from 'react';
 import { makeStyles } from "@material-ui/core";
-import NotificationModel from "../models/Notification";
 import '../fonts/fonts.scss';
 import '../fonts/font-main.scss';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import SvgIcon from '@material-ui/core/SvgIcon';
-
 
 const useStyles = makeStyles((theme) => ({
     Item: {
@@ -28,12 +25,6 @@ const useStyles = makeStyles((theme) => ({
     }   
 }));
 
-// type MenuItemType = {
-//     displayText: string;
-//     MenuIcon: string 
-// };
-
-//const NavMenuItem: React.FC<MenuItemType> = ({ displayText, MenuIcon }) => {
 const NavMenuItem = (props) => {
     const classes = useStyles();  
     return (

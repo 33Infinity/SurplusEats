@@ -55,7 +55,7 @@ const DropdownMenu: React.FC<MenuType> = ({
         <List component="nav">
           {
             items.map((item) => dropDownType === HeaderEventType.IsNotification 
-                ? <HocNavMenuItem item={item} /> : <HocCartMenuItem item={item} />)
+                ? <HocNavMenuItem item={item} closeMenu={btnEvent} /> : <HocCartMenuItem item={item} inventoryId={(item as CartModel).InventoryId} closeMenu={btnEvent} />)
           }
         </List>
       </div>

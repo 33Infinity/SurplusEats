@@ -1,11 +1,10 @@
 import React from 'react';
 import { makeStyles } from "@material-ui/core";
-import CartModel from "../models/Cart";
 import '../fonts/fonts.scss';
 import '../fonts/font-main.scss';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import { AlarmOnOutlined } from '@material-ui/icons';
+import { withRouter } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
     Item: {
@@ -28,15 +27,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CartMenuItem = (props) => {
+    const navigate = (id: string) => { 
+        props.history.push(`/InventoryDetail?InventoryId=${id}`); 
+        props.closeMenu(); 
+    };
     const classes = useStyles();   
     return (
-        <ListItem button className={classes.Item}>
-            <ListItemIcon className={classes.icon}>
-               {props.MenuIcon}
-            </ListItemIcon>
-            <span className={classes.itemDetails}>{props.displayText}</span>                       
+        <ListItem button className={classes.Item} onClick={() => navigate(props.inventoryId)}>           
+                <ListItemIcon className={classes.icon}>
+                    {props.MenuIcon}
+                </ListItemIcon>
+            <span className={classes.itemDetails}>{props.displayText}</span> 
         </ListItem>
     )
 };
 
-export default CartMenuItem;
+export default withRouter(CartMenuItem);

@@ -7,14 +7,19 @@ import Menu from "./Menu";
 import NotificationModel from "../models/Notification";
 import CartModel from "../models/Cart";
 import { ShoppingCart } from "@material-ui/icons";
+import { connect } from "react-redux";
+import { markAsRead } from "../redux/notification/notification.actions";
+import { notificationsItems } from "../redux/notification/notification.selectors";
 
 type IconType = {
     count: number;
     dialogType:  HeaderEventType.IsNotification | HeaderEventType.IsCart;
     items: Array<NotificationModel | CartModel>;
+    notifications: Array<NotificationModel>;
+    markAsRead: (notifyItems: Array<NotificationModel>) => void;
 };
 
-const NavIcon: React.FC<IconType> = ({count, dialogType, items}) => {
+const NavIcon: React.FC<IconType> = ({count, dialogType, items, notifications, markAsRead}) => {
 
     let wrapperRef = React.useRef<HTMLDivElement>(null);   
     const [showDialog, setShowDialog] = React.useState(false);    
@@ -39,7 +44,7 @@ const NavIcon: React.FC<IconType> = ({count, dialogType, items}) => {
     let cntrl;
     switch (dialogType) {
         case HeaderEventType.IsNotification: {           
-            cntrl = <NotificationsIcon onClick={() => {toggleDialog();}} />;
+            cntrl = <NotificationsIcon onClick={() => {markAsRead(notifications); toggleDialog();}} />;
             break;
         }
         case HeaderEventType.IsCart: {
@@ -66,5 +71,15 @@ const NavIcon: React.FC<IconType> = ({count, dialogType, items}) => {
     )
 };
 
-export default React.memo(NavIcon);
+const mapDispatchToProps = (dispatch) => ({
+    markAsRead: (notifications) => dispatch(markAsRead(notifications)),
+});
+
+const mapStateToProps = (state) => ({   
+    notifications: notificationsItems(state),    
+});  
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+    React.memo(NavIcon)
+);
 

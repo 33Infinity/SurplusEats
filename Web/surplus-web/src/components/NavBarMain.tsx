@@ -278,28 +278,14 @@ const NavBarMain: React.FC<NavInfo> = ({
                   count={notificationCount}
                   dialogType={HeaderEventType.IsNotification}
                   items={notifications}
-                />               
-              </>
-            ) : null}
-            <NavIconControl
+                />   
+                <NavIconControl
                   count={cartItemCount}
                   dialogType={HeaderEventType.IsCart}
                   items={cartItems}
-                />
-            <IconButton
-              aria-label="checkout"
-              aria-haspopup="false"
-              color="inherit"
-            >
-              <Badge badgeContent={cartItemCount} color="secondary">
-                <ShoppingCart
-                  onClick={() => {
-                    SetDialogType(HeaderEventType.IsCart);
-                    toggleDialog();
-                  }}
-                />
-              </Badge>
-            </IconButton>
+                />                  
+              </>
+            ) : null}                  
             <Menu
               id="fade-menu"
               anchorEl={profileEl}

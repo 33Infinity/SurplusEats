@@ -1,14 +1,14 @@
 import React from 'react';
-import { AlarmOnOutlined } from '@material-ui/icons';
+import { AlarmOnOutlined, AddShoppingCart } from '@material-ui/icons';
 import NotificationModel from "../models/Notification";
 
 function withMenuItem(Component) {
 
   return function WihMenuItemComponent({ item, ...props }) {
-    const displayText = item instanceof NotificationModel ? item.Subject : "";
-    const icon = item instanceof NotificationModel ? <AlarmOnOutlined /> : <AlarmOnOutlined />;
+    const displayText = item instanceof NotificationModel ? item.Subject : item.InventoryId;
+    const icon = item instanceof NotificationModel ? <AlarmOnOutlined /> : <AddShoppingCart />;
 
-    return <Component displayText={displayText} MenuIcon={icon} />
+    return <Component displayText={displayText} MenuIcon={icon} {...props} />
   };
 
 }

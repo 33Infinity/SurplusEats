@@ -7,6 +7,7 @@ export default class Cart extends Base {
   Price: number;
   ImageUrl: string;
   MarkedAsRead: boolean;
+  InventoryDescription: string;
   private constructor(
     anInventoryId,
     anEmail,
@@ -14,6 +15,7 @@ export default class Cart extends Base {
     aPrice,
     anImageUrl,
     isMarkedAsRead,
+    anInventoryDescription,
     anId,
     aCreatedDate
   ) {
@@ -24,6 +26,7 @@ export default class Cart extends Base {
     this.Price = aPrice;
     this.ImageUrl = anImageUrl;
     this.MarkedAsRead = isMarkedAsRead;
+    this.InventoryDescription = anInventoryDescription;
   }
   public static NewCart(
     anInventoryId,
@@ -32,6 +35,7 @@ export default class Cart extends Base {
     aPrice,
     anImageUrl,
     isMarkedAsRead,
+    anInventoryDescription,
     anId,
     aCreatedDate
   ): Cart {
@@ -42,6 +46,7 @@ export default class Cart extends Base {
       aPrice,
       anImageUrl,
       isMarkedAsRead,
+      anInventoryDescription,
       anId,
       aCreatedDate
     );

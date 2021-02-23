@@ -13,7 +13,8 @@ export default class Notfication {
     anEmail,
     aPrice,
     anImageUrl,
-    isMarkedAsRead
+    isMarkedAsRead,
+    anInventoryDescription
   ) {
     const currentQuantity = await CartDAO.getCurrentQuantiyByEmailAndInventoryId(
       admin,
@@ -27,6 +28,7 @@ export default class Notfication {
       aPrice,
       anImageUrl,
       isMarkedAsRead,
+      anInventoryDescription,
       null,
       new Date()
     );
@@ -42,6 +44,7 @@ export default class Notfication {
     aPrice,
     anImageUrl,
     isMarkedAsRead,
+    anInventoryDescription,
     anId,
     aCreatedDate
   ) {
@@ -52,6 +55,7 @@ export default class Notfication {
       aPrice,
       anImageUrl,
       isMarkedAsRead,
+      anInventoryDescription,
       anId,
       aCreatedDate
     );

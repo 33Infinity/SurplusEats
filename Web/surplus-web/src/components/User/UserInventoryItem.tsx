@@ -64,6 +64,7 @@ const UserInventoryItem: React.FC<Props> = ({
         1,
         inventory.Price,
         inventory.ImageUrl,
+        inventory.Description,
         false,
         null,
         new Date()

@@ -28,6 +28,7 @@ export default class Cart extends BaseService {
           someJson[i].Price,
           someJson[i].ImageUrl,
           someJson[i].MarkedAsRead,
+          someJson[i].InventoryDescription,
           someJson[i].Id,
           someJson[i].CreatedDate
         )

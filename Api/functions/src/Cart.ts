@@ -19,7 +19,8 @@ exports.add = cart_functions.https.onRequest(
         data.Email,
         data.Price,
         data.ImageUrl,
-        data.MarkedAsRead
+        data.MarkedAsRead,
+        data.InventoryDescription
       );
       response.send(resp);
     });

@@ -10,6 +10,7 @@ export default class Cart extends BaseTable {
     public static Price = "Price";
     public static ImageUrl = "ImageUrl";
     public static MarkedAsRead = "MarkedAsRead";
+    public static InventoryDescription = "InventoryDescription";
   };
 
   InventoryId: string;
@@ -18,6 +19,7 @@ export default class Cart extends BaseTable {
   Price: number;
   ImageUrl: string;
   MarkedAsRead: boolean;
+  InventoryDescription: string;
 
   private constructor(
     anInventoryId,
@@ -26,6 +28,7 @@ export default class Cart extends BaseTable {
     aPrice,
     anImageUrl,
     isMarkedAsRead,
+    anInventoryDescription,
     anId,
     aCreatedDate
   ) {
@@ -36,6 +39,7 @@ export default class Cart extends BaseTable {
     this.Price = aPrice;
     this.ImageUrl = anImageUrl;
     this.MarkedAsRead = isMarkedAsRead;
+    this.InventoryDescription = anInventoryDescription;
   }
 
   public static NewCart(
@@ -45,6 +49,7 @@ export default class Cart extends BaseTable {
     aPrice,
     anImageUrl,
     isMarkedAsRead,
+    anInventoryDescription,
     anId,
     aCreatedDate
   ): Cart {
@@ -55,6 +60,7 @@ export default class Cart extends BaseTable {
       aPrice,
       anImageUrl,
       isMarkedAsRead,
+      anInventoryDescription,
       anId,
       aCreatedDate
     );
@@ -68,6 +74,7 @@ export default class Cart extends BaseTable {
       Price: this.Price,
       ImageUrl: this.ImageUrl,
       MarkedAsRead: this.MarkedAsRead,
+      InventoryDescription: this.InventoryDescription,
       CreatedDate: this.CreatedDate,
     };
   }

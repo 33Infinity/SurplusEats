@@ -9,6 +9,7 @@ export default class Notification extends BaseTable {
     public static Subject = "Subject";
     public static Message = "Message";
     public static MarkedAsRead = "MarkedAsRead";
+    public static InventoryId = "InventoryId";
   };
 
   NotificationId: string;
@@ -16,6 +17,7 @@ export default class Notification extends BaseTable {
   Subject: string;
   Message: string;
   MarkedAsRead: boolean;
+  InventoryId: string;
 
   private constructor(
     aNotificationId,
@@ -23,6 +25,7 @@ export default class Notification extends BaseTable {
     aSubject,
     aMessage,
     isMarkedAsRead,
+    anInventoryId,
     anId,
     aCreatedDate
   ) {
@@ -32,6 +35,7 @@ export default class Notification extends BaseTable {
     this.Subject = aSubject;
     this.Message = aMessage;
     this.MarkedAsRead = isMarkedAsRead;
+    this.InventoryId = anInventoryId;
   }
 
   public static NewNotification(
@@ -40,6 +44,7 @@ export default class Notification extends BaseTable {
     aSubject,
     aMessage,
     isMarkedAsRead,
+    anInventoryId,
     anId,
     aCreatedDate
   ): Notification {
@@ -49,6 +54,7 @@ export default class Notification extends BaseTable {
       aSubject,
       aMessage,
       isMarkedAsRead,
+      anInventoryId,
       anId,
       aCreatedDate
     );
@@ -61,6 +67,7 @@ export default class Notification extends BaseTable {
       Subject: this.Subject,
       Message: this.Message,
       MarkedAsRead: this.MarkedAsRead,
+      InventoryId: this.InventoryId,
       CreatedDate: this.CreatedDate,
     };
   }

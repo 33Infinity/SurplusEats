@@ -6,12 +6,14 @@ export default class Notification extends BaseModel {
   Subject: string;
   Message: string;
   MarkedAsRead: boolean;
+  InventoryId: string;
   private constructor(
     aNotificationId,
     anEmail,
     aSubject,
     aMessage,
     isMarkedAsRead,
+    anInventoryId,
     anId,
     aCreatedDate
   ) {
@@ -21,6 +23,7 @@ export default class Notification extends BaseModel {
     this.Subject = aSubject;
     this.Message = aMessage;
     this.MarkedAsRead = isMarkedAsRead;
+    this.InventoryId = anInventoryId;
   }
   public static NewNotification(
     aNotificationId,
@@ -28,6 +31,7 @@ export default class Notification extends BaseModel {
     aSubject,
     aMessage,
     isMarkedAsRead,
+    anInventoryId,
     anId,
     aCreatedDate
   ): Notification {
@@ -37,6 +41,7 @@ export default class Notification extends BaseModel {
       aSubject,
       aMessage,
       isMarkedAsRead,
+      anInventoryId,
       anId,
       aCreatedDate
     );

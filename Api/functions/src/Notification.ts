@@ -21,7 +21,8 @@ exports.add = notification_functions.https.onRequest(
         data.Email,
         data.Subject,
         data.Message,
-        data.MarkedAsRead
+        data.MarkedAsRead,
+        data.InventoryId
       );
       response.send(resp);
     });
@@ -91,6 +92,7 @@ exports.update = notification_functions.https.onRequest(
         data.Subject,
         data.Message,
         data.MarkedAsRead,
+        data.InventoryId,
         data.Id,
         data.CreatedDate
       );

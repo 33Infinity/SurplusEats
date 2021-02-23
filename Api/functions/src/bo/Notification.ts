@@ -8,7 +8,8 @@ export default class Notfication {
     anEmail,
     aSubject,
     aMessage,
-    isMarkedAsRead
+    isMarkedAsRead,
+    anInventoryId
   ) {
     const notificationTO = NotificationTO.NewNotification(
       aNotificationId,
@@ -16,6 +17,7 @@ export default class Notfication {
       aSubject,
       aMessage,
       isMarkedAsRead,
+      anInventoryId,
       null,
       new Date()
     );
@@ -45,6 +47,7 @@ export default class Notfication {
     aSubject,
     aMessage,
     isMarkedAsRead,
+    anInventoryId,
     anId,
     aCreatedDate
   ) {
@@ -54,6 +57,7 @@ export default class Notfication {
       aSubject,
       aMessage,
       isMarkedAsRead,
+      anInventoryId,
       anId,
       aCreatedDate
     );

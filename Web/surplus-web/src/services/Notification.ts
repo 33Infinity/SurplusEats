@@ -51,6 +51,7 @@ export default class Notification extends BaseService {
           someJson[i].Subject,
           someJson[i].Message,
           someJson[i].MarkedAsRead,
+          someJson[i].InventoryId,
           someJson[i].Id,
           someJson[i].CreatedDate
         )

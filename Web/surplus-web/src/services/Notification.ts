@@ -4,6 +4,16 @@ import ErrorModel from "../models/Error";
 import BaseService from "./BaseService";
 
 export default class Notification extends BaseService {
+  static async add(aNotificationModel) {
+    const json = await NotificationRequest.add(aNotificationModel);
+    return this.isApiError(json);
+  }
+
+  static async delete(aNotificationId) {
+    const json = await NotificationRequest.delete(aNotificationId);
+    return this.isApiError(json);
+  }
+
   static async getByEmail(anEmail): Promise<NotificationModel[] | ErrorModel> {
     const json = await NotificationRequest.getByEmail(anEmail);
     if (json == null) return [];
@@ -14,18 +24,20 @@ export default class Notification extends BaseService {
       : ErrorModel.NewError(json.ErrorMessage);
   }
 
-  static async add(aNotificationModel) {
-    const json = await NotificationRequest.add(aNotificationModel);
-    return this.isApiError(json);
+  static async markAllAsRead(
+    anEmail
+  ): Promise<NotificationModel[] | ErrorModel> {
+    const json = await NotificationRequest.markAllAsRead(anEmail);
+    if (json == null) return [];
+    return !this.isApiError(json)
+      ? json.length > 0
+        ? this.buildNotificationModels(json)
+        : []
+      : ErrorModel.NewError(json.ErrorMessage);
   }
 
   static async update(aNotificationModel) {
     const json = await NotificationRequest.update(aNotificationModel);
-    return this.isApiError(json);
-  }
-
-  static async delete(aNotificationId) {
-    const json = await NotificationRequest.delete(aNotificationId);
     return this.isApiError(json);
   }
 

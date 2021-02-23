@@ -2,11 +2,6 @@ import NotificationDAO from "../datastore/dao/Notification";
 import NotificationTO from "../datastore/to/Notification";
 
 export default class Notfication {
-  static async getByEmail(admin, anEmail) {
-    const notifications = await NotificationDAO.getByEmail(admin, anEmail);
-    return notifications;
-  }
-
   static async add(
     admin,
     aNotificationId,
@@ -26,6 +21,21 @@ export default class Notfication {
     );
     const response = await NotificationDAO.add(admin, notificationTO);
     return response;
+  }
+
+  static async delete(admin, aNotificationId) {
+    const resp = await NotificationDAO.delete(admin, aNotificationId);
+    return resp;
+  }
+
+  static async getByEmail(admin, anEmail) {
+    const notifications = await NotificationDAO.getByEmail(admin, anEmail);
+    return notifications;
+  }
+
+  static async markAllAsRead(admin, anEmail) {
+    const notifications = await NotificationDAO.markAllAsRead(admin, anEmail);
+    return notifications;
   }
 
   static async update(
@@ -52,11 +62,6 @@ export default class Notfication {
       aNotificationId,
       notificationTO.getTuple()
     );
-    return resp;
-  }
-
-  static async delete(admin, aNotificationId) {
-    const resp = await NotificationDAO.delete(admin, aNotificationId);
     return resp;
   }
 }

@@ -30,14 +30,14 @@ const LocationDetail: React.FC = () => {
     }
   }
   function navigateBackToSignIn() {
-    window.location.href = "Signin";
+    window.location.href = "Home";
   }
   return (
     <div>
       {inventory.map((inventoryItem) => {
         return <UserInventoryItem inventory={inventoryItem} />;
       })}
-      <a href="Signin">Back</a>
+      <a href="Home">Back</a>
     </div>
   );
 };

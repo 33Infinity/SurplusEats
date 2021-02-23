@@ -52,6 +52,8 @@ export default class Endpoints {
       "http://localhost:6002/surplus-functions/us-central1/notification-add";
     public static delete =
       "http://localhost:6002/surplus-functions/us-central1/notification-delete";
+    public static markAllAsRead =
+      "http://localhost:6002/surplus-functions/us-central1/notification-markAllAsRead";
     public static getByEmail =
       "http://localhost:6002/surplus-functions/us-central1/notification-getByEmail";
     public static update =

@@ -26,7 +26,7 @@ const InventoryDetail: React.FC = () => {
     }
   }
   function navigateBackToSignIn() {
-    window.location.href = "Signin";
+    window.location.href = "Home";
   }
   return (
     <div>

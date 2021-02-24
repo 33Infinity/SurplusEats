@@ -7,11 +7,10 @@ export const updateNotifications = notifications => ({
     payload: notifications
 });
 
-export const markAsRead = (notifyItems) => {
+export const markAsRead = (email) => {
     return (dispatch) => {
-        const updateItems = async () => {
-            // should send list of Notifications then return the updated list
-            const notifications = await NotificationService.getByEmail("aaronspokane@gmail.com");
+        const updateItems = async () => {           
+            const notifications = await NotificationService.markAllAsRead("aaronspokane@gmail.com");
             if (notifications instanceof ErrorModel) {
                 // handle error
               } else {

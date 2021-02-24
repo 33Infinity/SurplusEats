@@ -41,6 +41,7 @@ export default class Profile extends BaseTable {
     aLastName,
     isVendor,
     isAuthenticated,
+
     anId,
     aCreatedDate
   ): Profile {

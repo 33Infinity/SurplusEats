@@ -6,4 +6,5 @@ exports.email = require("./Email");
 exports.inventory = require("./Inventory");
 exports.location = require("./Location");
 exports.notification = require("./Notification");
+exports.notification = require("./Subscription");
 exports.vendor = require("./Vendor");

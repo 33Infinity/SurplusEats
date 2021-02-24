@@ -43,7 +43,8 @@ export default class Authentication extends BaseService {
       someJson.IsVendor,
       someJson.Id,
       someJson.CreatedDate,
-      someJson.IsAuthenticated
+      someJson.IsAuthenticated,
+      someJson.InventoryIds
     );
   }
 }

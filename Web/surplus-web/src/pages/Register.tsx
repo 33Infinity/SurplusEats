@@ -29,6 +29,7 @@ type RegisterState = {
   confirmPassword: string;
   isVendor: boolean;
   vendorName: string;
+  inventoryIds: string[];
 };
 
 const useStyles = makeStyles((theme) =>
@@ -62,6 +63,7 @@ const Register: React.FC = () => {
     confirmPassword: "",
     isVendor: false,
     vendorName: "",
+    inventoryIds: [],
   });
 
   ValidatorForm.addValidationRule("isPasswordMatch", (value) => {
@@ -99,7 +101,8 @@ const Register: React.FC = () => {
             profile.isVendor,
             null,
             new Date(),
-            false
+            false,
+            profile.inventoryIds
           );
           let newVendor;
           if (profile.isVendor) {

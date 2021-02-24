@@ -60,6 +60,13 @@ export default class Endpoints {
       "http://localhost:6002/surplus-functions/us-central1/notification-update";
   };
 
+  static Subscription = class {
+    public static add =
+      "http://localhost:6002/surplus-functions/us-central1/subscription-add";
+    public static delete =
+      "http://localhost:6002/surplus-functions/us-central1/subscription-delete";
+  };
+
   static Vendor = class {
     public static getByEmail =
       "http://localhost:6002/surplus-functions/us-central1/vendor-getByEmail";

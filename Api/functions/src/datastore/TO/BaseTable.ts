@@ -2,7 +2,7 @@ export default abstract class BaseTable {
   Id: string;
   CreatedDate: Date;
 
-  public static PrimaryKeyColumnName = "id";
+  public static PrimaryKeyColumnName = "Id";
   public static CreatedDateColumnName = "CreatedDate";
 
   constructor(anId, aCreatedDate) {

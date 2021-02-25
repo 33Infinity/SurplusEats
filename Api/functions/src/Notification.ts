@@ -58,11 +58,7 @@ exports.markAllAsRead = notification_functions.https.onRequest(
         );
         response.send(HttpHelper.buildResponse(error));
       }
-      const notifications = await NotificationBO.getByEmail(
-        notification_admin,
-        email
-      );
-      response.send(HttpHelper.buildResponse(notifications));
+      response.send(HttpHelper.buildResponse(markedAllAsRead));
     });
   }
 );

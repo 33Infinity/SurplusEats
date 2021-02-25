@@ -51,10 +51,13 @@ export default class Notification {
           notification[NotificationTO.PrimaryKeyColumnName]
         );
       });
+      return notifications?.map((eachNotification) => {
+        eachNotification["MarkedAsRead"] = true;
+        return eachNotification;
+      });
     } catch {
       return false;
     }
-    return true;
   }
 
   static async update(admin, anId, notification) {

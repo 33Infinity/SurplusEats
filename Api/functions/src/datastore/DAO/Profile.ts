@@ -83,7 +83,7 @@ export default class Profile {
 
   static async getSubscribedInventoryIdsFromEmail(admin, anEmail) {
     const inventory = await SubscriptionDAO.getByEmail(admin, anEmail);
-    return inventory.map((eachItem) => {
+    return inventory?.map((eachItem) => {
       return eachItem["InventoryId"];
     });
   }

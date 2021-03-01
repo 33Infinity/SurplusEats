@@ -52,6 +52,6 @@ export default class Profile extends BaseModel {
     );
   }
   public static EmptyProfile(): Profile {
-    return new Profile("", "", "", "", "", [], false, "", null);
+    return new Profile("", "", "", "", "", false, [], "", null);
   }
 }

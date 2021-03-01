@@ -24,6 +24,7 @@ const VendorInventoryItem: React.FC<Props> = (props) => {
   const [updatedInventory, setUpdatedInventory] = useState<
     Partial<UpdatedInventoryState>
   >({
+    name: props.inventoryModel && props.inventoryModel.Name,
     description: props.inventoryModel && props.inventoryModel.Description,
     price: props.inventoryModel && props.inventoryModel.Price,
     quantity: props.inventoryModel && props.inventoryModel.Quantity,
@@ -67,6 +68,7 @@ const VendorInventoryItem: React.FC<Props> = (props) => {
     disableEditMode();
     setUpdatedInventory({
       ...updatedInventory,
+      name: props.inventoryModel && props.inventoryModel.Name,
       description: props.inventoryModel && props.inventoryModel.Description,
       price: props.inventoryModel && props.inventoryModel.Price,
       quantity: props.inventoryModel && props.inventoryModel.Quantity,

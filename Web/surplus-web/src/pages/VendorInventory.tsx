@@ -5,6 +5,7 @@ import InventoryService from "../services/Inventory";
 import LocationService from "../services/Location";
 import InventoryModel from "../models/Inventory";
 import LocationModel from "../models/Location";
+import InventoryCategoryModel from "../models/InventoryCategory";
 import SaveIcon from "@material-ui/icons/Save";
 import ImageUpload from "../controls/ImageUpload";
 import FileService from "../services/File";
@@ -33,6 +34,7 @@ type NewInventoryState = {
   price: string;
   quantity: string;
   imageUrl: string;
+  categories: InventoryCategoryModel[];
 };
 
 const VendorInventory: React.FC = () => {
@@ -110,6 +112,7 @@ const VendorInventory: React.FC = () => {
         newInventory.quantity,
         imageUrl,
         locationModel,
+        newInventory.categories,
         null,
         null
       );

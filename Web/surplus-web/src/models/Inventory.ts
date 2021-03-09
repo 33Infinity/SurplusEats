@@ -1,5 +1,6 @@
 import BaseModel from "./Base";
 import LocationModel from "./Location";
+import InventoryCategory from "./InventoryCategory";
 
 export default class Inventory extends BaseModel {
   Name: string;
@@ -8,6 +9,7 @@ export default class Inventory extends BaseModel {
   Quantity: number;
   ImageUrl: string;
   LocationModel: LocationModel;
+  Categories: InventoryCategory[];
   private constructor(
     aName,
     aDescription,
@@ -15,6 +17,7 @@ export default class Inventory extends BaseModel {
     aQuantity,
     anImageUrl,
     aLocationModel,
+    someCategories,
     anId,
     aCreatedDate
   ) {
@@ -25,6 +28,7 @@ export default class Inventory extends BaseModel {
     this.Quantity = aQuantity;
     this.ImageUrl = anImageUrl;
     this.LocationModel = aLocationModel;
+    this.Categories = someCategories;
   }
   public static NewInventory(
     aName,
@@ -33,6 +37,7 @@ export default class Inventory extends BaseModel {
     aQuantity,
     anImageUrl,
     aLocationModel,
+    someCategories,
     anId,
     aCreatedDate
   ): Inventory {
@@ -43,6 +48,7 @@ export default class Inventory extends BaseModel {
       aQuantity,
       anImageUrl,
       aLocationModel,
+      someCategories,
       anId,
       aCreatedDate
     );

@@ -1,6 +1,8 @@
 import InventoryRequest from "../requests/Inventory";
 import InventoryModel from "../models/Inventory";
 import LocationModel from "../models/Location";
+import InventoryCategoryModel from "../models/InventoryCategory";
+import VendorCategoryModel from "../models/VendorCategory";
 import VendorModel from "../models/Vendor";
 import BaseService from "./BaseService";
 import ErrorModel from "../models/Error";
@@ -68,11 +70,22 @@ export default class Inventory extends BaseService {
   }
 
   static buildInventoryModel(someJson) {
+    const vendorCategories: VendorCategoryModel[] = [];
+    for (let i = 0; i < someJson.Vendor?.Categories?.length; i++) {
+      vendorCategories.push(
+        VendorCategoryModel.NewVendorCategory(
+          someJson.Vendor.Categories[i].Name,
+          someJson.Vendor.Categories[i].Id,
+          someJson.Vendor.Categories[i].CreatedDate
+        )
+      );
+    }
     const vendorModel = VendorModel.NewVendor(
       someJson.Location.Vendor.UserEmail,
       someJson.Location.Vendor.Name,
       someJson.Location.Vendor.ImageUrl,
       someJson.Location.Vendor.Description,
+      vendorCategories,
       someJson.Location.Vendor.Id,
       someJson.Location.Vendor.CreatedDate
     );
@@ -90,6 +103,16 @@ export default class Inventory extends BaseService {
       someJson.Location.Id,
       someJson.Location.CreatedDate
     );
+    const inventoryCategories: InventoryCategoryModel[] = [];
+    for (let i = 0; i < someJson.Categories?.length; i++) {
+      inventoryCategories.push(
+        InventoryCategoryModel.NewInventoryCategory(
+          someJson.Categories[i].Name,
+          someJson.Categories[i].Id,
+          someJson.Categories[i].CreatedDate
+        )
+      );
+    }
     return InventoryModel.NewInventory(
       someJson.Name,
       someJson.Description,
@@ -97,6 +120,7 @@ export default class Inventory extends BaseService {
       someJson.Quantity,
       someJson.ImageUrl,
       locationModel,
+      inventoryCategories,
       someJson.Id,
       someJson.CreatedDate
     );

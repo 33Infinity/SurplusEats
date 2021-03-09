@@ -1,15 +1,18 @@
 import BaseModel from "./Base";
+import VendorCategory from "./VendorCategory";
 
 export default class Vendor extends BaseModel {
   UserEmail: string;
   Name: string;
   ImageUrl: string;
   Description: string;
+  Categories: VendorCategory[];
   private constructor(
     aUserEmail,
     aName,
     anImageUrl,
     aDescription,
+    someCategories,
     anId,
     aCreatedDate
   ) {
@@ -18,12 +21,14 @@ export default class Vendor extends BaseModel {
     this.Name = aName;
     this.ImageUrl = anImageUrl;
     this.Description = aDescription;
+    this.Categories = someCategories;
   }
   public static NewVendor(
     aUserEmail,
     aName,
     anImageUrl,
     aDescription,
+    someCategories,
     anId,
     aCreatedDate
   ): Vendor {
@@ -32,11 +37,12 @@ export default class Vendor extends BaseModel {
       aName,
       anImageUrl,
       aDescription,
+      someCategories,
       anId,
       aCreatedDate
     );
   }
   public static NewBlankVendor(): Vendor {
-    return new Vendor("", "", "", "", "", "");
+    return new Vendor("", "", "", "", [], "", "");
   }
 }

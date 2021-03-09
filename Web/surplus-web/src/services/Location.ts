@@ -1,5 +1,6 @@
 import LocationModel from "../models/Location";
 import VendorModel from "../models/Vendor";
+import VendorCategoryModel from "../models/VendorCategory";
 import LocationRequest from "../requests/Location";
 import ErrorModel from "../models/Error";
 import BaseService from "./BaseService";
@@ -70,12 +71,23 @@ export default class Location extends BaseService {
   }
 
   static buildLocationModel(someJson) {
+    const vendorCategories: VendorCategoryModel[] = [];
+    for (let i = 0; i < someJson.Vendor?.Categories?.length; i++) {
+      vendorCategories.push(
+        VendorCategoryModel.NewVendorCategory(
+          someJson.Vendor?.Categories[i].Name,
+          someJson.Vendor?.Categories[i].Id,
+          someJson.Vendor?.Categories[i].CreatedDate
+        )
+      );
+    }
     return LocationModel.NewLocation(
       VendorModel.NewVendor(
         someJson.Vendor?.UserEmail,
         someJson.Vendor?.Name,
         someJson.Vendor?.ImageUrl,
         someJson.Vendor?.Description,
+        vendorCategories,
         someJson.Vendor?.Id,
         someJson.Vendor?.CreatedDate
       ),

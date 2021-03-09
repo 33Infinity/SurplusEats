@@ -1,4 +1,5 @@
 import VendorModel from "../models/Vendor";
+import VendorCategoryModel from "../models/VendorCategory";
 import ErrorModel from "../models/Error";
 import VendorRequest from "../requests/Vendor";
 import BaseService from "./BaseService";
@@ -21,11 +22,22 @@ export default class Vendor extends BaseService {
   }
 
   static buildVendorModel(someJson) {
+    const vendorCategories: VendorCategoryModel[] = [];
+    for (let i = 0; i < someJson.Vendor?.Categories.length; i++) {
+      vendorCategories.push(
+        VendorCategoryModel.NewVendorCategory(
+          someJson.Vendor?.Categories[i].Name,
+          someJson.Vendor?.Categories[i].Id,
+          someJson.Vendor?.Categories[i].CreatedDate
+        )
+      );
+    }
     return VendorModel.NewVendor(
       someJson.UserEmail,
       someJson.Name,
       someJson.ImageUrl,
       someJson.Description,
+      vendorCategories,
       someJson.Id,
       someJson.CreatedDate
     );

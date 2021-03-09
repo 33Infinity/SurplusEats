@@ -47,6 +47,7 @@ const VendorInventoryItem: React.FC<Props> = (props) => {
         updatedInventory.quantity,
         props.inventoryModel?.ImageUrl,
         props.inventoryModel?.LocationModel,
+        props.inventoryModel?.Categories,
         props.inventoryModel?.Id,
         props.inventoryModel?.CreatedDate
       );

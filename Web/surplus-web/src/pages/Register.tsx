@@ -111,6 +111,7 @@ const Register: React.FC = () => {
               profile.vendorName,
               null,
               null,
+              [],
               null,
               new Date()
             );

@@ -22,7 +22,7 @@ import { ValidatorForm } from "react-material-ui-form-validator";
 import FormTextField from "../controls/FormTextField";
 import BackDrop from "../controls/Backdrop";
 import FileService from "../services/File";
-import CheckboxContainer from "../controls/CheckboxContainer";
+import CheckboxPopup from "../controls/CheckboxPopup";
 import VendorCategory from "../models/VendorCategory";
 import VendorCategories from "../data/VendorCategories";
 
@@ -213,7 +213,7 @@ const VendorProfile: React.FC<Redux> = ({ currentUser }) => {
                     errorMessages={["this field is required"]}
                   />
                 </Grid>
-                <CheckboxContainer
+                <CheckboxPopup
                   open={openCategories}
                   handleOpenClick={handleOpenCategoriesClick}
                   handleCloseClick={handleCloseCategoriesClick}

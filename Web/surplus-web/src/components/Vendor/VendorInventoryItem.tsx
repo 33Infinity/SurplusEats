@@ -6,6 +6,9 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SaveIcon from "@material-ui/icons/Save";
 import BlockIcon from "@material-ui/icons/Block";
+import CheckboxPopup from "../../controls/CheckboxPopup";
+import InventoryCategory from "../../models/InventoryCategory";
+import InventoryCategories from "../../data/InventoryCategories";
 
 interface Props {
   inventoryModel: InventoryModel | undefined;
@@ -18,6 +21,7 @@ type UpdatedInventoryState = {
   description: string;
   price: number;
   quantity: number;
+  categories: InventoryCategory[];
 };
 
 const VendorInventoryItem: React.FC<Props> = (props) => {
@@ -28,7 +32,12 @@ const VendorInventoryItem: React.FC<Props> = (props) => {
     description: props.inventoryModel && props.inventoryModel.Description,
     price: props.inventoryModel && props.inventoryModel.Price,
     quantity: props.inventoryModel && props.inventoryModel.Quantity,
+    categories:
+      props.inventoryModel && props.inventoryModel.Categories
+        ? props.inventoryModel.Categories
+        : [],
   });
+  const [openCategories, setOpenCategories] = React.useState(false);
   const onNewInventoryUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUpdatedInventory({
       ...updatedInventory,
@@ -36,7 +45,31 @@ const VendorInventoryItem: React.FC<Props> = (props) => {
     });
   };
   const [editMode, setEditMode] = useState(false);
-
+  const handleOpenCategoriesClick = () => {
+    setOpenCategories(true);
+  };
+  const handleCloseCategoriesClick = () => {
+    setOpenCategories(false);
+  };
+  function handleCheckboxChange(aName, isChecked) {
+    enableEditMode();
+    let categories = props.inventoryModel?.Categories
+      ? props.inventoryModel.Categories
+      : [];
+    if (isChecked) {
+      categories.push(
+        InventoryCategory.NewInventoryCategory(aName, null, null)
+      );
+    } else {
+      categories = categories.filter(
+        (eachCategory) => eachCategory.Name !== aName
+      );
+    }
+    setUpdatedInventory({
+      ...updatedInventory,
+      ["categories"]: categories,
+    });
+  }
   async function updateInventory() {
     if (validate()) {
       disableEditMode();
@@ -73,6 +106,7 @@ const VendorInventoryItem: React.FC<Props> = (props) => {
       description: props.inventoryModel && props.inventoryModel.Description,
       price: props.inventoryModel && props.inventoryModel.Price,
       quantity: props.inventoryModel && props.inventoryModel.Quantity,
+      categories: props.inventoryModel?.Categories,
     });
   }
   function validate() {
@@ -103,7 +137,24 @@ const VendorInventoryItem: React.FC<Props> = (props) => {
             onChange={onNewInventoryUpdate}
           />
         </Grid>
-        <Grid item xs={6} sm={6}>
+        <Grid item xs={6} sm={1}>
+          <CheckboxPopup
+            open={openCategories}
+            handleOpenClick={handleOpenCategoriesClick}
+            handleCloseClick={handleCloseCategoriesClick}
+            handleCheckboxChange={handleCheckboxChange}
+            checkedItems={
+              updatedInventory?.categories
+                ? updatedInventory.categories.map(
+                    (eachCategory) => eachCategory.Name
+                  )
+                : []
+            }
+            potentiallyCheckedItems={InventoryCategories}
+            linkText={"Categories"}
+          />
+        </Grid>
+        <Grid item xs={6} sm={5}>
           <TextField
             variant="outlined"
             fullWidth

@@ -15,7 +15,8 @@ export default class Inventory {
     aPrice,
     aQuantity,
     anImageUrl,
-    aLocationId
+    aLocationId,
+    someCategories
   ) {
     const inventoryTO = InventoryTO.NewInventory(
       aName,
@@ -24,6 +25,7 @@ export default class Inventory {
       aQuantity,
       anImageUrl,
       aLocationId,
+      someCategories,
       null,
       new Date()
     );
@@ -102,6 +104,7 @@ export default class Inventory {
     aQuantity,
     aImageUrl,
     aLocationId,
+    someCategories,
     anId,
     aCreatedDate
   ) {
@@ -112,6 +115,7 @@ export default class Inventory {
       aQuantity,
       aImageUrl,
       aLocationId,
+      someCategories,
       anId,
       aCreatedDate
     );

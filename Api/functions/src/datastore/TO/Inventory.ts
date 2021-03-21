@@ -9,6 +9,7 @@ export default class Inventory extends BaseTable {
     public static Quantity = "Quantity";
     public static ImageUrl = "ImageUrl";
     public static LocationId = "LocationId";
+    public static Categories = "Categories";
   };
   Name: string;
   Description: string;
@@ -16,6 +17,7 @@ export default class Inventory extends BaseTable {
   Quantity: number;
   ImageUrl: string;
   LocationId: string;
+  Categories: number[];
   private constructor(
     aName,
     aDescription,
@@ -23,6 +25,7 @@ export default class Inventory extends BaseTable {
     aQuantity,
     anImageUrl,
     aLocationId,
+    someCategories,
     anId,
     aCreatedDate
   ) {
@@ -32,6 +35,7 @@ export default class Inventory extends BaseTable {
     this.Quantity = aQuantity;
     this.ImageUrl = anImageUrl;
     this.LocationId = aLocationId;
+    this.Categories = someCategories;
   }
   public static NewInventory(
     aName,
@@ -40,6 +44,7 @@ export default class Inventory extends BaseTable {
     aQuantity,
     anImageUrl,
     aLocationId,
+    someCategories,
     anId,
     aCreatedDate
   ): Inventory {
@@ -50,6 +55,7 @@ export default class Inventory extends BaseTable {
       aQuantity,
       anImageUrl,
       aLocationId,
+      someCategories,
       anId,
       aCreatedDate
     );
@@ -58,10 +64,11 @@ export default class Inventory extends BaseTable {
     return {
       Name: this.Name,
       Description: this.Description,
-      ImageUrl: this.ImageUrl,
-      LocationId: this.LocationId,
       Price: this.Price,
       Quantity: this.Quantity,
+      ImageUrl: this.ImageUrl,
+      LocationId: this.LocationId,
+      Categories: this.Categories,
       CreatedDate: this.CreatedDate,
     };
   }

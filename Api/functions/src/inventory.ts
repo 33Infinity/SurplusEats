@@ -20,7 +20,8 @@ exports.add = inventory_functions.https.onRequest(
         data.Price,
         data.Quantity,
         data.ImageUrl,
-        data.LocationModel.Id
+        data.LocationModel.Id,
+        data.Categories
       );
       response.send(resp);
     });
@@ -87,6 +88,7 @@ exports.update = inventory_functions.https.onRequest(
         data.Quantity,
         data.ImageUrl,
         data.LocationModel.Id,
+        data.Categories,
         data.Id,
         data.CreatedDate
       );

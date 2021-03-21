@@ -12,6 +12,7 @@ export default class Inventory {
       inventory.Quantity,
       inventory.ImageUrl,
       inventory.LocationId,
+      inventory.Categories,
       null,
       new Date()
     );

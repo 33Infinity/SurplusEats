@@ -29,6 +29,7 @@ exports.update = vendor_functions.https.onRequest(
         data.Name,
         data.ImageUrl,
         data.Description,
+        data.Categories,
         data.Id,
         data.CreatedDate
       );

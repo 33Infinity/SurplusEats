@@ -7,16 +7,19 @@ export default class Vendor extends BaseTable {
     public static Name = "Name";
     public static ImageUrl = "ImageUrl";
     public static Description = "Description";
+    public static Categories = "Categories";
   };
   UserEmail: string;
   Name: string;
   ImageUrl: string;
   Description: string;
+  Categories: number[];
   private constructor(
     aUserEmail,
     aName,
     anImageUrl,
     aDescription,
+    someCategories,
     anId,
     aCreatedDate
   ) {
@@ -25,12 +28,14 @@ export default class Vendor extends BaseTable {
     this.Name = aName;
     this.ImageUrl = anImageUrl;
     this.Description = aDescription;
+    this.Categories = someCategories;
   }
   public static NewVendor(
     aUserEmail,
     aName,
     anImageUrl,
     aDescription,
+    someCategories,
     anId,
     aCreatedDate
   ): Vendor {
@@ -39,6 +44,7 @@ export default class Vendor extends BaseTable {
       aName,
       anImageUrl,
       aDescription,
+      someCategories,
       anId,
       aCreatedDate
     );
@@ -49,6 +55,7 @@ export default class Vendor extends BaseTable {
       Name: this.Name,
       ImageUrl: this.ImageUrl,
       Description: this.Description,
+      Categories: this.Categories,
       CreatedDate: this.CreatedDate,
     };
   }

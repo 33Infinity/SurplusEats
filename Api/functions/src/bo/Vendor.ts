@@ -1,5 +1,6 @@
 import VendorDAO from "../datastore/dao/Vendor";
 import VendorTO from "../datastore/to/Vendor";
+import VendorCategoryDAO from "../datastore/dao/VendorCategory";
 import Error from "../Error";
 import Constants from "../Constants";
 
@@ -22,14 +23,17 @@ export default class Vendor {
     aName,
     aImageUrl,
     aDescription,
+    someCategories,
     anId,
     aCreatedDate
   ) {
+    const categories = await this.getCategories(admin, someCategories);
     const vendorTO = VendorTO.NewVendor(
       aUserEmail,
       aName,
       aImageUrl,
       aDescription,
+      categories,
       anId,
       aCreatedDate
     );
@@ -38,5 +42,13 @@ export default class Vendor {
       return vendorTO;
     }
     return null;
+  }
+
+  private static async getCategories(admin, someCategories) {
+    const categorNames = someCategories.map(
+      (eachCategory) => eachCategory.Name
+    );
+    const response = await VendorCategoryDAO.getByNames(admin, categorNames);
+    return response;
   }
 }

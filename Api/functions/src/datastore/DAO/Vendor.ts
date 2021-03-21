@@ -53,6 +53,7 @@ export default class Vendor {
       vendor.Name,
       vendor.ImageUrl,
       vendor.Description,
+      vendor.Categories,
       null,
       new Date()
     );

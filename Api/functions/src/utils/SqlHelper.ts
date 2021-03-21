@@ -1,4 +1,5 @@
 import Clause from "../datastore/Clause";
+import Operators from "../datastore/Operators";
 
 export default class SqlHelper {
   static async get(anAdmin, aTableName) {
@@ -11,16 +12,20 @@ export default class SqlHelper {
     const response = await anAdmin
       .firestore()
       .collection(aTableName)
-      .where("__name__", "=", anId)
+      .where("__name__", Operators.equals, anId)
       .get();
     return this.buildResponse(response);
   }
 
   static async getByIds(anAdmin, aTableName, someIds) {
+    return this.getByArray(anAdmin, aTableName, "__name__", someIds);
+  }
+
+  static async getByArray(anAdmin, aTableName, aColumnName, anArray) {
     const response = await anAdmin
       .firestore()
       .collection(aTableName)
-      .where("__name__", "in", someIds)
+      .where(aColumnName, Operators.in, anArray)
       .get();
     return this.buildResponse(response);
   }

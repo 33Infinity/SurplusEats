@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     input: {
       height: "20px",
-      boxSizing: "border-box", // <-- add this
+      boxSizing: "border-box",
     },
     button: {
       margin: theme.spacing(1),

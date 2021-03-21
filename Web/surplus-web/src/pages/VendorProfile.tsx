@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import {
   makeStyles,
   createStyles,
@@ -8,7 +9,6 @@ import {
   Button,
   Theme,
 } from "@material-ui/core";
-import { connect } from "react-redux";
 import ProfileModel from "../models/Profile";
 import VendorModel from "../models/Vendor";
 import ErrorModel from "../models/Error";
@@ -22,6 +22,8 @@ import { ValidatorForm } from "react-material-ui-form-validator";
 import FormTextField from "../controls/FormTextField";
 import BackDrop from "../controls/Backdrop";
 import FileService from "../services/File";
+import VendorCategories from "../components/vendor/VendorCategories";
+import VendorCategory from "../models/VendorCategory";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,6 +46,17 @@ const useStyles = makeStyles((theme: Theme) =>
     image: {
       height: "80px",
       width: "80px",
+    },
+    dividerMargin: {
+      marginTop: "15px",
+      marginBottom: "15px",
+    },
+    formControl: {
+      margin: theme.spacing(3),
+    },
+    input: {
+      height: "20px",
+      boxSizing: "border-box",
     },
   })
 );
@@ -70,6 +83,29 @@ const VendorProfile: React.FC<Redux> = ({ currentUser }) => {
       [event.target.name]: event.target.value,
     });
   };
+  const [openCategories, setOpenCategories] = React.useState(false);
+  function handleCheckboxChange(aName, isChecked) {
+    setSaveProfile(false);
+    let categories = vendor?.Categories ? vendor.Categories : [];
+    if (isChecked) {
+      categories.push(VendorCategory.NewVendorCategory(aName, null, null));
+    } else {
+      categories = categories.filter(
+        (eachCategory) => eachCategory.Name !== aName
+      );
+    }
+    const v = vendor;
+    if (v instanceof VendorModel) {
+      v.Categories = categories;
+    }
+    setVendor(v);
+  }
+  const handleOpenCategoriesClick = () => {
+    setOpenCategories(true);
+  };
+  const handleCloseCategoriesClick = () => {
+    setOpenCategories(false);
+  };
   function onFileSelect(aFile) {
     setSaveProfile(false);
     setSelectedFile(aFile);
@@ -84,12 +120,14 @@ const VendorProfile: React.FC<Redux> = ({ currentUser }) => {
   }
   async function updateProfile() {
     setIsLoading(true);
-    if (vendor?.ImageUrl !== "") {
-      await FileService.delete(vendor?.ImageUrl);
-    }
-    const imageUrl = await FileService.add(selectedFile, vendor?.Id);
-    if (vendor != null) {
-      vendor.ImageUrl = imageUrl.toString();
+    if (!StringUtil.nullOrEmpty(selectedFile)) {
+      if (vendor?.ImageUrl !== "") {
+        await FileService.delete(vendor?.ImageUrl);
+      }
+      const imageUrl = await FileService.add(selectedFile, vendor?.Id);
+      if (vendor != null) {
+        vendor.ImageUrl = imageUrl.toString();
+      }
     }
     const response = await VendorService.update(vendor);
     if (response instanceof VendorModel) {
@@ -174,6 +212,19 @@ const VendorProfile: React.FC<Redux> = ({ currentUser }) => {
                     errorMessages={["this field is required"]}
                   />
                 </Grid>
+                <VendorCategories
+                  open={openCategories}
+                  handleOpenCategoriesClick={handleOpenCategoriesClick}
+                  handleCloseCategoriesClick={handleCloseCategoriesClick}
+                  handleCheckboxChange={handleCheckboxChange}
+                  categories={
+                    vendor?.Categories
+                      ? vendor.Categories.map(
+                          (eachCategory) => eachCategory.Name
+                        )
+                      : []
+                  }
+                />
               </Grid>
               <Button
                 variant="contained"

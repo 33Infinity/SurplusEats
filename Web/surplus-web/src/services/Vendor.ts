@@ -23,12 +23,12 @@ export default class Vendor extends BaseService {
 
   static buildVendorModel(someJson) {
     const vendorCategories: VendorCategoryModel[] = [];
-    for (let i = 0; i < someJson.Vendor?.Categories.length; i++) {
+    for (let i = 0; i < someJson?.Categories.length; i++) {
       vendorCategories.push(
         VendorCategoryModel.NewVendorCategory(
-          someJson.Vendor?.Categories[i].Name,
-          someJson.Vendor?.Categories[i].Id,
-          someJson.Vendor?.Categories[i].CreatedDate
+          someJson?.Categories[i].Name,
+          someJson?.Categories[i].Id,
+          someJson?.Categories[i].CreatedDate
         )
       );
     }

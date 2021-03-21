@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import VendorCategory from "../../models/VendorCategory";
+import React from "react";
 import Dialog from "@material-ui/core/Dialog";
 import Divider from "@material-ui/core/Divider";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -8,6 +7,7 @@ import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { makeStyles, createStyles, Grid, Theme } from "@material-ui/core";
+import StringUtils from "../utils/StringUtils";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -27,18 +27,22 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
   open: boolean;
-  handleOpenCategoriesClick: any;
-  handleCloseCategoriesClick: any;
+  handleOpenClick: any;
+  handleCloseClick: any;
   handleCheckboxChange: any;
-  categories: string[];
+  checkedItems: string[];
+  potentiallyCheckedItems: string[];
+  linkText: string;
 }
 
-const VendorCategories: React.FC<Props> = ({
+const CheckboxContainer: React.FC<Props> = ({
   open,
-  handleOpenCategoriesClick,
-  handleCloseCategoriesClick,
+  handleOpenClick,
+  handleCloseClick,
   handleCheckboxChange,
-  categories,
+  checkedItems,
+  potentiallyCheckedItems,
+  linkText,
 }) => {
   const classes = useStyles();
   const handleLocalCheckboxChange = (
@@ -49,41 +53,34 @@ const VendorCategories: React.FC<Props> = ({
   return (
     <div>
       <Grid item xs={12}>
-        <a href="javascript:void(0)" onClick={handleOpenCategoriesClick}>
-          Categories
+        <a href="javascript:void(0)" onClick={handleOpenClick}>
+          {linkText}
         </a>
         <Dialog
           open={open}
-          onClose={handleCloseCategoriesClick}
+          onClose={handleCloseClick}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">Categories</DialogTitle>
+          <DialogTitle id="form-dialog-title">{linkText}</DialogTitle>
           <Divider className={classes.dividerMargin} />
           <DialogContent>
             <Grid container spacing={2} direction="row">
               <FormControl component="fieldset" className={classes.formControl}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={categories.includes("bar")}
-                      onChange={handleLocalCheckboxChange}
-                      name="bar"
-                      classes={{ root: classes.input }}
+                {potentiallyCheckedItems.map((eachItem) => {
+                  return (
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checkedItems.includes(eachItem)}
+                          onChange={handleLocalCheckboxChange}
+                          name={eachItem}
+                          classes={{ root: classes.input }}
+                        />
+                      }
+                      label={StringUtils.capitalizeFirstLetter(eachItem)}
                     />
-                  }
-                  label="Bar"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={categories.includes("restaurant")}
-                      onChange={handleLocalCheckboxChange}
-                      name="restaurant"
-                      classes={{ root: classes.input }}
-                    />
-                  }
-                  label="Restaurant"
-                />
+                  );
+                })}
               </FormControl>
             </Grid>
           </DialogContent>
@@ -93,4 +90,4 @@ const VendorCategories: React.FC<Props> = ({
   );
 };
 
-export default VendorCategories;
+export default CheckboxContainer;

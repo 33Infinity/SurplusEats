@@ -22,8 +22,9 @@ import { ValidatorForm } from "react-material-ui-form-validator";
 import FormTextField from "../controls/FormTextField";
 import BackDrop from "../controls/Backdrop";
 import FileService from "../services/File";
-import VendorCategories from "../components/vendor/VendorCategories";
+import CheckboxContainer from "../controls/CheckboxContainer";
 import VendorCategory from "../models/VendorCategory";
+import VendorCategories from "../data/VendorCategories";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -212,18 +213,20 @@ const VendorProfile: React.FC<Redux> = ({ currentUser }) => {
                     errorMessages={["this field is required"]}
                   />
                 </Grid>
-                <VendorCategories
+                <CheckboxContainer
                   open={openCategories}
-                  handleOpenCategoriesClick={handleOpenCategoriesClick}
-                  handleCloseCategoriesClick={handleCloseCategoriesClick}
+                  handleOpenClick={handleOpenCategoriesClick}
+                  handleCloseClick={handleCloseCategoriesClick}
                   handleCheckboxChange={handleCheckboxChange}
-                  categories={
+                  checkedItems={
                     vendor?.Categories
                       ? vendor.Categories.map(
                           (eachCategory) => eachCategory.Name
                         )
                       : []
                   }
+                  potentiallyCheckedItems={VendorCategories}
+                  linkText={"Categories"}
                 />
               </Grid>
               <Button

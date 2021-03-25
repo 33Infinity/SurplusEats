@@ -23,7 +23,7 @@ export default class Profile {
     if (response == null || response.length === 0) {
       return response;
     }
-    const tuple = Profile.buildTuple(admin, response[0], true);
+    const tuple = await Profile.buildTuple(admin, response[0], true);
     return tuple;
   }
 
@@ -51,18 +51,18 @@ export default class Profile {
     if (response == null || response.length === 0) {
       return response;
     }
-    const tuple = Profile.buildTuple(admin, response[0], true);
+    const tuple = await Profile.buildTuple(admin, response[0], true);
     return tuple;
   }
 
   static async add(admin, profile) {
-    const tuple = Profile.buildTuple(admin, profile, true);
+    const tuple = await Profile.buildTuple(admin, profile, true);
     tuple.Password = Encryption.encrypt(profile.Password);
     await SqlHelper.insert(admin, ProfileTO.TableName, tuple);
     return tuple;
   }
 
-  private static buildTuple(admin, aProfile, isAuthenticated) {
+  private static async buildTuple(admin, aProfile, isAuthenticated) {
     const profileTO = ProfileTO.NewProfile(
       aProfile.Email.toLowerCase(),
       null,
@@ -74,7 +74,7 @@ export default class Profile {
       aProfile.CreatedDate
     );
     const profile = profileTO.getTuple();
-    profile["InventoryIds"] = this.getSubscribedInventoryIdsFromEmail(
+    profile["InventoryIds"] = await this.getSubscribedInventoryIdsFromEmail(
       admin,
       aProfile.Email.toLowerCase()
     );
@@ -83,6 +83,7 @@ export default class Profile {
 
   static async getSubscribedInventoryIdsFromEmail(admin, anEmail) {
     const inventory = await SubscriptionDAO.getByEmail(admin, anEmail);
+    if (inventory == null) return [];
     return inventory?.map((eachItem) => {
       return eachItem["InventoryId"];
     });

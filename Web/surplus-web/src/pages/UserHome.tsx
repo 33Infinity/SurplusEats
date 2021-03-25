@@ -116,6 +116,10 @@ const UserHome: React.FC = () => {
     setShowInventory(false);
     getLocationsByLatLon();
   }
+  function applyFilters(someFilters, checked, filterNameChecked) {
+    someFilters[filterNameChecked] = checked;
+    console.log(someFilters);
+  }
 
   return (
     <div>
@@ -123,7 +127,7 @@ const UserHome: React.FC = () => {
         <Grid item xs={12} sm={2}>
           <h4>Filters</h4>
           <a href="">Clear all</a>
-          <Filters />
+          <Filters applyFilters={applyFilters} />
         </Grid>
         <Grid item xs={12} sm={5}>
           <Grid container spacing={2} direction="row">

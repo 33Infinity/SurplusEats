@@ -38,9 +38,17 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Filters: React.FC = () => {
+interface Props {
+  applyFilters: (
+    filters: unknown,
+    checked: boolean,
+    filterName: string
+  ) => void;
+}
+
+const Filters: React.FC<Props> = (props) => {
   const classes = useStyles();
-  const [checkBoxValue, setCheckBoxValue] = React.useState({
+  const [checkBoxValues, setCheckBoxValues] = React.useState({
     openNow: false,
     free: false,
     lessThanTen: false,
@@ -68,10 +76,11 @@ const Filters: React.FC = () => {
   const [radioButtonValue, setRadioButtonValue] = React.useState("");
   const [openMoreCategories, setOpenMoreCategories] = React.useState(false);
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCheckBoxValue({
-      ...checkBoxValue,
+    setCheckBoxValues({
+      ...checkBoxValues,
       [event.target.name]: event.target.checked,
     });
+    props.applyFilters(checkBoxValues, event.target.checked, event.target.name);
   };
   const handleRadioButtonChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -102,7 +111,7 @@ const Filters: React.FC = () => {
     greek,
     dessert,
     seafood,
-  } = checkBoxValue;
+  } = checkBoxValues;
   const handleOpenMoreCategoriesClick = () => {
     setOpenMoreCategories(true);
   };

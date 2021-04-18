@@ -39,7 +39,7 @@ export default class Inventory {
   }
 
   static async getById(admin, anInventoryId) {
-    let retObj: IResponse = {};
+    const retObj: IResponse = {};
     const inventory = await InventoryDAO.getById(admin, anInventoryId);
     const location = await SqlHelper.getById(
       admin,
@@ -58,8 +58,8 @@ export default class Inventory {
   }
 
   static async getByLocation(admin, aLatitude, aLongitude) {
-    let retObj: IResponse = {};
-    let locations = await SqlHelper.get(admin, LocationTO.TableName);
+    const retObj: IResponse = {};
+    const locations = await SqlHelper.get(admin, LocationTO.TableName);
     const closestLocations = GeoLocationHelper.GetClosestNLocations(
       aLatitude,
       aLongitude,
@@ -67,7 +67,10 @@ export default class Inventory {
       10
     );
     if (closestLocations == null) return null;
-    let inventory = await InventoryDAO.getByLocations(admin, closestLocations);
+    const inventory = await InventoryDAO.getByLocations(
+      admin,
+      closestLocations
+    );
     retObj.Inventory = inventory;
     retObj.Locations = closestLocations;
     retObj.Vendors = await VendorDAO.getVendorByLocations(
@@ -78,7 +81,7 @@ export default class Inventory {
   }
 
   static async getByVendorLocation(admin, aVendorId, aLocationId) {
-    let retObj: IResponse = {};
+    const retObj: IResponse = {};
     const vendors = await SqlHelper.getById(
       admin,
       VendorTO.TableName,

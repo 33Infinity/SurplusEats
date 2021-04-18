@@ -30,7 +30,8 @@ export default class Inventory extends BaseTable {
     aCreatedDate
   ) {
     super(anId, aCreatedDate);
-    (this.Name = aName), (this.Description = aDescription);
+    this.Name = aName;
+    this.Description = aDescription;
     this.Price = aPrice;
     this.Quantity = aQuantity;
     this.ImageUrl = anImageUrl;

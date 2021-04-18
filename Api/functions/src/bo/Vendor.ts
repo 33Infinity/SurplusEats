@@ -7,7 +7,7 @@ import Constants from "../Constants";
 export default class Vendor {
   static async getByEmail(admin, anEmail) {
     const vendor = await VendorDAO.getByEmail(admin, anEmail);
-    if (vendor == null || vendor.length == 0) {
+    if (vendor == null || vendor.length === 0) {
       const error = Error.NewError(
         Constants.Error.VENDOR_DOES_NOT_EXIST,
         "500"

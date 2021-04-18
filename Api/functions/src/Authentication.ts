@@ -12,7 +12,7 @@ exports.register = authentication_functions.https.onRequest(
   async (request: any, response: any) => {
     return authentication_cors(request, response, async () => {
       const data = JSON.parse(request.body);
-      let resp = await AuthenticationBO.Register(
+      const resp = await AuthenticationBO.Register(
         authentication_admin,
         data.Profile.Email,
         data.Vendor,

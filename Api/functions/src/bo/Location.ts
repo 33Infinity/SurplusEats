@@ -15,7 +15,7 @@ export default class Location {
 
   static async getByLatLon(admin, aLatitude, aLongitude) {
     let retObj: IResponse = {};
-    let locations = await SqlHelper.get(admin, LocationTO.TableName);
+    const locations = await SqlHelper.get(admin, LocationTO.TableName);
     const closestLocations = GeoLocationHelper.GetClosestNLocations(
       aLatitude,
       aLongitude,
@@ -33,9 +33,9 @@ export default class Location {
   }
 
   static async getByVendor(admin, anEmail) {
-    let retObj: IResponse = {};
+    const retObj: IResponse = {};
     const vendor = await VendorDAO.getByEmail(admin, anEmail);
-    if (vendor == null || vendor.length == 0) {
+    if (vendor == null || vendor.length === 0) {
       return Error.NewError(Constants.Error.VENDOR_DOES_NOT_EXIST, "500");
     }
     const locations = await LocationDAO.getLocationsByVendor(

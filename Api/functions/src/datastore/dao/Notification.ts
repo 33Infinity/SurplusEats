@@ -41,7 +41,7 @@ export default class Notification {
 
   static async markAllAsRead(admin, anEmail) {
     try {
-      let notifications = await this.getByEmail(admin, anEmail);
+      const notifications = await this.getByEmail(admin, anEmail);
       await notifications.forEach(async (notification) => {
         notification[NotificationTO.ColumnNames.MarkedAsRead] = true;
         await SqlHelper.update(

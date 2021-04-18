@@ -6,7 +6,6 @@ import Constants from "../Constants";
 export default class Authentication {
   static async Register(admin, anEmail, aVendor, aProfile, aVendorName) {
     try {
-      let response;
       const profile = await ProfileDAO.getByEmail(admin, anEmail);
       if (profile !== null && profile.length > 0) {
         const error = Error.NewError(
@@ -26,7 +25,7 @@ export default class Authentication {
         }
         await VendorDAO.add(admin, aVendor, anEmail);
       }
-      response = await ProfileDAO.add(admin, aProfile);
+      const response = await ProfileDAO.add(admin, aProfile);
       return response;
     } catch (exception) {
       const error = Error.NewError(Constants.Error.UNKNOWN_SERVER_ERROR, "500");

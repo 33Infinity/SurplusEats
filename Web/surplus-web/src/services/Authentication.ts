@@ -44,7 +44,11 @@ export default class Authentication extends BaseService {
       someJson.Id,
       someJson.CreatedDate,
       someJson.IsAuthenticated,
-      someJson.InventoryIds
+      someJson.InventoryIds,
+      someJson.CreditCardNumber,
+      someJson.CreditCardMonth,
+      someJson.CreditCardYear,
+      someJson.CreditCardName
     );
   }
 }

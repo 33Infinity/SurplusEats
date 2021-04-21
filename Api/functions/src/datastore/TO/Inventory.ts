@@ -36,7 +36,7 @@ export default class Inventory extends BaseTable {
     this.Quantity = aQuantity;
     this.ImageUrl = anImageUrl;
     this.LocationId = aLocationId;
-    this.Categories = someCategories;
+    this.Categories = someCategories != null ? someCategories : [];
   }
   public static NewInventory(
     aName,

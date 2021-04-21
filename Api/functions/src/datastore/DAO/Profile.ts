@@ -70,6 +70,10 @@ export default class Profile {
       aProfile.LastName,
       aProfile.IsVendor,
       isAuthenticated,
+      aProfile.CreditCardNumber,
+      aProfile.CreditCardMonth,
+      aProfile.CreditCardYear,
+      aProfile.CreditCardName,
       aProfile.Id,
       aProfile.CreatedDate
     );

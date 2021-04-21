@@ -9,6 +9,7 @@ export default class Inventory extends BaseRequest {
       HttpMethods.post,
       anInventoryModel
     );
+    console.log(requestObject.body);
     const json = await this.getJson(url, requestObject);
     return json;
   }

@@ -9,6 +9,10 @@ export default class Profile extends BaseTable {
     public static LastName = "LastName";
     public static IsVendor = "IsVendor";
     public static IsAuthenticated = "IsAuthenticated";
+    public static CreditCardNumber = "CreditCardNumber";
+    public static CreditCardMonth = "CreditCardMonth";
+    public static CreditCardYear = "CreditCardYear";
+    public static CreditCardName = "CreditCardName";
   };
   Email: string;
   Password: string;
@@ -16,6 +20,10 @@ export default class Profile extends BaseTable {
   LastName: string;
   IsVendor: Boolean;
   IsAuthenticated: Boolean;
+  CreditCardNumber: string;
+  CreditCardMonth: string;
+  CreditCardYear: string;
+  CreditCardName: string;
   private constructor(
     anEmail,
     aPassword,
@@ -23,6 +31,10 @@ export default class Profile extends BaseTable {
     aLastName,
     isVendor,
     isAuthenticated,
+    aCreditCardNumber,
+    aCreditCardMonth,
+    aCreditCardYear,
+    aCreditCardName,
     anId,
     aCreatedDate
   ) {
@@ -33,6 +45,10 @@ export default class Profile extends BaseTable {
     this.LastName = aLastName;
     this.IsVendor = isVendor;
     this.IsAuthenticated = isAuthenticated;
+    this.CreditCardNumber = aCreditCardNumber;
+    this.CreditCardMonth = aCreditCardMonth;
+    this.CreditCardYear = aCreditCardYear;
+    this.CreditCardName = aCreditCardName;
   }
   public static NewProfile(
     anEmail,
@@ -41,7 +57,10 @@ export default class Profile extends BaseTable {
     aLastName,
     isVendor,
     isAuthenticated,
-
+    aCreditCardNumber,
+    aCreditCardMonth,
+    aCreditCardYear,
+    aCreditCardName,
     anId,
     aCreatedDate
   ): Profile {
@@ -52,6 +71,10 @@ export default class Profile extends BaseTable {
       aLastName,
       isVendor,
       isAuthenticated,
+      aCreditCardNumber,
+      aCreditCardMonth,
+      aCreditCardYear,
+      aCreditCardName,
       anId,
       aCreatedDate
     );
@@ -64,6 +87,10 @@ export default class Profile extends BaseTable {
       LastName: this.LastName,
       IsVendor: this.IsVendor,
       IsAuthenticated: this.IsAuthenticated,
+      CreditCardNumber: this.CreditCardNumber,
+      CreditCardMonth: this.CreditCardMonth,
+      CreditCardYear: this.CreditCardYear,
+      CreditCardName: this.CreditCardName,
       CreatedDate: this.CreatedDate,
     };
   }

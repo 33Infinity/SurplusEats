@@ -13,6 +13,7 @@ import VendorInventory from "../pages/VendorInventory";
 import InventoryDetail from "../pages/InventoryDetail";
 import LocationDetail from "../pages/LocationDetail";
 import Cart from "../pages/Cart";
+import Checkout from "../pages/Checkout";
 import Footer from "./Footer";
 import {
   HashRouter as Router,
@@ -82,6 +83,13 @@ const App: React.FC<User> = ({ currentUser, setCurrentUser }) => {
             path="/Cart"
             render={() =>
               currentUser?.IsAuthenticated ? <Cart /> : <SignIn />
+            }
+          />
+          <Route
+            exact
+            path="/Checkout"
+            render={() =>
+              currentUser?.IsAuthenticated ? <Checkout /> : <SignIn />
             }
           />
           <Route

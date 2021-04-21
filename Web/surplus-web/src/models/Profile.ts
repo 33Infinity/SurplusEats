@@ -8,6 +8,10 @@ export default class Profile extends BaseModel {
   IsVendor: Boolean;
   IsAuthenticated: Boolean;
   InventoryIds: string[];
+  CreditCardNumber: string;
+  CreditCardMonth: string;
+  CreditCardYear: string;
+  CreditCardName: string;
   private constructor(
     anEmail,
     aPassword,
@@ -16,6 +20,10 @@ export default class Profile extends BaseModel {
     aVendor,
     isAuthenticated,
     someInventoryIds,
+    aCreditCardNumber,
+    aCreditCardMonth,
+    aCreditCardYear,
+    aCreditCardName,
     anId,
     aCreatedDate
   ) {
@@ -27,6 +35,10 @@ export default class Profile extends BaseModel {
     this.IsVendor = aVendor;
     this.IsAuthenticated = isAuthenticated;
     this.InventoryIds = someInventoryIds;
+    this.CreditCardNumber = aCreditCardNumber;
+    this.CreditCardMonth = aCreditCardMonth;
+    this.CreditCardYear = aCreditCardYear;
+    this.CreditCardName = aCreditCardName;
   }
   public static NewProfile(
     anEmail,
@@ -37,7 +49,11 @@ export default class Profile extends BaseModel {
     anId,
     aCreatedDate,
     isAuthenticated,
-    someInventoryIds
+    someInventoryIds,
+    aCreditCardNumber,
+    aCreditCardMonth,
+    aCreditCardYear,
+    aCreditCardName
   ): Profile {
     return new Profile(
       anEmail,
@@ -47,11 +63,15 @@ export default class Profile extends BaseModel {
       isVendor,
       isAuthenticated,
       someInventoryIds,
+      aCreditCardNumber,
+      aCreditCardMonth,
+      aCreditCardYear,
+      aCreditCardName,
       anId,
       aCreatedDate
     );
   }
   public static EmptyProfile(): Profile {
-    return new Profile("", "", "", "", "", false, [], "", null);
+    return new Profile("", "", "", "", "", false, [], "", "", "", "", "", null);
   }
 }

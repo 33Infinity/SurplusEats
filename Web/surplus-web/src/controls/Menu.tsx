@@ -64,7 +64,7 @@ const DropdownMenu: React.FC<MenuType> = ({
         variant="contained"
         color="primary"
         className={classes.button}
-        onClick={btnEvent}
+        onClick={() => {btnEvent(); window.location.href = "cart"}}
       >
         {btnText}
       </Button>

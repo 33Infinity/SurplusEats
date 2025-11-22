@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:SurplusEats.ViewModels"
+             x:Class="SurplusEats.Views.RegistrationPage"
+             x:DataType="viewmodel:RegistrationViewModel"
+             Title="Register"
+             BackgroundColor="#F5F5F5">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="Create Account" 
+                   FontSize="28" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="#2E7D32" 
+                   Margin="0,20,0,20"/>
+
+            <!-- User Type Selection -->
+            <Label Text="I am a:" FontSize="16" FontAttributes="Bold" TextColor="#333"/>
+            <HorizontalStackLayout Spacing="20">
+                <RadioButton Content="Consumer"
+                             GroupName="UserType"
+                             IsChecked="{Binding IsConsumer}"
+                             TextColor="#2E7D32"/>
+                <RadioButton Content="Merchant"
+                             GroupName="UserType"
+                             IsChecked="{Binding IsMerchant}"
+                             TextColor="#2E7D32"/>
+            </HorizontalStackLayout>
+
+            <!-- Name -->
+            <Entry Placeholder="Full Name" Text="{Binding Name}"/>
+
+            <!-- Email -->
+            <Entry Placeholder="Email" Text="{Binding Email}" Keyboard="Email"/>
+
+            <!-- Phone -->
+            <Entry Placeholder="Phone" Text="{Binding Phone}" Keyboard="Telephone"/>
+
+            <!-- Password -->
+            <Entry Placeholder="Password" Text="{Binding Password}" IsPassword="True"/>
+
+            <!-- Confirm Password -->
+            <Entry Placeholder="Confirm Password" Text="{Binding ConfirmPassword}" IsPassword="True"/>
+
+            <!-- Address -->
+            <Entry Placeholder="Address" Text="{Binding Address}"/>
+
+            <!-- City -->
+            <Entry Placeholder="City" Text="{Binding City}"/>
+
+            <!-- State and Zip -->
+            <Grid ColumnDefinitions="2*,*" ColumnSpacing="10">
+                <Entry Grid.Column="0" Placeholder="State" Text="{Binding State}"/>
+                <Entry Grid.Column="1" Placeholder="Zip" Text="{Binding ZipCode}" Keyboard="Numeric"/>
+            </Grid>
+
+            <!-- Error Message -->
+            <Label Text="{Binding ErrorMessage}" 
+                   TextColor="Red"
+                   IsVisible="{Binding ErrorMessage, Converter={StaticResource StringToBoolConverter}}"/>
+
+            <!-- Register Button -->
+            <Button Text="Register"
+                    Command="{Binding RegisterCommand}"
+                    BackgroundColor="#2E7D32"
+                    TextColor="White"
+                    CornerRadius="10"
+                    HeightRequest="50"
+                    FontSize="18"
+                    FontAttributes="Bold"
+                    Margin="0,20,0,0"/>
+
+            <!-- Loading Indicator -->
+            <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                              IsVisible="{Binding IsBusy}"
+                              Color="#2E7D32"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
+
+

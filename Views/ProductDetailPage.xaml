@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:SurplusEats.ViewModels"
+             x:Class="SurplusEats.Views.ProductDetailPage"
+             x:DataType="viewmodel:ProductDetailViewModel"
+             Title="Product Details"
+             BackgroundColor="#F5F5F5">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="0" Spacing="0">
+            
+            <!-- Product Image Placeholder -->
+            <Frame Padding="0" CornerRadius="0" HeightRequest="250" BackgroundColor="#E0E0E0">
+                <Label Text="🍽️" FontSize="100" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </Frame>
+
+            <VerticalStackLayout Padding="20" Spacing="15">
+                
+                <!-- Product Name -->
+                <Label Text="{Binding Product.Name}" 
+                       FontSize="24" 
+                       FontAttributes="Bold" 
+                       TextColor="#333"/>
+
+                <!-- Merchant Info -->
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="🏪" FontSize="16"/>
+                    <Label Text="{Binding Product.MerchantName}" 
+                           FontSize="16" 
+                           TextColor="#666"
+                           VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+
+                <!-- Category -->
+                <Frame Padding="10,5" 
+                       CornerRadius="15" 
+                       BackgroundColor="#2E7D32" 
+                       HorizontalOptions="Start">
+                    <Label Text="{Binding Product.CategoryName}" 
+                           TextColor="White" 
+                           FontSize="12"/>
+                </Frame>
+
+                <!-- Description -->
+                <Label Text="{Binding Product.Description}" 
+                       FontSize="14" 
+                       TextColor="#666"
+                       LineBreakMode="WordWrap"/>
+
+                <!-- Price -->
+                <HorizontalStackLayout Spacing="15">
+                    <Label Text="{Binding Product.OriginalPrice, StringFormat='${0:F2}'}" 
+                           FontSize="20" 
+                           TextColor="#999"
+                           TextDecorations="Strikethrough"
+                           VerticalOptions="Center"/>
+                    <Label Text="{Binding Product.DiscountedPrice, StringFormat='${0:F2}'}" 
+                           FontSize="32" 
+                           FontAttributes="Bold"
+                           TextColor="#2E7D32"
+                           VerticalOptions="Center"/>
+                    <Label Text="{Binding Product.DiscountPercentage, StringFormat='{0:F0}% OFF'}" 
+                           FontSize="16" 
+                           TextColor="White"
+                           BackgroundColor="#FF5722"
+                           Padding="8,4"
+                           VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+
+                <!-- Quantity Selector -->
+                <Frame Padding="15" CornerRadius="10" BackgroundColor="White" HasShadow="True">
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="20">
+                        <Button Grid.Column="0" 
+                                Text="-"
+                                Command="{Binding DecreaseQuantityCommand}"
+                                BackgroundColor="#E0E0E0"
+                                TextColor="#333"
+                                CornerRadius="20"
+                                WidthRequest="40"
+                                HeightRequest="40"
+                                FontSize="20"
+                                FontAttributes="Bold"/>
+                        <Label Grid.Column="1" 
+                               Text="{Binding Quantity}" 
+                               FontSize="24"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                        <Button Grid.Column="2" 
+                                Text="+"
+                                Command="{Binding IncreaseQuantityCommand}"
+                                BackgroundColor="#2E7D32"
+                                TextColor="White"
+                                CornerRadius="20"
+                                WidthRequest="40"
+                                HeightRequest="40"
+                                FontSize="20"
+                                FontAttributes="Bold"/>
+                    </Grid>
+                </Frame>
+
+                <!-- Available Info -->
+                <Label Text="{Binding Product.Quantity, StringFormat='Available: {0} items'}" 
+                       FontSize="14" 
+                       TextColor="#666"/>
+
+                <!-- Pickup Time -->
+                <Frame Padding="15" CornerRadius="10" BackgroundColor="White" HasShadow="True">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Pickup Time" FontSize="16" FontAttributes="Bold" TextColor="#333"/>
+                        <Label Text="{Binding Product.PickupStartTime, StringFormat='{0:hh\\:mm}'}" 
+                               FontSize="14" 
+                               TextColor="#666"/>
+                        <Label Text="{Binding Product.PickupEndTime, StringFormat='to {0:hh\\:mm}'}" 
+                               FontSize="14" 
+                               TextColor="#666"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Price Summary -->
+                <Frame Padding="15" CornerRadius="10" BackgroundColor="White" HasShadow="True">
+                    <VerticalStackLayout Spacing="10">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Grid.Column="0" Text="Subtotal" FontSize="14" TextColor="#666"/>
+                            <Label Grid.Column="1" Text="{Binding TotalPrice, StringFormat='${0:F2}'}" FontSize="14" TextColor="#666"/>
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Grid.Column="0" Text="Platform Fee (5%)" FontSize="14" TextColor="#666"/>
+                            <Label Grid.Column="1" Text="{Binding PlatformFee, StringFormat='${0:F2}'}" FontSize="14" TextColor="#666"/>
+                        </Grid>
+                        <BoxView HeightRequest="1" BackgroundColor="#E0E0E0"/>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Grid.Column="0" Text="Total" FontSize="18" FontAttributes="Bold" TextColor="#333"/>
+                            <Label Grid.Column="1" Text="{Binding GrandTotal, StringFormat='${0:F2}'}" FontSize="18" FontAttributes="Bold" TextColor="#2E7D32"/>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Place Order Button -->
+                <Button Text="Place Order"
+                        Command="{Binding PlaceOrderCommand}"
+                        BackgroundColor="#2E7D32"
+                        TextColor="White"
+                        CornerRadius="10"
+                        HeightRequest="50"
+                        FontSize="18"
+                        FontAttributes="Bold"
+                        Margin="0,20,0,20"/>
+
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
+
+
+

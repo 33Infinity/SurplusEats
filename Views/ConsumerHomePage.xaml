@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:SurplusEats.ViewModels"
+             xmlns:model="clr-namespace:SurplusEats.Models"
+             xmlns:behaviors="clr-namespace:SurplusEats.Behaviors"
+             x:Class="SurplusEats.Views.ConsumerHomePage"
+             x:DataType="viewmodel:ConsumerHomeViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="#F5F5F5">
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="0">
+        
+        <!-- Search Bar -->
+        <Frame Grid.Row="0" Padding="10" Margin="15,10" CornerRadius="10" HasShadow="True" BackgroundColor="White">
+            <Grid ColumnDefinitions="*,Auto">
+                <Entry Grid.Column="0" 
+                       Placeholder="Search for food..." 
+                       Text="{Binding SearchText}"
+                       VerticalOptions="Center"/>
+                <Button Grid.Column="1" 
+                        Text="Search"
+                        Command="{Binding SearchCommand}"
+                        BackgroundColor="#2E7D32"
+                        TextColor="White"
+                        CornerRadius="5"
+                        Padding="20,5"/>
+            </Grid>
+        </Frame>
+
+        <!-- Categories -->
+        <ScrollView Grid.Row="1" Orientation="Horizontal" Margin="15,0">
+            <HorizontalStackLayout Spacing="10" Padding="0,10">
+                <CollectionView ItemsSource="{Binding Categories}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Category">
+                            <Frame Padding="15,10" CornerRadius="20" BackgroundColor="White" HasShadow="True"
+                                   behaviors:PointerCursor.IsEnabled="True">
+                                <Label Text="{Binding Name}" FontAttributes="Bold" TextColor="#2E7D32">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ConsumerHomeViewModel}}, Path=FilterByCategoryCommand}" 
+                                                            CommandParameter="{Binding .}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <!-- Products List -->
+        <RefreshView Grid.Row="2" Command="{Binding LoadDataCommand}" IsRefreshing="{Binding IsBusy}">
+            <CollectionView ItemsSource="{Binding Products}" Margin="15,10">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Product">
+                        <Frame Padding="15" Margin="0,5" CornerRadius="10" BackgroundColor="White" HasShadow="True"
+                               behaviors:PointerCursor.IsEnabled="True">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ConsumerHomeViewModel}}, Path=ViewProductDetailsCommand}" 
+                                                    CommandParameter="{Binding .}"/>
+                            </Frame.GestureRecognizers>
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="15">
+                                <!-- Placeholder Image -->
+                                <Frame Grid.Column="0" 
+                                       WidthRequest="80" 
+                                       HeightRequest="80" 
+                                       CornerRadius="10" 
+                                       Padding="0"
+                                       BackgroundColor="#E0E0E0">
+                                    <Label Text="🍽️" FontSize="40" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Frame>
+
+                                <!-- Product Info -->
+                                <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                    <Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold" TextColor="#333"/>
+                                    <Label Text="{Binding MerchantName}" FontSize="14" TextColor="#666"/>
+                                    <Label Text="{Binding CategoryName}" FontSize="12" TextColor="#999"/>
+                                    <HorizontalStackLayout Spacing="10">
+                                        <Label Text="{Binding OriginalPrice, StringFormat='${0:F2}'}" 
+                                               FontSize="14" 
+                                               TextColor="#999"
+                                               TextDecorations="Strikethrough"/>
+                                        <Label Text="{Binding DiscountedPrice, StringFormat='${0:F2}'}" 
+                                               FontSize="18" 
+                                               FontAttributes="Bold"
+                                               TextColor="#2E7D32"/>
+                                        <Label Text="{Binding DiscountPercentage, StringFormat='{0:F0}% OFF'}" 
+                                               FontSize="12" 
+                                               TextColor="White"
+                                               BackgroundColor="#FF5722"
+                                               Padding="5,2"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                    <Label Text="{Binding Quantity, StringFormat='Available: {0}'}" 
+                                           FontSize="12" 
+                                           TextColor="#666"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+    </Grid>
+
+</ContentPage>
+
+
+
